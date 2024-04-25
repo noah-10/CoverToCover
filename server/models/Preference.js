@@ -1,5 +1,6 @@
 const Schema = require("mongoose");
 
+// define preference schema
 const preferenceSchema = new Schema(
     {
         authors: [
@@ -20,4 +21,5 @@ const preferenceSchema = new Schema(
     }
 );
 
+// export schema
 module.exports = preferenceSchema;

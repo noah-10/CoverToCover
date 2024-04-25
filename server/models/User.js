@@ -1,6 +1,11 @@
 const { Schema, model } = require("mongoose");
 let bcrypt = require("bcrypt");
 
+// import schemas
+const bookSchema = require("./Book");
+const preferenceSchema = require("./Preference");
+
+// define user schema
 const userSchema = new Schema(
     {
         username: {
@@ -39,6 +44,7 @@ userSchema.methods.isCorrectPassword = async function(password) {
     return bcrypt.compare(password, this.password);
 }
 
+// create and export user model
 const User = model("User", userSchema);
 
 module.exports = User;

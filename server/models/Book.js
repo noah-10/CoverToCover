@@ -1,5 +1,6 @@
 const Schema = require("mongoose");
 
+// define book schema
 const bookSchema = new Schema(
     {
         authors: [
@@ -27,4 +28,5 @@ const bookSchema = new Schema(
     }
 );
 
+// export schema
 module.exports = bookSchema;
