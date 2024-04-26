@@ -39,7 +39,7 @@ const resolvers = {
         },
 
         // get finished books from user
-        finishedReading: async (parent, args, context) => {
+        finishedBooks: async (parent, args, context) => {
             if(context.user){
                 return User.findOne({ _id: context.user._id})
                 .populate('finishedBooks')

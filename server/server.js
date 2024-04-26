@@ -7,7 +7,7 @@ const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schema');
 const db = require('./config/connection');
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3009;
 const app = express();
 const server = new ApolloServer({
     typeDefs,
@@ -30,7 +30,6 @@ const startApolloServer = async () => {
         app.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../client/dist/index.html'));
         });
-
         db.once('open', () => {
             app.listen(PORT, () => {
                 console.log(`API server is running on port ${PORT}`);

@@ -18,7 +18,7 @@ const typeDefs = `
         savedBooks: [Book]
         currentlyReading: [Book]
         finishedBooks: [Book]
-        preferences: Preferences
+        preferences: Preference
     }
 
     type Book {
@@ -49,7 +49,7 @@ const typeDefs = `
         myPreferences: User
     }
 
-    type BookInput {
+    input BookInput {
         authors: [String]
         title: String!
         cover: String
@@ -60,8 +60,10 @@ const typeDefs = `
 
     type Mutation {
         login(email: String!, password: String!): Auth
-        addUser(username: String!, email: String!, password: String): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
         saveBook(input: BookInput): User
         removeBook(bookId: String!): User
     }
 `
+
+module.exports = typeDefs;
