@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
-import { Navbar } from './components/Navbar'
+import Navbar from './components/Navbar'
 
 // create API endpoint
 const httpLink = createHttpLink({
