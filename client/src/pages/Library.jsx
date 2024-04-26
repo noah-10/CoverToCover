@@ -1,6 +1,11 @@
 const Library = () => {
     return (
-        <div>Library</div>
+        <>
+            <h1>Library</h1>
+            <div className="library-container">
+                <SavedBooks />
+            </div>
+        </>
     );
 }
 
