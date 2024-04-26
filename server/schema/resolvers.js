@@ -119,12 +119,12 @@ const resolvers = {
         },
 
         // removing a book from a user
-        removeBook: async (parent, { book }, context) => {
+        removeBook: async (parent, { bookId }, context) => {
             try{
                 if(context.user){
                     const removeBook = await User.findOneAndUpdate(
                         { _id: context.user._id },
-                        { $pull: { bookId: book }},
+                        { $pull: { savedBooks: { bookId: bookId } }},
                         { new: true }
                     );
 
