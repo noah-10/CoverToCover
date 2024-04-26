@@ -111,7 +111,7 @@ const resolvers = {
                         { new: true },
                     );
 
-                    if(!updatedUser){
+                    if(!saveBook){
                         return { message: "Error adding book" };
                     };  
 
@@ -119,6 +119,47 @@ const resolvers = {
                 }
             }catch(err){
                 return { error: err}
+            }
+        },
+
+        addToFinished: async (parent, { input }, context) => {
+            try{
+                if(context.user){
+                    const finishedBook = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $addToSet: { finishedBooks: input }},
+                        {new: true }
+                    );
+
+                    if(!finishedBook){
+                        return { message: "Error adding book" };
+                    };
+
+                    return finishedBook;
+                }
+            }catch(err){
+                return { error: err };
+            }
+        },
+
+        // Add to users currently reading
+        addToCurrentlyReading: async (parent, { input }, context) => {
+            try{
+                if(context.user){
+                    const currentlyReading = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $addToSet: { currentlyReading: input }},
+                        { new: true }
+                    );
+
+                    if(!currentlyReading){
+                        return { message: "Error adding book" };
+                    };
+
+                    return currentlyReading;
+                }
+            }catch(err){
+                return { error: err };
             }
         },
 
