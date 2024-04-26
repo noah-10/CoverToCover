@@ -23,6 +23,7 @@ const resolvers = {
             if(context.user){
                 return User.findOne({ _id: context.user._id})
                 .populate('savedBooks')
+                .select('savedBooks')
             }else{
                 return { message: "Error getting books" }
             }
@@ -33,6 +34,7 @@ const resolvers = {
             if(context.user){
                 return User.findOne({ _id: context.user._id})
                 .populate('currentlyReading')
+                .select('currentlyReading')
             }else{
                 return { message: "Error getting books" }
             }
@@ -43,6 +45,7 @@ const resolvers = {
             if(context.user){
                 return User.findOne({ _id: context.user._id})
                 .populate('finishedBooks')
+                .select('finishedBooks')
             }else{
                 return { message: "Error getting books" }
             }
@@ -53,6 +56,7 @@ const resolvers = {
             if(context.user){
                 return User.findOne({ _id: context.user._id})
                 .populate('preferences')
+                .select('preferences')
             }else{
                 return { message: "Error getting preferences" }
             }
@@ -118,7 +122,7 @@ const resolvers = {
             }
         },
 
-        // removing a book from a user
+        // removing a book from a users saved Books
         removeBook: async (parent, { bookId }, context) => {
             try{
                 if(context.user){
