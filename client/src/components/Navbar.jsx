@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
-import { Navbar, Nav, Container, Tab } from 'react-bootstrap'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 
 const AppNavbar = () => {
     return (
         <Navbar>
-            <Container>
+            <Container fluid>
                 <Navbar.Brand as={Link} to='/'>
                     "Book Tinder"
                 </Navbar.Brand>
-                <Navbar.Collapse id="navbar">
+                <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
                     <Nav>
                         <Nav.Link as={Link} to='/feed'>Feed</Nav.Link>
                         <Nav.Link as={Link} to='/library'>Library</Nav.Link>
