@@ -1,4 +1,4 @@
-import SavedBooks from '../components/savedBooks';
+import SavedBooks from '../components/SavedBooks';
 
 const Library = () => {
     return (
