@@ -1,15 +1,14 @@
 import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../../utils/mutations";
-import FormFields from '../components/FormFields';
-import Auth from '../../utils/auth'
-import { Link } from "react-router-dom";
+import { LOGIN_USER } from "../../utils/mutations";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import FormFields from "../components/FormFields";
+import Auth from '../../utils/auth';
 
-const SignUp = () => {
+const Login = () => {
+    const [loginUser, { error, data }] = useMutation(LOGIN_USER);
 
-    const [addUser, { error, data }] = useMutation(ADD_USER);
-
-    const [userFormData, setUserFormData] = useState({ username: '', email: '', password: ''});
+    const [userFormData, setUserFormData] = useState({ email: '', password: '' });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -20,32 +19,25 @@ const SignUp = () => {
         e.preventDefault();
 
         try{
-            const { data } = await addUser({
+            const { data } = await loginUser({
                 variables: { ...userFormData }
             });
 
-            Auth.login(data.addUser.token);
+            Auth.login(data.login.token);
         }catch(err){
             console.error(err);
-        };
+        }
 
         setUserFormData({
-            username: '',
             email: '',
             password: '',
-        })
+        });
     }
 
     return (
-        <div className="signup-container">
-            <h1>Sign Up</h1>
+        <div className="login-container">
+            <h1>Login</h1>
             <form>
-                <FormFields
-                    label="Username"
-                    name="username"
-                    type="text"
-                    onChange={handleInputChange}
-                />
                 <FormFields
                     label="Email"
                     name="email"
@@ -59,12 +51,12 @@ const SignUp = () => {
                     onChange={handleInputChange}
                 />
             </form>
-            <button id="signup-btn" onClick={handleFormSubmit}>SIGN UP</button>
-            <div className="to-login">
-                <Link to='/login'>Login Instead</Link>
+            <button id="login-btn" onClick={handleFormSubmit}>Login</button>
+            <div className="to-signup">
+                <Link to='/signup'>Sign Up Instead</Link>
             </div>
         </div>
     )
 }
 
-export default SignUp;
+export default Login;
