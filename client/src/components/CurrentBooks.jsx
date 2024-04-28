@@ -1,15 +1,13 @@
 import { useQuery } from "@apollo/client"
-import { SAVED_BOOKS } from "../../utils/queries"
+import { CURRENTLY_READING } from "../../utils/queries"
 
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import BookModal from "./BookModal";
 
-import '../css/savedBooks.css'
+const CurrentBooks = () => {
 
-const SavedBooks = () => {
-
-    const { loading, data, refetch } = useQuery(SAVED_BOOKS);
+    const { loading, data, refetch } = useQuery(CURRENTLY_READING);
     const [showModal, setShowModal] = useState(false);
     const [clickedBook, setClickedBook] = useState(null)
 
@@ -23,13 +21,13 @@ const SavedBooks = () => {
         return <div>Loading...</div>
     };
 
-    if(!user?.savedBooks.savedBooks){
+    if(!user?.currentlyReading.currentlyReading){
         return (
             <h1>You need to be logged in to see this</h1>
         )
     };
 
-    const userSavedBooks = user.savedBooks.savedBooks;
+    const userCurrentlyReading = user.currentlyReading.currentlyReading;
 
     const handleOpenModal = (book) => {
         setClickedBook(book);
@@ -42,12 +40,12 @@ const SavedBooks = () => {
     }
 
     return (
-        <div className="saved-books-container">
-            <h2>Saved Books:</h2>
-            <div className="saved-books-collection">
-                {userSavedBooks.map((book) => {
+        <div className="current-books-container">
+            <h2>Current Books:</h2>
+            <div className="current-books-collection">
+                {userCurrentlyReading.map((book) => {
                     return (
-                        <div className="saved-books" key={book.bookId}>
+                        <div className="current-books" key={book.bookId}>
                             <Book 
                             cover={book.cover}
                             title={book.title}
@@ -67,4 +65,4 @@ const SavedBooks = () => {
 
 }
 
-export default SavedBooks;
+export default CurrentBooks;
