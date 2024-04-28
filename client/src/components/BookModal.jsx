@@ -1,21 +1,23 @@
+import '../css/bookModal.css';
 
-
-const BookModal = (props) => {
+const BookModal = ({ closeModal, book }) => {
     return (
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">{props.title}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+        <div className="modal-background">
+            <div className="modal-container">
+                <div className="close-btn">
+                    <button onClick={() => closeModal()}> X </button>
+                </div>
+                <div className="title">
+                    <h1>{book.title}</h1>
+                </div>
+                <div className="author">
+                    <h1>{book.authors}</h1>
+                </div>
+                <div className="body">
+                    <p>description...</p>
+                </div>
+                <div className="footer">
+                    <button onClick={() => closeModal()}>Close</button>
                 </div>
             </div>
         </div>

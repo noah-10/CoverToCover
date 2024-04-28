@@ -5,14 +5,21 @@ import { useEffect, useState } from "react";
 import Book from "./Book";
 import BookModal from "./BookModal";
 
+import '../css/savedBooks.css'
+
 const SavedBooks = () => {
 
     const { loading, data, refetch } = useQuery(SAVED_BOOKS);
     const [showModal, setShowModal] = useState(false);
+    const [clickedBook, setClickedBook] = useState(null)
 
     useEffect(() => {
         refetch()
     }, []);
+
+    useEffect(() => {
+        console.log(clickedBook);
+    })
 
     const user = data || [];
 
@@ -28,6 +35,16 @@ const SavedBooks = () => {
 
     const userSavedBooks = user.savedBooks.savedBooks;
 
+    const handleOpenModal = (book) => {
+        setClickedBook(book);
+        setShowModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setClickedBook(null);
+        setShowModal(false);
+    }
+
     return (
         <div className="saved-books-container">
             <h2>Saved Books:</h2>
@@ -39,15 +56,16 @@ const SavedBooks = () => {
                             cover={book.cover}
                             title={book.title}
                             author={book.authors}
-                            onClick={() => setShowModal(true)}
+                            onClick={() => handleOpenModal(book)}
                             />
                         </div>
                     );
                 })}
             </div>
-            <BookModal 
-                show={showModal}    
-            />
+            {showModal && <BookModal 
+                closeModal={handleCloseModal}
+                book={clickedBook}
+            />}
         </div>
     )
 
