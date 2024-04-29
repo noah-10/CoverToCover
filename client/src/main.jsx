@@ -8,6 +8,8 @@ import Feed from './pages/Feed.jsx'
 import Library from './pages/Library.jsx'
 import Settings from './pages/Settings.jsx'
 import NotFound from './pages/NotFound.jsx'
+import SignUp from './pages/SignUp.jsx';
+import Login from './pages/Login.jsx'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
       {
         path: '/settings',
         element: <Settings />
+      },
+      {
+        path: '/signup',
+        element: <SignUp />
+      },
+      {
+        path: '/login',
+        element: <Login />
       }
     ]
   }
