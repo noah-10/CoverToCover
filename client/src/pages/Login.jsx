@@ -47,7 +47,7 @@ const Login = () => {
                 <FormFields
                     label="Password"
                     name="password"
-                    type="text"
+                    type="password"
                     onChange={handleInputChange}
                 />
             </form>
