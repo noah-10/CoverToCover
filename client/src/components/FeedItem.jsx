@@ -3,6 +3,8 @@ const FeedItem = ({ feedItem } ) => {
         <>
             <div>Title: {feedItem.title}</div>
             <div>Authors: {feedItem.authors}</div>
+            <button>Dismiss Book</button>
+            <button>Save Book</button>
         </>
     )
 }
