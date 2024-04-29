@@ -1,24 +1,21 @@
 import { useQuery } from "@apollo/client"
-import { SAVED_BOOKS } from "../../utils/queries"
+import { CURRENTLY_READING } from "../../utils/queries"
 
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import BookModal from "./BookModal";
 
-import '../css/savedBooks.css'
+const CurrentBooks = () => {
 
-const SavedBooks = () => {
+    // Query for currently reading books
+    const { loading, data, refetch } = useQuery(CURRENTLY_READING);
 
-    // Query for saved books
-    const { loading, data, refetch } = useQuery(SAVED_BOOKS);
-
-    // State for if the modal is being shown
+    // Set state to show modal for not
     const [showModal, setShowModal] = useState(false);
 
-    // State for what book is clicked
+    // State for book that's clicked
     const [clickedBook, setClickedBook] = useState(null)
 
-    // Refetches the query to stay updated
     useEffect(() => {
         refetch()
     }, []);
@@ -29,33 +26,31 @@ const SavedBooks = () => {
         return <div>Loading...</div>
     };
 
-    if(!user?.savedBooks.savedBooks){
+    if(!user?.currentlyReading.currentlyReading){
         return (
             <h1>You need to be logged in to see this</h1>
         )
     };
 
-    const userSavedBooks = user.savedBooks.savedBooks;
+    const userCurrentlyReading = user.currentlyReading.currentlyReading;
 
-    // Function to set state of books thats clicked and to show modal
     const handleOpenModal = (book) => {
         setClickedBook(book);
         setShowModal(true);
     }
 
-    // Function to empty the state of book clicked and not show modal
     const handleCloseModal = () => {
         setClickedBook(null);
         setShowModal(false);
     }
 
     return (
-        <div className="saved-books-container">
-            <h2>Saved Books:</h2>
-            <div className="saved-books-collection">
-                {userSavedBooks.map((book) => {
+        <div className="current-books-container">
+            <h2>Current Books:</h2>
+            <div className="current-books-collection">
+                {userCurrentlyReading.map((book) => {
                     return (
-                        <div className="saved-books" key={book.bookId}>
+                        <div className="current-books" key={book.bookId}>
                             <Book 
                             cover={book.cover}
                             title={book.title}
@@ -75,4 +70,4 @@ const SavedBooks = () => {
 
 }
 
-export default SavedBooks;
+export default CurrentBooks;
