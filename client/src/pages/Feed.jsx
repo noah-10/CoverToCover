@@ -1,6 +1,10 @@
+import { useState } from "react";
+
 import { searchOpenLibrary } from "../../utils/API";
 
 const Feed = () => {
+    const [feed, setFeed] = useState([]);
+
     // return an array of books based on a query and optional queryType
     const getBookData = async (query, queryType = "q") => {
         try {
@@ -26,11 +30,61 @@ const Feed = () => {
             }));
 
             // return the book data from the query
+            // console.log(bookData);
             return bookData;
         } catch (error) {
             console.error(error);
         }
     }
+
+    // return partial feeds
+    const getPartialFeeds = async () => {
+        const preferences = {
+            authors: ["Umberto Eco", "Ursula K. Le Guin", "Walter Rodney"],
+            subjects: ["horror", "sci-fi", "fantasy"]
+        }
+
+        const sortedPreferences = [];
+        Object.keys(preferences).forEach((key) => {
+            preferences[key].forEach((value) => {
+                sortedPreferences.push({queryType: key.slice(0, key.length - 1), query: value});
+            })
+        });
+
+        const partialFeeds = [];
+        for (let i = 0; i < sortedPreferences.length; i++) {
+            let preference = sortedPreferences[i];
+            const data = await getBookData(preference.query, preference.queryType);
+            setTimeout(() => partialFeeds.push(data), i * 1000);
+        }
+
+        // console.log(partialFeeds);
+        return partialFeeds;
+    }
+
+    // return complete feed
+    const getFeed = async () => {
+        const partialFeeds = await getPartialFeeds();
+
+        console.log(partialFeeds);
+
+        const maxLength = partialFeeds.reduce((acc, cur) => acc > cur.length ? acc : cur.length, 0) * partialFeeds.length;
+
+        const result = [];
+
+        for (let i = 0; i < maxLength * partialFeeds.length; i++) {
+            const feedNumber = i % partialFeeds.length;
+            const feedIndex = Math.floor(i / partialFeeds.length);
+            if (feedIndex < partialFeeds[feedNumber].length) {
+                result.push(partialFeeds[feedNumber][feedIndex]);
+            }
+        }
+
+        // console.log(result);
+        setFeed(result);
+    }
+
+    // getFeed();
 
     return (
         <div>Feed</div>
