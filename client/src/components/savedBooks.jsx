@@ -9,10 +9,16 @@ import '../css/savedBooks.css'
 
 const SavedBooks = () => {
 
+    // Query for saved books
     const { loading, data, refetch } = useQuery(SAVED_BOOKS);
+
+    // State for if the modal is being shown
     const [showModal, setShowModal] = useState(false);
+
+    // State for what book is clicked
     const [clickedBook, setClickedBook] = useState(null)
 
+    // Refetches the query to stay updated
     useEffect(() => {
         refetch()
     }, []);
@@ -31,11 +37,13 @@ const SavedBooks = () => {
 
     const userSavedBooks = user.savedBooks.savedBooks;
 
+    // Function to set state of books thats clicked and to show modal
     const handleOpenModal = (book) => {
         setClickedBook(book);
         setShowModal(true);
     }
 
+    // Function to empty the state of book clicked and not show modal
     const handleCloseModal = () => {
         setClickedBook(null);
         setShowModal(false);

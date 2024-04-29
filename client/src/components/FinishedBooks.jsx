@@ -7,8 +7,13 @@ import BookModal from "./BookModal";
 
 const FinishedBooks = () => {
 
+    // Query for finished books
     const { loading, data, refetch } = useQuery(FINISHED_BOOKS);
+
+    // State to show modal or not
     const [showModal, setShowModal] = useState(false);
+
+    // State for book that's clicked
     const [clickedBook, setClickedBook] = useState(null)
 
     useEffect(() => {
