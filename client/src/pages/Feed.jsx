@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import FeedItem from "../components/FeedItem";
 import { searchOpenLibrary } from "../../utils/API";
 
 const Feed = () => {
@@ -87,7 +88,7 @@ const Feed = () => {
     // getFeed();
 
     return (
-        <div>Feed</div>
+        <FeedItem feedItem={{authors: "Tolkien", title: "LOTR"}}></FeedItem>
     );
 }
 
