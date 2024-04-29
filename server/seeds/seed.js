@@ -2,10 +2,6 @@ const db = require('../config/connection');
 const { User } = require('../models');
 
 db.once('open', async () => {
-
-
-
-
   await User.create({
     username: 'user1',
     email: 'user1@example.com',
@@ -24,19 +20,26 @@ db.once('open', async () => {
     finishedBooks: [],
   });
 
-  const book = {"title": "Harry Potter", "bookId": "1"}
-
+  const savedBook = { title: "Harry Potter", bookId: "1" };
   await User.findOneAndUpdate(
-    {
-      username: "user1"
-    },
-    {
-      $addToSet: {savedBooks: book}
-    },
-    {
-      new: true
-    }
-  )
+    { username: "user1" },
+    { $addToSet: { savedBooks: savedBook } },
+    { new: true }
+  );
+
+  const currentlyReadingBook = { title: "The Silent Patient", bookId: "2" };
+  await User.findOneAndUpdate(
+    { username: "user1" },
+    { $addToSet: { currentlyReading: currentlyReadingBook } },
+    { new: true }
+  );
+
+  const finishedBook = { title: "The Maidens", bookId: "3" };
+  await User.findOneAndUpdate(
+    { username: "user2" },
+    { $addToSet: { finishedBooks: finishedBook } },
+    { new: true }
+  );
 
   process.exit();
 });
