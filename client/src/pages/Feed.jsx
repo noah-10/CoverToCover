@@ -93,7 +93,7 @@ const Feed = () => {
         getFeed();
     }, []);
 
-    // update the current feed item
+    // progress to the next feed item
     const incrementFeed = () => {
         setFeedIndex(feedIndex + 1);
     }
@@ -103,7 +103,7 @@ const Feed = () => {
         <div>
             {feedIndex < feed.length 
             ? 
-            <FeedItem feedItem={{authors: feed[feedIndex].authors, title: feed[feedIndex].title}} feedIndex={feedIndex} incrementFeed={incrementFeed}></FeedItem>
+            <FeedItem feedItem={feed[feedIndex]} incrementFeed={incrementFeed}></FeedItem>
             :
             "No books"}
         </div>
