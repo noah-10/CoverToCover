@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import FeedItem from "../components/FeedItem";
 import { searchOpenLibrary } from "../../utils/API";
 
 const Feed = () => {
     const [feed, setFeed] = useState([]);
+    const [feedIndex, setFeedIndex] = useState(0);
 
     // return an array of books based on a query and optional queryType
     const getBookData = async (query, queryType = "q") => {
@@ -40,10 +41,11 @@ const Feed = () => {
 
     // return partial feeds
     const getPartialFeeds = async () => {
-        const preferences = {
-            authors: ["Umberto Eco", "Ursula K. Le Guin", "Walter Rodney"],
-            subjects: ["horror", "sci-fi", "fantasy"]
-        }
+        // const preferences = {
+        //     authors: ["Umberto Eco", "Ursula K. Le Guin", "Walter Rodney"],
+        //     subjects: ["horror", "sci-fi", "fantasy"]
+        // }
+        const preferences = { authors: ["Umberto Eco", "Ursula K Le Guin"]};
 
         const sortedPreferences = [];
         Object.keys(preferences).forEach((key) => {
@@ -55,8 +57,9 @@ const Feed = () => {
         const partialFeeds = [];
         for (let i = 0; i < sortedPreferences.length; i++) {
             let preference = sortedPreferences[i];
+            // TODO: don't make all these calls at the same time!
             const data = await getBookData(preference.query, preference.queryType);
-            setTimeout(() => partialFeeds.push(data), i * 1000);
+            partialFeeds.push(data);
         }
 
         // console.log(partialFeeds);
@@ -81,14 +84,29 @@ const Feed = () => {
             }
         }
 
-        // console.log(result);
+        console.log(result);
         setFeed(result);
     }
 
-    // getFeed();
+    // only fetch the feed on the initial load
+    useEffect(() => {
+        getFeed();
+    }, []);
 
+    // update the current feed item
+    const incrementFeed = () => {
+        setFeedIndex(feedIndex + 1);
+    }
+
+    // return the component
     return (
-        <FeedItem feedItem={{authors: "Tolkien", title: "LOTR"}}></FeedItem>
+        <div>
+            {feedIndex < feed.length 
+            ? 
+            <FeedItem feedItem={{authors: feed[feedIndex].authors, title: feed[feedIndex].title}} feedIndex={feedIndex} incrementFeed={incrementFeed}></FeedItem>
+            :
+            "No books"}
+        </div>
     );
 }
 

@@ -1,10 +1,10 @@
-const FeedItem = ({ feedItem } ) => {
+const FeedItem = ({ feedItem, incrementFeed } ) => {
     return (
         <>
             <div>Title: {feedItem.title}</div>
             <div>Authors: {feedItem.authors}</div>
-            <button>Dismiss Book</button>
-            <button>Save Book</button>
+            <button onClick={() => incrementFeed()}>Dismiss Book</button>
+            <button onClick={() => incrementFeed()}>Save Book</button>
         </>
     )
 }
