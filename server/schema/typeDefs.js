@@ -1,14 +1,4 @@
-//Query
-// Get single user
-// Get each users type of book
-// get users preferences 
 
-
-//Mutation
-//login
-//add user
-//save book
-//remove book
 const typeDefs = `
     type User {
         _id: ID!
@@ -18,7 +8,8 @@ const typeDefs = `
         savedBooks: [Book]
         currentlyReading: [Book]
         finishedBooks: [Book]
-        preferences: Preference
+        preferencedAuthor: [String]
+        preferencedGenre: [String]
     }
 
     type Book {
@@ -28,12 +19,6 @@ const typeDefs = `
         bookId: String!
         firstSentence: String
         link: String
-    }
-
-    type Preference {
-        authors: [String]
-        subjects: [String]
-        books: [String]
     }
 
     type Auth {
@@ -65,6 +50,8 @@ const typeDefs = `
         removeBook(bookId: String!): User
         addToFinished(input: BookInput): User
         addToCurrentlyReading(input: BookInput): User
+        addPreferenceAuthor(authors: [String!]): User
+        addPreferenceGenre(genre: [String!]): User
     }
 `
 
