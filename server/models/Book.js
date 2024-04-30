@@ -1,4 +1,4 @@
-const Schema = require("mongoose");
+const { Schema } = require("mongoose");
 
 // define book schema
 const bookSchema = new Schema(
