@@ -22,10 +22,19 @@ const userSchema = new Schema(
             type: String,
             required: true
         },
+        preferencedAuthor: [
+            {
+                type: String
+            }
+        ],
+        preferencedGenre: [
+            {
+                type: String
+            }
+        ],
         savedBooks: [bookSchema],
         currentlyReading: [bookSchema],
         finishedBooks: [bookSchema],
-        preferences: preferenceSchema
     }
 );
 
