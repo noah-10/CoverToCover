@@ -83,3 +83,19 @@ export const ADD_CURRENTLY_READING = gql`
         }
     }
 `
+
+export const ADD_PREFERENCE_AUTHOR = gql`
+    mutation AddPreferenceAuthor($authors: [String!]) {
+        addPreferenceAuthor(authors: $authors) {
+            preferencedAuthor
+        }
+    }
+`
+
+export const ADD_PREFERENCE_GENRE = gql`
+    mutation AddPreferenceGenre($genre: [String!]) {
+        addPreferenceGenre(genre: $genre) {
+            preferencedGenre
+        }
+  }
+`

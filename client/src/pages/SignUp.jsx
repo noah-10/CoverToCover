@@ -4,12 +4,15 @@ import FormFields from '../components/FormFields';
 import Auth from '../../utils/auth'
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import SignUpModal from "../components/SignUpModal";
 
 const SignUp = () => {
 
     const [addUser, { error, data }] = useMutation(ADD_USER);
 
     const [userFormData, setUserFormData] = useState({ username: '', email: '', password: ''});
+
+    const [showModal, setShowModal] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -63,6 +66,7 @@ const SignUp = () => {
             <div className="to-login">
                 <Link to='/login'>Login Instead</Link>
             </div>
+            {showModal && <SignUpModal />}
         </div>
     )
 }
