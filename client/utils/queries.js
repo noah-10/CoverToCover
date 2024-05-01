@@ -81,11 +81,8 @@ export const FINISHED_BOOKS = gql`
 export const MY_PREFERENCES = gql`
     query MyPreferences {
         myPreferences {
-            preferences {
-                authors
-                books
-                subjects
-            }
+            preferencedAuthor
+            preferencedGenre
         }
     }
 `
