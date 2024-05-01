@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import GenreCards from "../components/GenreCards";
 import genresData from "../../utils/genres" ;
-import FavoriteAuthors from "../components/FavoriteAuthors";
+import SignUpList from "../components/SignUpList";
 import '../css/signUp.css';
 
 const SignUp = () => {
@@ -102,6 +102,10 @@ const SignUp = () => {
         setAuthorInput("");
     }
 
+    useEffect(() => {
+        console.log(userAuthor);
+    }, [userAuthor]);
+
     return (
         <div className="signup-container">
             <h1>Sign Up</h1>
@@ -154,7 +158,7 @@ const SignUp = () => {
 
                     <ul className="author-list">
                         {userAuthor.map((author, index) => (
-                            <FavoriteAuthors 
+                            <SignUpList 
                                 key={index}
                                 name={author}
                                 setState={setUserAuthor}
