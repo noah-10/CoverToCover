@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { SAVE_BOOK } from "../../utils/mutations";
 
 const FeedItem = ({ feedItem, incrementFeed } ) => {
-    const [saveBook] = useMutation(SAVE_BOOK);
+    const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
     const handleSaveClick = async () => {
         try {
@@ -23,6 +23,11 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
             <div>Authors: {feedItem.authors}</div>
             <button onClick={() => incrementFeed()}>Dismiss Book</button>
             <button onClick={() => handleSaveClick()}>Save Book</button>
+            {error && (
+                <div>
+                    {error.message}
+                </div>
+            )}
         </>
     )
 }
