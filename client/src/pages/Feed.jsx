@@ -11,7 +11,7 @@ const Feed = () => {
     const [feedIndex, setFeedIndex] = useState(0);
 
     // get the logged in user
-    const { loading, data } = useQuery(GET_ME);
+    const { data } = useQuery(GET_ME);
     const user = data?.me || [];
 
     // return an array of books based on a query and optional queryType
@@ -47,19 +47,11 @@ const Feed = () => {
 
     // return partial feeds
     const getPartialFeeds = async () => {
-        // get the user's preferences
-        const preferences = {
-            authors: ["Umberto Eco", "Ursula K. Le Guin", "Walter Rodney"],
-            subjects: ["horror", "sci-fi", "fantasy"]
-        }
-
-        // put all the preferences into one array
-        const sortedPreferences = [];
-        Object.keys(preferences).forEach((key) => {
-            preferences[key].forEach((value) => {
-                sortedPreferences.push({queryType: key.slice(0, key.length - 1), query: value});
-            })
-        });
+        // put all the preferences into one array, specifying query and query type (author or subject)
+        let sortedPreferences = [];
+        sortedPreferences = sortedPreferences.concat(
+            user.preferencedAuthor.map(preference => ({ queryType: "author", query: preference })),
+            user.preferencedGenre.map(preference => ({ queryType: "subject", query: preference })));
 
         // array for the partial feeds
         const partialFeeds = [];
@@ -85,6 +77,7 @@ const Feed = () => {
             }
         }
 
+        console.log(partialFeeds);
         return partialFeeds;
     }
 
@@ -108,13 +101,16 @@ const Feed = () => {
         }
 
         // save the generated feed in the state
+        console.log(result);
         setFeed(result);
     }
 
-    // only fetch the feed on the initial load
+    // only fetch the feed when the user's data is loaded
     useEffect(() => {
-        getFeed();
-    }, []);
+        if (user.preferencedAuthor && user.preferencedGenre) {
+            getFeed();
+        }
+    }, [user]);
 
     // progress to the next feed item
     const incrementFeed = () => {
