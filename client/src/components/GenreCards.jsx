@@ -3,6 +3,7 @@ import '../css/signUpCard.css'
 
 const SignUpCards = ({ name, state, setState}) => {
 
+    // State for if a card is selected
     const [isSelected, setIsSelected] = useState(false)
 
     //Save genre to state
@@ -17,16 +18,19 @@ const SignUpCards = ({ name, state, setState}) => {
         })
     }
 
-    const handleClick = () => {
+    // Checks if genre has been clicked
+    const handleClick = (name) => {
         if(isSelected){
             handleRemoveGenre(name)
+        }else{
+            handleSaveGenre(name)
         }
         
         setIsSelected(!isSelected);
     }
 
     return (
-        <div className={`cards ${isSelected ? "selected": ''}`} onClick={() => {handleSaveGenre(name), handleClick()}}>
+        <div className={`cards ${isSelected ? "selected": ''}`} onClick={() => handleClick(name)}>
             <input type="button" name="genre" value={name} />
         </div>
     )

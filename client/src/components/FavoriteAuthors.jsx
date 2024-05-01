@@ -1,7 +1,7 @@
 
-
 const FavoriteAuthors = ({ name, setState }) => {
 
+    // Removes author from state array
     const removeAuthor = (name) => {
         setState(prevData => {
             return prevData.filter(author => author !== name);

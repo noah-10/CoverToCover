@@ -3,17 +3,17 @@ import { ADD_USER } from "../../utils/mutations";
 import FormFields from '../components/FormFields';
 import Auth from '../../utils/auth'
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import GenreCards from "../components/GenreCards";
 import genresData from "../../utils/genres" ;
 import FavoriteAuthors from "../components/FavoriteAuthors";
 import '../css/signUp.css';
-// import User from "../../../server/models/User";
 
 const SignUp = () => {
 
     const [addUser, { error, data }] = useMutation(ADD_USER);
 
+    // State of author input
     const [authorInput, setAuthorInput] = useState("");
 
     // For user genres
@@ -49,24 +49,23 @@ const SignUp = () => {
         }));
     }, [userAuthor]);
     
+    // Sets which input field is active
     const [activeField, setActiveField] = useState(1);
 
-    // useEffect(() => {
-    //     console.log(userGenre);
-    //     console.log(userAuthor);
-    //     // console.log(userFormData)
-    // })
-
+    // handles input in the personal info section
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserFormData({ ...userFormData, [name]: value });
     }
 
+    // For creating user
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
         try{
+            // Uses the addUSer mutation
             const { data } = await addUser({
+                // Variables of all of users data
                 variables: { ...userFormData }
             });
 
@@ -82,18 +81,22 @@ const SignUp = () => {
         })
     }
 
+    // When user clicks next, it sets the state to show that input field
     const nextField = () => {
         setActiveField(activeField + 1);
     }
 
+    // When user clicks previous, it sets the state to show that input field
     const previousField = () => {
         setActiveField(activeField - 1);
     }
 
+    // Handles the text input change when entering in an author
     const handleAuthorChange = (e) => {
         setAuthorInput(e.target.value);
     }
 
+    // When saving an author, it adds the author to the state array
     const handleSaveAuthor = () => {
         setUserAuthor([...userAuthor, authorInput]);
         setAuthorInput("");
