@@ -55,11 +55,17 @@ const Feed = () => {
         });
 
         const partialFeeds = [];
+        let firstIteration = true;
+        let sleep = (ms) => new Promise(res => setTimeout(res, ms));
         for (let i = 0; i < sortedPreferences.length; i++) {
+            // space out API calls a little, so as to not spam the server
+            if (!firstIteration) {
+                await sleep(500); 
+            }
             let preference = sortedPreferences[i];
-            // TODO: don't make all these calls at the same time!
             const data = await getBookData(preference.query, preference.queryType);
             partialFeeds.push(data);
+            firstIteration = false;
         }
 
         // console.log(partialFeeds);
