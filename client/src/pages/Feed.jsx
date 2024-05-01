@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
 
 import FeedItem from "../components/FeedItem";
 import { searchOpenLibrary } from "../../utils/API";
 
+import { GET_ME, MY_PREFERENCES } from "../../utils/queries";
+
 const Feed = () => {
     const [feed, setFeed] = useState([]);
     const [feedIndex, setFeedIndex] = useState(0);
+
+    // get the logged in user
+    const { loading, data } = useQuery(GET_ME);
+    const user = data?.me || [];
 
     // return an array of books based on a query and optional queryType
     const getBookData = async (query, queryType = "q") => {
@@ -112,6 +119,13 @@ const Feed = () => {
     // progress to the next feed item
     const incrementFeed = () => {
         setFeedIndex(feedIndex + 1);
+    }
+
+    // if not logged in, show a message
+    if (!user.username) {
+        return (
+            <h1>You need to be logged in to see this</h1>
+        );
     }
 
     // return the component
