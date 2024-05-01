@@ -83,3 +83,43 @@ export const ADD_CURRENTLY_READING = gql`
         }
     }
 `
+
+export const UPDATE_USERNAME = gql`
+    mutation UpdateUsername($username: String!) {
+        updateUsername(username: $username) {
+            _id
+            username
+        }
+    }
+`;
+
+export const UPDATE_EMAIL = gql`
+    mutation UpdateEmail($email: String!) {
+        updateEmail(email: $email) {
+            _id
+            email
+        }
+    }
+`;
+
+export const UPDATE_PASSWORD = gql`
+    mutation UpdatePassword($password: String!) {
+        updatePassword(password: $password) {
+            _id
+            username
+        }
+    }
+`;
+
+export const UPDATE_PREFERENCES = gql`
+    mutation UpdatePreferences($authors: [String], $books: [String], $subjects: [String]) {
+        updatePreferences(authors: $authors, books: $books, subjects: $subjects) {
+            _id
+            preferences {
+                authors
+                books
+                subjects
+            }
+        }
+    }
+`;
