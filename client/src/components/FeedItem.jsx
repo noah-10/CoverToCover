@@ -2,10 +2,13 @@ import { useMutation } from "@apollo/client";
 import { SAVE_BOOK } from "../../utils/mutations";
 
 const FeedItem = ({ feedItem, incrementFeed } ) => {
+    // use the save book mutation, get a mutation function
     const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
+    // handle the user clicking on the Save Book button
     const handleSaveClick = async () => {
         try {
+            // try to save the book to the user's data
             await saveBook({ variables: { input: {
                 ...feedItem,
                 firstSentence: feedItem.firstSentence ? feedItem.firstSentence[0] : ""
@@ -13,6 +16,7 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
         } catch (error) {
             console.error(error);
         }
+        // move on to the next book after saving
         incrementFeed();
     }
 
