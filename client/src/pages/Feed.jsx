@@ -41,12 +41,14 @@ const Feed = () => {
 
     // return partial feeds
     const getPartialFeeds = async () => {
+        // get the user's preferences
         // const preferences = {
         //     authors: ["Umberto Eco", "Ursula K. Le Guin", "Walter Rodney"],
         //     subjects: ["horror", "sci-fi", "fantasy"]
         // }
         const preferences = { authors: ["Umberto Eco", "Ursula K Le Guin"]};
 
+        // put all the preferences into one array
         const sortedPreferences = [];
         Object.keys(preferences).forEach((key) => {
             preferences[key].forEach((value) => {
@@ -54,18 +56,21 @@ const Feed = () => {
             })
         });
 
+        // array for the partial feeds
         const partialFeeds = [];
-        let firstIteration = true;
+        // sleep function to wait ms milliseconds
         let sleep = (ms) => new Promise(res => setTimeout(res, ms));
+        // make an API call for each preference
         for (let i = 0; i < sortedPreferences.length; i++) {
             // space out API calls a little, so as to not spam the server
-            if (!firstIteration) {
+            // run on every iteration but the first
+            if (i !== 0) {
                 await sleep(500); 
             }
+            // make the calls and get the results
             let preference = sortedPreferences[i];
             const data = await getBookData(preference.query, preference.queryType);
             partialFeeds.push(data);
-            firstIteration = false;
         }
 
         // console.log(partialFeeds);
@@ -74,14 +79,17 @@ const Feed = () => {
 
     // return complete feed
     const getFeed = async () => {
+        // get the partial feeds
         const partialFeeds = await getPartialFeeds();
 
         console.log(partialFeeds);
 
+        // find the maximum length 
         const maxLength = partialFeeds.reduce((acc, cur) => acc > cur.length ? acc : cur.length, 0) * partialFeeds.length;
 
         const result = [];
 
+        // cycle through the partial feeds, alternatingly adding all their books to a single feed
         for (let i = 0; i < maxLength * partialFeeds.length; i++) {
             const feedNumber = i % partialFeeds.length;
             const feedIndex = Math.floor(i / partialFeeds.length);
@@ -91,6 +99,7 @@ const Feed = () => {
         }
 
         console.log(result);
+        // save the generated feed in the state
         setFeed(result);
     }
 
