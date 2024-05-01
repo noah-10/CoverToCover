@@ -51,6 +51,12 @@ const SignUp = () => {
     
     const [activeField, setActiveField] = useState(1);
 
+    // useEffect(() => {
+    //     console.log(userGenre);
+    //     console.log(userAuthor);
+    //     // console.log(userFormData)
+    // })
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserFormData({ ...userFormData, [name]: value });
@@ -84,18 +90,6 @@ const SignUp = () => {
         setActiveField(activeField - 1);
     }
 
-    //Save genre to state
-    const handleSaveGenre = (name) => {
-        setUserGenre([...userGenre, name]);
-    }
-
-    // remove genres in state value
-    const handleRemoveGenre = (name) => {
-        setUserGenre(prevData => {
-            return prevData.filter(genre => genre !== name);
-        })
-    }
-
     const handleAuthorChange = (e) => {
         setAuthorInput(e.target.value);
     }
@@ -103,12 +97,6 @@ const SignUp = () => {
     const handleSaveAuthor = () => {
         setUserAuthor([...userAuthor, authorInput]);
         setAuthorInput("");
-    }
-
-    const removeAuthor = (name) => {
-        setUserAuthor(prevData => {
-            return prevData.filter(author => author !== name);
-        })
     }
 
     return (
@@ -145,14 +133,11 @@ const SignUp = () => {
                             <GenreCards 
                                 key={index}
                                 name={genre}
-                                saveGenre={handleSaveGenre}
-                                removeGenre={handleRemoveGenre}
+                                state={userGenre}
+                                setState={setUserGenre}
                             />
                         ))}
-                    </div>
-                    
-                    
-                    {/* <input type="text" placeholder="genre"/> */}
+                    </div>                    
                     <button onClick={previousField} type="button">Previous</button>
                     <button onClick={nextField} type="button">Next</button>
                 </fieldset>
@@ -169,7 +154,7 @@ const SignUp = () => {
                             <FavoriteAuthors 
                                 key={index}
                                 name={author}
-                                removeAuthor={removeAuthor}
+                                setState={setUserAuthor}
                             />
                         ))}
                     </ul>
@@ -179,7 +164,6 @@ const SignUp = () => {
                 </fieldset>
                 
             </form>
-            {/* <button id="signup-btn" onClick={handleFormSubmit}>SIGN UP</button> */}
             <div className="to-login">
                 <Link to='/login'>Login Instead</Link>
             </div>
