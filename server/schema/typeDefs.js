@@ -65,6 +65,10 @@ const typeDefs = `
         removeBook(bookId: String!): User
         addToFinished(input: BookInput): User
         addToCurrentlyReading(input: BookInput): User
+        updateUsername(username: String!): User
+        updateEmail(email: String!): User
+        updatePassword(password: String!): User
+        updatePreferences(authors: [String], subjects: [String], books: [String]): User
     }
 `
 
