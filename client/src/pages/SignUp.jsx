@@ -28,8 +28,8 @@ const SignUp = () => {
             username: '', 
             email: '', 
             password: '', 
-            genre: userGenre,
-            author: userAuthor,
+            preferencedAuthor: userAuthor,
+            preferencedGenre: userGenre,
         }
     );
 
@@ -37,7 +37,7 @@ const SignUp = () => {
     useEffect(() => {
         setUserFormData(prevData => ({
             ...prevData,
-            genre: userGenre
+            preferencedGenre: userGenre
         }));
     }, [userGenre]);
 
@@ -45,17 +45,11 @@ const SignUp = () => {
     useEffect(() => {
         setUserFormData(prevData => ({
             ...prevData,
-            author: userAuthor
+            preferencedAuthor: userAuthor
         }));
     }, [userAuthor]);
     
     const [activeField, setActiveField] = useState(1);
-
-    // useEffect(() => {
-    //     // console.log(userGenre);
-    //     // console.log(userAuthor);
-    //     console.log(userFormData)
-    // })
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

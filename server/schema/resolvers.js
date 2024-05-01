@@ -87,11 +87,13 @@ const resolvers = {
         },
 
         // Adding user
-        addUser: async (parent, { username, email, password }) => {
+        addUser: async (parent, { username, email, password, preferencedAuthor, preferencedGenre }) => {
             const user = await User.create({
                 username,
                 email,
-                password
+                password,
+                preferencedAuthor,
+                preferencedGenre,
             });
 
             if(!user){
