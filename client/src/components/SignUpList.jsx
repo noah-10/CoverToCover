@@ -4,7 +4,7 @@ const SignUpList = ({ name, setState }) => {
     // Removes author from state array
     const removeListItem = (name) => {
         setState(prevData => {
-            return prevData.filter(item => item !== name);
+            return prevData.filter(item => item.title !== name);
         })
     }
 

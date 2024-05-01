@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import GenreCards from "../components/GenreCards";
 import genresData from "../../utils/genres" ;
 import SignUpList from "../components/SignUpList";
+import { searchBookTitle } from "../../utils/API";
 import '../css/signUp.css';
 
 const SignUp = () => {
@@ -21,6 +22,12 @@ const SignUp = () => {
 
     // For user authors
     const [userAuthor, setUserAuthor] = useState([]);
+
+    // For current book input
+    const [currentBookInput, setCurrentBookInput] = useState("");
+
+    // For current books
+    const [currentBooks, setCurrentBooks] = useState([]);
 
     // For user info
     const [userFormData, setUserFormData] = useState(
@@ -102,9 +109,32 @@ const SignUp = () => {
         setAuthorInput("");
     }
 
+    const currentBookInputChange = (e) => {
+        setCurrentBookInput(e.target.value);
+    }
+
+    const handleSaveCurrentBook = async () => {
+        try{
+            const bookTitle = currentBookInput.split(" ").join("+")
+            const response = await searchBookTitle(bookTitle);
+            const items  = await response.json();
+            const book = items.docs[0];
+            // Key for id
+            const saveBook = {
+                authors: book.author_name,
+                title: book.title,
+                bookId: 1
+            }
+
+            setCurrentBooks([...currentBooks, saveBook]);
+        }catch(err){
+            return { error: err };
+        }
+    }
+
     useEffect(() => {
-        console.log(userAuthor);
-    }, [userAuthor]);
+        console.log(currentBooks);
+    }, [currentBooks]);
 
     return (
         <div className="signup-container">
@@ -167,6 +197,26 @@ const SignUp = () => {
                     </ul>
                     
                     <button onClick={previousField} type="button">Previous</button>
+                    <button onClick={nextField} type="button">Next</button>
+                </fieldset>
+
+                <fieldset className={activeField === 4 ? 'current' : 'hidden'}>
+                    <h2>Currently Reading</h2>
+                    <div className="current-read-input">
+                        <input type="text" placeholder="Book Title" value={currentBookInput} onChange={currentBookInputChange}/>
+                        <button type="button" onClick={handleSaveCurrentBook}>Save</button>
+                    </div>
+
+                    <ul className="currently-reading">
+                        {currentBooks.map((book, index) => (
+                            <SignUpList 
+                                key={index}
+                                name={book.title}
+                                setState={setCurrentBooks}
+                            />
+                        ))}
+                    </ul>
+
                     <button type="submit" onClick={handleFormSubmit}>Submit</button>
                 </fieldset>
                 
