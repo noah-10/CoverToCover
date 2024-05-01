@@ -52,6 +52,10 @@ const typeDefs = `
         addToCurrentlyReading(input: BookInput): User
         addPreferenceAuthor(authors: [String!]): User
         addPreferenceGenre(genre: [String!]): User
+        updateUsername(username: String!): User
+        updateEmail(email: String!): User
+        updatePassword(password: String!): User
+        updatePreferences(authors: [String], subjects: [String], books: [String]): User
     }
 `
 
