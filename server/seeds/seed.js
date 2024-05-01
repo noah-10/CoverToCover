@@ -12,6 +12,8 @@ db.once('open', async () => {
     savedBooks: [],
     currentlyReading: [],
     finishedBooks: [],
+    preferencedAuthor: [],
+    preferencedGenre: []
   });
 
   await User.create({
@@ -21,6 +23,8 @@ db.once('open', async () => {
     savedBooks: [],
     currentlyReading: [],
     finishedBooks: [],
+    preferencedAuthor: [],
+    preferencedGenre: []
   });
 
   const savedBook = { title: "Harry Potter", bookId: "1" };
@@ -41,6 +45,18 @@ db.once('open', async () => {
   await User.findOneAndUpdate(
     { username: "user2" },
     { $addToSet: { finishedBooks: finishedBook } },
+    { new: true }
+  );
+
+  await User.findOneAndUpdate(
+    { username: "user1" },
+    { $addToSet: { preferencedAuthor: { $each: ["Ursula K. Le Guin", "Umberto Eco", "Walter Rodney"] } } },
+    { new: true }
+  );
+
+  await User.findOneAndUpdate(
+    { username: "user2" },
+    { $addToSet: { preferencedAuthor: { $each: ["J. R. R. Tolkien", "Angela Davis", "Liu Cixin"] } } },
     { new: true }
   );
 
