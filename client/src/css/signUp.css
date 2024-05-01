@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+    /* background-color: grey; */
+}
+
+body{
+    background: transparent;
+}
+
+#signupForm{
+    text-align: center;
+    position: relative;
+    margin-top: 30px;
+}
+
+#signupForm fieldset{
+    background: white;
+    border: 0 none;
+    border-radius: 0px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 10%;
+
+    position: relative;
+}
+
+.current {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+#signupForm input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    font-size: 13px;
+}
+
+.author-input {
+    display: flex;
+    flex-direction: row;
+}

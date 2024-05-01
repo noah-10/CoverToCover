@@ -1,0 +1,30 @@
+.genre-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    font-size: 20px;
+}
+
+.cards{
+    background-color: grey;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.cards:hover{
+    scale: 1.1;
+}
+
+.cards input {
+    margin: 0;
+    background-color: transparent;
+    border: 0;
+    color: white;
+}
+
+.selected {
+    background-color: blue;
+}
