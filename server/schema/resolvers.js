@@ -186,48 +186,6 @@ const resolvers = {
             }catch(err){
                 return { error: err };
             }
-        },
-
-        //Add to users author preference
-        addPreferenceAuthor: async (parent, { authors }, context) => {
-            try {
-                if(context.user){
-                    const addAuthor = await User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $push: { preferencedAuthor: { $each: authors }}},
-                        { new: true }
-                    );
-
-                    if(!addAuthor){
-                        return { message: "Error adding author"}
-                    };
-
-                    return addAuthor;
-                };
-            }catch(err){
-                return { error: err };
-            }
-        },
-
-        //Add to users genre preference
-        addPreferenceGenre: async (parent, { genre }, context) => {
-            try {
-                if(context.user){
-                    const addGenre = await User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $push: { preferencedGenre: { $each: genre }}},
-                        { new: true }
-                    );
-
-                    if(!addGenre){
-                        return { message: "Error adding genre"}
-                    };
-
-                    return addGenre;
-                };
-            }catch(err){
-                return { error: err };
-            }
         }
     }
 }
