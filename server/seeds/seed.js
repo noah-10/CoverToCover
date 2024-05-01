@@ -1,7 +1,10 @@
 const db = require('../config/connection');
 const { User } = require('../models');
+const cleanDB = require('./cleanDB');
 
 db.once('open', async () => {
+  await cleanDB("User", "users");
+
   await User.create({
     username: 'user1',
     email: 'user1@example.com',
@@ -41,5 +44,5 @@ db.once('open', async () => {
     { new: true }
   );
 
-  process.exit();
+  process.exit(0);
 });
