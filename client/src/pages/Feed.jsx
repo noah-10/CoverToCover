@@ -77,7 +77,6 @@ const Feed = () => {
             }
         }
 
-        console.log(partialFeeds);
         return partialFeeds;
     }
 
@@ -101,7 +100,6 @@ const Feed = () => {
         }
 
         // save the generated feed in the state
-        console.log(result);
         setFeed(result);
     }
 
