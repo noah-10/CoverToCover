@@ -186,7 +186,109 @@ const resolvers = {
             }catch(err){
                 return { error: err };
             }
-        }
+        },
+
+        //Add to users author preference
+        addPreferenceAuthor: async (parent, { authors }, context) => {
+            try {
+                if(context.user){
+                    const addAuthor = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $push: { preferencedAuthor: { $each: authors }}},
+                        { new: true }
+                    );
+
+                    if(!addAuthor){
+                        return { message: "Error adding author"}
+                    };
+
+                    return addAuthor;
+                };
+            }catch(err){
+                return { error: err };
+            }
+        },
+
+        updateUsername: async (parent, { username }, context) => {
+            try {
+                if (context.user) {
+                    const updatedUser = await User.findByIdAndUpdate(
+                        context.user._id,
+                        { username },
+                        { new: true }
+                    );
+                    return updatedUser;
+                }
+            } catch (err) {
+                return { error: err };
+            }
+        },
+
+        //Add to users genre preference
+        addPreferenceGenre: async (parent, { genre }, context) => {
+            try {
+                if(context.user){
+                    const addGenre = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $push: { preferencedGenre: { $each: genre }}},
+                        { new: true }
+                    );
+
+                    if(!addGenre){
+                        return { message: "Error adding genre"}
+                    };
+
+                    return addGenre;
+                };
+            }catch(err){
+                return { error: err };
+            }
+        },
+
+        updateEmail: async (parent, { email }, context) => {
+            try {
+                if (context.user) {
+                    const updatedUser = await User.findByIdAndUpdate(
+                        context.user._id,
+                        { email },
+                        { new: true }
+                    );
+                    return updatedUser;
+                }
+            } catch (err) {
+                return { error: err };
+            }
+        },
+
+        updatePassword: async (parent, { password }, context) => {
+            try {
+                if (context.user) {
+                    const updatedUser = await User.findByIdAndUpdate(
+                        context.user._id,
+                        { password },
+                        { new: true }
+                    );
+                    return updatedUser;
+                }
+            } catch (err) {
+                return { error: err };
+            }
+        },
+
+        updatePreferences: async (parent, { preferences }, context) => {
+            try {
+                if (context.user) {
+                    const updatedUser = await User.findByIdAndUpdate(
+                        context.user._id,
+                        { preferences },
+                        { new: true }
+                    );
+                    return updatedUser;
+                }
+            } catch (err) {
+                return { error: err };
+            }
+        },
     }
 }
 
