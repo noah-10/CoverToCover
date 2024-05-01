@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import FeedItem from "../components/FeedItem";
 import { searchOpenLibrary } from "../../utils/API";
 
-import { GET_ME, MY_PREFERENCES } from "../../utils/queries";
+import { GET_ME } from "../../utils/queries";
 
 const Feed = () => {
     const [feed, setFeed] = useState([]);
