@@ -12,7 +12,6 @@ const resolvers = {
                 .populate('savedBooks')
                 .populate('currentlyReading')
                 .populate('finishedBooks')
-                .populate('preferences')
             }else{
                 return { message: "Error getting user" };
             };
