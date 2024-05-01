@@ -60,5 +60,17 @@ db.once('open', async () => {
     { new: true }
   );
 
+  await User.findOneAndUpdate(
+    { username: "user1" },
+    { $addToSet: { preferencedGenre: { $each: ["mystery", "comedy", "paranormal"] } } },
+    { new: true }
+  );
+
+  await User.findOneAndUpdate(
+    { username: "user2" },
+    { $addToSet: { preferencedGenre: { $each: ["science fiction", "fairy tale", "thriller"] } } },
+    { new: true }
+  );
+
   process.exit(0);
 });
