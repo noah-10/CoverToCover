@@ -8,6 +8,7 @@ import GenreCards from "../components/GenreCards";
 import genresData from "../../utils/genres" ;
 import SignUpList from "../components/SignUpList";
 import { searchBookTitle } from "../../utils/API";
+import SignUpBooks from "../components/SignUpBooks";
 import '../css/signUp.css';
 
 const SignUp = () => {
@@ -29,6 +30,12 @@ const SignUp = () => {
     // For current books
     const [currentBooks, setCurrentBooks] = useState([]);
 
+    // For finished book input
+    const [finishedBookInput, setFinishedBookInput] = useState("");
+
+    // For finished books
+    const [finishedBooks, setFinishedBooks] = useState([]);
+
     // For user info
     const [userFormData, setUserFormData] = useState(
         {   
@@ -37,6 +44,8 @@ const SignUp = () => {
             password: '', 
             preferencedAuthor: userAuthor,
             preferencedGenre: userGenre,
+            currentlyReading: currentBooks,
+            finishedReading: finishedBooks,
         }
     );
 
@@ -55,6 +64,22 @@ const SignUp = () => {
             preferencedAuthor: userAuthor
         }));
     }, [userAuthor]);
+
+    // Updates the userForm whenever the state of current books is updated
+    useEffect(() => {
+        setUserFormData(prevData => ({
+            ...prevData,
+            currentlyReading: currentBooks
+        }));
+    }, [currentBooks]);
+
+    // Updates the userForm whenever the state of finished books is updated
+    useEffect(() => {
+        setUserFormData(prevData => ({
+            ...prevData,
+            finishedReading: finishedBooks
+        }));
+    }, [finishedBooks]);
     
     // Sets which input field is active
     const [activeField, setActiveField] = useState(1);
@@ -119,11 +144,13 @@ const SignUp = () => {
             const response = await searchBookTitle(bookTitle);
             const items  = await response.json();
             const book = items.docs[0];
-            // Key for id
+            // https://covers.openlibrary.org/b/id/$%7Bbook.cover_i%7D.jpg
             const saveBook = {
                 authors: book.author_name,
                 title: book.title,
-                bookId: 1
+                cover: book.cover_i,
+                bookId: book.key,
+                firstSentence: book.first_sentence,
             }
 
             setCurrentBooks([...currentBooks, saveBook]);
@@ -132,9 +159,34 @@ const SignUp = () => {
         }
     }
 
+    const finishedBookInputChange = (e) => {
+        setFinishedBookInput(e.target.value);
+    }
+
+    const handleSaveFinishedBook = async () => {
+        try{
+            const bookTitle = finishedBookInput.split(" ").join("+")
+            const response = await searchBookTitle(bookTitle);
+            const items  = await response.json();
+            const book = items.docs[0];
+            // https://covers.openlibrary.org/b/id/$%7Bbook.cover_i%7D.jpg
+            const saveBook = {
+                authors: book.author_name,
+                title: book.title,
+                cover: book.cover_i,
+                bookId: book.key,
+                firstSentence: book.first_sentence,
+            }
+
+            setFinishedBooks([...finishedBooks, saveBook]);
+        }catch(err){
+            return { error: err };
+        }
+    }
+
     useEffect(() => {
-        console.log(currentBooks);
-    }, [currentBooks]);
+        console.log(userFormData);
+    }, [userFormData]);
 
     return (
         <div className="signup-container">
@@ -209,10 +261,33 @@ const SignUp = () => {
 
                     <ul className="currently-reading">
                         {currentBooks.map((book, index) => (
-                            <SignUpList 
+                            <SignUpBooks 
                                 key={index}
                                 name={book.title}
+                                cover={book.cover}
                                 setState={setCurrentBooks}
+                            />
+                        ))}
+                    </ul>
+
+                    <button onClick={previousField} type="button">Previous</button>
+                    <button onClick={nextField} type="button">Next</button>
+                </fieldset>
+
+                <fieldset className={activeField === 5 ? 'current' : 'hidden'}>
+                    <h2>Finished Books</h2>
+                    <div className="finished-read-input">
+                        <input type="text" placeholder="Book Title" value={finishedBookInput} onChange={finishedBookInputChange}/>
+                        <button type="button" onClick={handleSaveFinishedBook}>Save</button>
+                    </div>
+
+                    <ul className="finished-reading">
+                        {finishedBooks.map((book, index) => (
+                            <SignUpBooks 
+                                key={index}
+                                name={book.title}
+                                cover={book.cover}
+                                setState={setFinishedBooks}
                             />
                         ))}
                     </ul>
