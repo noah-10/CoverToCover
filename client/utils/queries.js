@@ -5,6 +5,8 @@ export const GET_ME = gql`
         me {
             _id
             username
+            preferencedAuthor
+            preferencedGenre
             currentlyReading {
                 authors
                 bookId
