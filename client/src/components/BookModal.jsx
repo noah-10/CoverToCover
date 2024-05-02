@@ -14,7 +14,7 @@ const BookModal = ({ closeModal, book }) => {
                     <h1>{book.authors}</h1>
                 </div>
                 <div className="body">
-                    <p>description...</p>
+                    <p>{book.firstSentence ? book.firstSentence : "No preview available"}</p>
                 </div>
                 <div className="footer">
                     <button onClick={() => closeModal()}>Close</button>
