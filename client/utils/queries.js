@@ -3,6 +3,10 @@ import { gql } from '@apollo/client'
 export const GET_ME = gql`
     query Me {
         me {
+            _id
+            username
+            preferencedAuthor
+            preferencedGenre
             currentlyReading {
                 authors
                 bookId
@@ -26,11 +30,6 @@ export const GET_ME = gql`
                 firstSentence
                 link
                 title
-            }
-            preferences {
-                authors
-                books
-                subjects
             }
         }
     } 
@@ -84,11 +83,8 @@ export const FINISHED_BOOKS = gql`
 export const MY_PREFERENCES = gql`
     query MyPreferences {
         myPreferences {
-            preferences {
-                authors
-                books
-                subjects
-            }
+            preferencedAuthor
+            preferencedGenre
         }
     }
 `
