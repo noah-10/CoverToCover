@@ -67,13 +67,13 @@ db.once('open', async () => {
   // populate seed users' author preferences
   await User.findOneAndUpdate(
     { username: "user1" },
-    { $addToSet: { preferencedAuthor: { $each: ["Ursula K. Le Guin", "Umberto Eco", "Walter Rodney"] } } },
+    { $addToSet: { preferencedAuthor: { $each: ["Ursula K. Le Guin", "Diana Wynne Jones", "J. R. R. Tolkien"] } } },
     { new: true }
   );
 
   await User.findOneAndUpdate(
     { username: "user2" },
-    { $addToSet: { preferencedAuthor: { $each: ["J. R. R. Tolkien", "Angela Davis", "Liu Cixin"] } } },
+    { $addToSet: { preferencedAuthor: { $each: ["Walter Rodney", "Angela Davis", "Liu Cixin"] } } },
     { new: true }
   );
 

@@ -12,7 +12,6 @@ const resolvers = {
                 .populate('savedBooks')
                 .populate('currentlyReading')
                 .populate('finishedBooks')
-                .populate('preferences')
             }else{
                 return { message: "Error getting user" };
             };
@@ -55,8 +54,7 @@ const resolvers = {
         myPreferences: async (parent, args, context) => {
             if(context.user){
                 return User.findOne({ _id: context.user._id})
-                .populate('preferences')
-                .select('preferences')
+                .select('preferencedAuthor preferencedGenre')
             }else{
                 return { message: "Error getting preferences" }
             }

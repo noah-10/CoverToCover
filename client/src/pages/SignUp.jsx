@@ -176,7 +176,7 @@ const SignUp = () => {
             const saveBook = {
                 authors: book.author_name,
                 title: book.title,
-                cover: book.cover_i,
+                cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
                 bookId: book.key,
                 firstSentence: firstSentString,
             }
