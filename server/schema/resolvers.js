@@ -261,15 +261,19 @@ const resolvers = {
         updatePassword: async (parent, { password }, context) => {
             try {
                 if (context.user) {
-                    const updatedUser = await User.findByIdAndUpdate(
-                        context.user._id,
-                        { password },
-                        { new: true }
-                    );
+                    const user = await User.findById(context.user._id);
+        
+                    if (!user) {
+                        throw new Error('User not found');
+                    }
+        
+                    user.password = password;
+                    const updatedUser = await user.save();
+        
                     return updatedUser;
                 }
             } catch (err) {
-                return { error: err };
+                return { error: err.message || 'An error occurred' };
             }
         },
 
