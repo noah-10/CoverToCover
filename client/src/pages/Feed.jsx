@@ -34,7 +34,7 @@ const Feed = () => {
                 title: book.title,
                 cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
                 bookId: book.key,
-                firstSentence: book.first_sentence,
+                firstSentence: book.first_sentence ? book.first_sentence[0] : "",
                 link: `https://openlibrary.org${book.seed[0]}`
             }));
 
@@ -69,9 +69,7 @@ const Feed = () => {
             // make the calls and get the results
             let preference = sortedPreferences[i];
             const data = await getBookData(preference.query, preference.queryType);
-            // change the first sentence to a string (instead of an array)
-            const modifiedData = data.map((book) => ({ ...book, firstSentence: book.firstSentence ? book.firstSentence[0] : ""}));
-            partialFeeds.push(modifiedData);
+            partialFeeds.push(data);
             // save intermediate results to the overall feed to get page loaded faster
             if (data.length > 0) {
                 tempFeed.push(data[0]);
