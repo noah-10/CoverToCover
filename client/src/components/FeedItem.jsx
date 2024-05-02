@@ -1,11 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { SAVE_BOOK } from "../../utils/mutations";
 import BookModal from "./BookModal";
 
+import coverLoadingPlaceholder from "../assets/coverLoadingPlaceholder.svg";
+
 const FeedItem = ({ feedItem, incrementFeed } ) => {
     // use the save book mutation, get a mutation function
     const [saveBook, { error }] = useMutation(SAVE_BOOK);
+
+    // adapted from https://stackoverflow.com/questions/63854208/dynamically-load-images-with-react
+    // dynamically load the cover image, showing a placeholder until loaded
+    const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve(src);
+            img.onerror = () => reject(new Error("Could not load image"));
+        });
+    }
+
+    const [source, setSource] = useState(coverLoadingPlaceholder);
+
+    useEffect(() => {
+        // start preloading the image and set the image source when loaded
+        const load = async () => {
+            await loadImage(feedItem.cover).then((src) => setSource(src));
+        }
+        load();
+    }, [source, setSource]);
+
+    useEffect(() => {
+        // when the cover source updates, set the source to the placeholder until the cover loads
+        setSource(coverLoadingPlaceholder);
+    }, [feedItem.cover]);
 
     // State for if the modal is being shown
     const [showModal, setShowModal] = useState(false);
@@ -39,7 +67,7 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
 
     return (
         <>
-            <img onClick={() => handleOpenModal()} style={{width: "25vw"}} src={feedItem.cover} alt={`Cover of the book "${feedItem.title}`}></img>
+            <img onClick={() => handleOpenModal()} style={{width: "25vw"}} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
             <div>Title: {feedItem.title}</div>
             <div>Authors: {feedItem.authors}</div>
             <button onClick={() => incrementFeed()}>Dismiss Book</button>
