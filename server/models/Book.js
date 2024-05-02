@@ -17,7 +17,9 @@ const bookSchema = new Schema(
         },
         bookId: {
             type: String,
-            required: true
+            required: true,
+            // this seems not to do anything since bookSchema is only used for subdocuments
+            unique: true
         },
         firstSentence: {
             type: String
