@@ -34,8 +34,6 @@ const FinishedBooks = () => {
 
     const userFinishedBooks = user.finishedBooks.finishedBooks;
 
-    console.log(userFinishedBooks)
-
     const handleOpenModal = (book) => {
         setClickedBook(book);
         setShowModal(true);

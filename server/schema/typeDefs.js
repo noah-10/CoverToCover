@@ -15,7 +15,7 @@ const typeDefs = `
     type Book {
         authors: [String]
         title: String!
-        cover: Int
+        cover: String
         bookId: String!
         firstSentence: String
         link: String
@@ -37,7 +37,7 @@ const typeDefs = `
     input BookInput {
         authors: [String]
         title: String!
-        cover: Int
+        cover: String
         bookId: String!
         firstSentence: String
         link: String
