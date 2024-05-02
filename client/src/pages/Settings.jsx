@@ -13,9 +13,8 @@ const Settings = () => {
     username: '',
     email: '',
     password: '',
-    authors: '',
-    books: '',
-    subjects: '',
+    preferencedAuthor: '',
+    preferencedGenre: '',
   });
 
   const [successMessage, setSuccessMessage] = useState('');
@@ -60,9 +59,8 @@ const Settings = () => {
     try {
       await updatePreferences({
         variables: {
-          authors: formData.authors,
-          books: formData.books,
-          subjects: formData.subjects,
+          preferencedAuthor: formData.preferencedAuthor,
+          preferencedGenre: formData.preferencedGenre,
         },
       });
       setSuccessMessage('Preferences updated successfully!');
@@ -110,23 +108,16 @@ const Settings = () => {
         </button>
         <FormFields
           label="Authors"
-          name="authors"
+          name="preferencedAuthor"
           type="text"
-          value={formData.authors}
+          value={formData.preferencedAuthor}
           onChange={handleInputChange}
         />
         <FormFields
-          label="Books"
-          name="books"
+          label="Genres"
+          name="preferencedGenre"
           type="text"
-          value={formData.books}
-          onChange={handleInputChange}
-        />
-        <FormFields
-          label="Subjects"
-          name="subjects"
-          type="text"
-          value={formData.subjects}
+          value={formData.preferencedGenre}
           onChange={handleInputChange}
         />
         <button type="button" onClick={handlePreferencesUpdate}>

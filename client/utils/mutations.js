@@ -127,14 +127,13 @@ export const UPDATE_PASSWORD = gql`
 `;
 
 export const UPDATE_PREFERENCES = gql`
-    mutation UpdatePreferences($authors: [String], $books: [String], $subjects: [String]) {
-        updatePreferences(authors: $authors, books: $books, subjects: $subjects) {
-            _id
-            preferences {
-                authors
-                books
-                subjects
-            }
-        }
+  mutation UpdatePreferences($preferencedAuthor: [String!], $preferencedGenre: [String!]) {
+    updatePreferences(preferencedAuthor: $preferencedAuthor, preferencedGenre: $preferencedGenre) {
+      _id
+      preferences {
+        preferencedAuthor
+        preferencedGenre
+      }
     }
+  }
 `;
