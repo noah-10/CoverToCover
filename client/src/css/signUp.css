@@ -1,52 +1,119 @@
-* {
-    margin: 0;
-    padding: 0;
-}
 
-html {
-    height: 100%;
-    /* background-color: grey; */
-}
 
-body{
-    background: transparent;
-}
-
-#signupForm{
+.signupForm{
     text-align: center;
     position: relative;
     margin-top: 30px;
+    height: 30rem;
 }
 
-#signupForm fieldset{
+.signupForm fieldset{
     background: white;
     border: 0 none;
     border-radius: 0px;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
     padding: 20px 30px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     width: 80%;
     margin: 0 10%;
-
+    height: 100%;
     position: relative;
 }
 
 .current {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 .hidden {
     display: none;
 }
 
-#signupForm input {
+.signupForm input {
     box-sizing: border-box;
     width: 100%;
     padding: 15px;
     font-size: 13px;
 }
 
-.author-input {
+.personal-details{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+    gap: 1.5rem;
+}
+
+.Btn {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin: auto auto 10px auto;
+}
+
+.action-btn{
+    border: 0;
+    border-radius: 20px;
+    padding: 0.5em 1em;
+    font-size: 16px;
+}
+
+.signup-input {
     display: flex;
     flex-direction: row;
+    gap: 30px;
+    margin-top: 1em;
+}
+
+.signup-input input {
+    font-size: 18px;
+}
+
+.signup-input button {
+    width: 8em;
+    font-size: 18px;
+    border: 0;
+    background-color: green;
+    border-radius: 5px;
+    color: white;
+}
+
+/* tablet */
+@media screen and (max-width: 769px){
+    .genre-card{
+        overflow: scroll;
+        -ms-overflow-style: none; /* for Internet Explorer, Edge */
+        scrollbar-width: none; /* for Firefox */
+    }
+
+    .genre-card::-webkit-scrollbar{
+        display: none;
+    }
+}
+
+/* Mobile L */
+@media screen and (max-width: 426px){
+    .signupForm fieldset{
+        margin: 0;
+        width: 100%;
+    }
+
+    .signup-input{
+        gap: 10px;
+    }
+
+    .signup-input button{
+        width: 4em;
+        font-size: 14px;
+    }
+}
+
+/* Mobile S */
+@media screen and (max-width: 321px){
+    .action-btn{
+        font-size: 13px;
+    }
+
+    .signup-input{
+        gap: 6px;
+    }
 }

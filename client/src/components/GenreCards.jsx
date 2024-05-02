@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import '../css/signUpCard.css'
+import '../css/genreCard.css'
 
 const SignUpCards = ({ name, state, setState}) => {
 
@@ -31,7 +31,7 @@ const SignUpCards = ({ name, state, setState}) => {
 
     return (
         <div className={`cards ${isSelected ? "selected": ''}`} onClick={() => handleClick(name)}>
-            <input type="button" name="genre" value={name} />
+            <p className="genre-btn">{name}</p>
         </div>
     )
 }

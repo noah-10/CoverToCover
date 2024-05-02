@@ -1,3 +1,4 @@
+import '../css/signUpBooks.css'
 
 const SignUpBooks = ({ name, cover, setState }) => {
     // Removes author from state array
@@ -8,12 +9,12 @@ const SignUpBooks = ({ name, cover, setState }) => {
     }
 
     return (
-        <li className="list-item">
+        <li className="list-item book-list">
             <div className="current-cover">
                 <img src={cover} alt="" />
             </div>
             <p>{name}</p>
-            <button type="button" onClick={() => removeListItem(name)}>Remove</button>
+            <button className="remove-book" type="button" onClick={() => removeListItem(name)}>X</button>
         </li>
     )
 }

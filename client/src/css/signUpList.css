@@ -1,0 +1,47 @@
+
+ul.author-list {
+    padding: 0;
+    flex-direction: column;
+    display: flex;
+    row-gap: 1em;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    margin-bottom: 1em;
+}
+
+ul.author-list::-webkit-scrollbar{
+    display: none;
+}
+
+.list-item{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.list-item p {
+    margin: 0;
+    font-size: 22px;
+}
+
+.list-item button {
+    border: 0;
+    color: red;
+    background: transparent;
+    font-size: 22px;
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: rgba(255, 0, 0, 0.45);
+}
+
+/* Mobile L */
+@media screen and (max-width: 426px){
+
+    .list-item p, .list-item button{
+        font-size: 16px;
+    }
+}
