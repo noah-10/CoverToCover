@@ -138,6 +138,7 @@ const SignUp = () => {
         setCurrentBookInput(e.target.value);
     }
 
+    //Save all book info
     const handleSaveCurrentBook = async () => {
         try{
             const bookTitle = currentBookInput.split(" ").join("+")
@@ -146,7 +147,6 @@ const SignUp = () => {
             const book = items.docs[0];
             const firstSentString = book.first_sentence[0]
 
-            // https://covers.openlibrary.org/b/id/$%7Bbook.cover_i%7D.jpg
             const saveBook = {
                 authors: book.author_name,
                 title: book.title,
@@ -165,6 +165,7 @@ const SignUp = () => {
         setFinishedBookInput(e.target.value);
     }
 
+    // Save all book info
     const handleSaveFinishedBook = async () => {
         try{
             const bookTitle = finishedBookInput.split(" ").join("+")
@@ -172,7 +173,6 @@ const SignUp = () => {
             const items  = await response.json();
             const book = items.docs[0];
             const firstSentString = book.first_sentence[0]
-            // https://covers.openlibrary.org/b/id/$%7Bbook.cover_i%7D.jpg
             const saveBook = {
                 authors: book.author_name,
                 title: book.title,
