@@ -34,7 +34,7 @@ const SignUp = () => {
     const [finishedBookInput, setFinishedBookInput] = useState("");
 
     // For finished books
-    const [finishedBooks, setFinishedBooks] = useState([]);
+    const [userFinishedBooks, setUserFinishedBooks] = useState([]);
 
     // For user info
     const [userFormData, setUserFormData] = useState(
@@ -45,7 +45,7 @@ const SignUp = () => {
             preferencedAuthor: userAuthor,
             preferencedGenre: userGenre,
             currentlyReading: currentBooks,
-            finishedReading: finishedBooks,
+            finishedBooks: userFinishedBooks,
         }
     );
 
@@ -77,9 +77,9 @@ const SignUp = () => {
     useEffect(() => {
         setUserFormData(prevData => ({
             ...prevData,
-            finishedReading: finishedBooks
+            finishedBooks: userFinishedBooks
         }));
-    }, [finishedBooks]);
+    }, [userFinishedBooks]);
     
     // Sets which input field is active
     const [activeField, setActiveField] = useState(1);
@@ -144,13 +144,15 @@ const SignUp = () => {
             const response = await searchBookTitle(bookTitle);
             const items  = await response.json();
             const book = items.docs[0];
+            const firstSentString = book.first_sentence[0]
+
             // https://covers.openlibrary.org/b/id/$%7Bbook.cover_i%7D.jpg
             const saveBook = {
                 authors: book.author_name,
                 title: book.title,
                 cover: book.cover_i,
                 bookId: book.key,
-                firstSentence: book.first_sentence,
+                firstSentence: firstSentString,
             }
 
             setCurrentBooks([...currentBooks, saveBook]);
@@ -169,24 +171,21 @@ const SignUp = () => {
             const response = await searchBookTitle(bookTitle);
             const items  = await response.json();
             const book = items.docs[0];
+            const firstSentString = book.first_sentence[0]
             // https://covers.openlibrary.org/b/id/$%7Bbook.cover_i%7D.jpg
             const saveBook = {
                 authors: book.author_name,
                 title: book.title,
                 cover: book.cover_i,
                 bookId: book.key,
-                firstSentence: book.first_sentence,
+                firstSentence: firstSentString,
             }
 
-            setFinishedBooks([...finishedBooks, saveBook]);
+            setUserFinishedBooks([...userFinishedBooks, saveBook]);
         }catch(err){
             return { error: err };
         }
     }
-
-    useEffect(() => {
-        console.log(userFormData);
-    }, [userFormData]);
 
     return (
         <div className="signup-container">
@@ -282,12 +281,12 @@ const SignUp = () => {
                     </div>
 
                     <ul className="finished-reading">
-                        {finishedBooks.map((book, index) => (
+                        {userFinishedBooks.map((book, index) => (
                             <SignUpBooks 
                                 key={index}
                                 name={book.title}
                                 cover={book.cover}
-                                setState={setFinishedBooks}
+                                setState={setUserFinishedBooks}
                             />
                         ))}
                     </ul>

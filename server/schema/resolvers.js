@@ -87,22 +87,38 @@ const resolvers = {
         },
 
         // Adding user
-        addUser: async (parent, { username, email, password, preferencedAuthor, preferencedGenre }) => {
-            const user = await User.create({
-                username,
-                email,
-                password,
-                preferencedAuthor,
-                preferencedGenre,
-            });
-
-            if(!user){
-                return { message: "Error creating account" };
-            };
-
-            const token = signToken(user);
-
-            return { token, user };
+        addUser: async (parent, { username, email, password, preferencedAuthor, preferencedGenre, currentlyReading, finishedBooks }) => {
+            try{
+                const user = await User.create({
+                    username,
+                    email,
+                    password,
+                    preferencedAuthor,
+                    preferencedGenre,
+                });
+    
+                if(!user){
+                    return { message: "Error creating account" };
+                };
+    
+                await User.findOneAndUpdate(
+                    { username: user.username },
+                    { $addToSet: { currentlyReading: { $each: currentlyReading} }},
+                    { new: true }
+                );
+                
+                await User.findOneAndUpdate(
+                    { username: user.username },
+                    { $addToSet: { finishedBooks: { $each: finishedBooks} }},
+                    { new: true }
+                );
+                
+                const token = signToken(user);
+    
+                return { token, user };
+            }catch(err){
+                return { error: err };
+            }
         },
 
         // Saving a book to a user
