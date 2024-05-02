@@ -277,12 +277,12 @@ const resolvers = {
             }
         },
 
-        updatePreferences: async (parent, { preferences }, context) => {
+        updatePreferences: async (parent, { preferencedAuthor, preferencedGenre }, context) => {
             try {
                 if (context.user) {
                     const updatedUser = await User.findByIdAndUpdate(
                         context.user._id,
-                        { preferences },
+                        { preferencedAuthor, preferencedGenre },
                         { new: true }
                     );
                     return updatedUser;

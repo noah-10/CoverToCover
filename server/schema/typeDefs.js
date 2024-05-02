@@ -55,7 +55,7 @@ const typeDefs = `
         updateUsername(username: String!): User
         updateEmail(email: String!): User
         updatePassword(password: String!): User
-        updatePreferences(authors: [String], subjects: [String], books: [String]): User
+        updatePreferences(preferencedAuthor: [String], preferencedGenre: [String]): User
     }
 `
 
