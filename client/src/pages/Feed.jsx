@@ -6,6 +6,8 @@ import { searchOpenLibrary } from "../../utils/API";
 
 import { GET_ME } from "../../utils/queries";
 
+import coverPlaceholder from "../assets/coverPlaceholder.svg";
+
 const Feed = () => {
     const [feed, setFeed] = useState([]);
     const [feedIndex, setFeedIndex] = useState(0);
@@ -32,7 +34,7 @@ const Feed = () => {
             const bookData = docs.map((book) => ({
                 authors: book.author_name,
                 title: book.title,
-                cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
+                cover: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg` : coverPlaceholder,
                 bookId: book.key,
                 firstSentence: book.first_sentence ? book.first_sentence[0] : "",
                 link: `https://openlibrary.org${book.seed[0]}`
