@@ -82,13 +82,19 @@ export const FINISHED_BOOKS = gql`
 `
 
 export const MY_PREFERENCES = gql`
-    query MyPreferences {
-        myPreferences {
-            preferences {
-                authors
-                books
-                subjects
-            }
-        }
+  query MyPreferences {
+    myPreferences {
+      preferencedAuthor
+      preferencedGenre
     }
-`
+  }
+`;
+
+export const GET_PREFERENCES = gql`
+  query GetPreferences {i
+    myPreferences {
+      preferencedAuthor
+      preferencedGenre
+    }
+  }
+`;

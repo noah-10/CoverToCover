@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { UPDATE_USERNAME, UPDATE_EMAIL, UPDATE_PASSWORD, UPDATE_PREFERENCES } from '../../utils/mutations';
+import { UPDATE_USERNAME, UPDATE_EMAIL, UPDATE_PASSWORD, ADD_PREFERENCE_AUTHOR, ADD_PREFERENCE_GENRE } from '../../utils/mutations';
 import FormFields from '../components/FormFields';
 
 const Settings = () => {
   const [updateUsername] = useMutation(UPDATE_USERNAME);
   const [updateEmail] = useMutation(UPDATE_EMAIL);
   const [updatePassword] = useMutation(UPDATE_PASSWORD);
-  const [updatePreferences] = useMutation(UPDATE_PREFERENCES);
+  const [addPreferenceAuthor] = useMutation(ADD_PREFERENCE_AUTHOR);
+  const [addPreferenceGenre] = useMutation(ADD_PREFERENCE_GENRE);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -55,17 +56,32 @@ const Settings = () => {
     }
   };
 
-  const handlePreferencesUpdate = async () => {
+  const handleAddAuthor = async () => {
     try {
-      await updatePreferences({
+      await addPreferenceAuthor({
         variables: {
-          preferencedAuthor: formData.preferencedAuthor,
-          preferencedGenre: formData.preferencedGenre,
+          authors: formData.preferencedAuthor.split(',').map(author => author.trim()),
         },
       });
-      setSuccessMessage('Preferences updated successfully!');
+      setSuccessMessage('Author added successfully!');
+      setFormData({ ...formData, preferencedAuthor: '' });
     } catch (error) {
-      setErrorMessage('Failed to update preferences.');
+      setErrorMessage('Failed to add author.');
+      console.error(error);
+    }
+  };
+
+  const handleAddGenre = async () => {
+    try {
+      await addPreferenceGenre({
+        variables: {
+          genre: formData.preferencedGenre.split(',').map(genre => genre.trim()),
+        },
+      });
+      setSuccessMessage('Genre added successfully!');
+      setFormData({ ...formData, preferencedGenre: '' });
+    } catch (error) {
+      setErrorMessage('Failed to add genre.');
       console.error(error);
     }
   };
@@ -113,6 +129,9 @@ const Settings = () => {
           value={formData.preferencedAuthor}
           onChange={handleInputChange}
         />
+        <button type="button" onClick={handleAddAuthor}>
+          Add Author
+        </button>
         <FormFields
           label="Genres"
           name="preferencedGenre"
@@ -120,8 +139,8 @@ const Settings = () => {
           value={formData.preferencedGenre}
           onChange={handleInputChange}
         />
-        <button type="button" onClick={handlePreferencesUpdate}>
-          Update Preferences
+        <button type="button" onClick={handleAddGenre}>
+          Add Genre
         </button>
       </form>
     </div>

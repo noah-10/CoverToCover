@@ -126,14 +126,18 @@ export const UPDATE_PASSWORD = gql`
     }
 `;
 
-export const UPDATE_PREFERENCES = gql`
-  mutation UpdatePreferences($preferencedAuthor: [String!], $preferencedGenre: [String!]) {
-    updatePreferences(preferencedAuthor: $preferencedAuthor, preferencedGenre: $preferencedGenre) {
-      _id
-      preferences {
-        preferencedAuthor
-        preferencedGenre
-      }
+export const REMOVE_PREFERENCE_AUTHOR = gql`
+  mutation RemovePreferenceAuthor($authorId: ID!) {
+    removePreferenceAuthor(authorId: $authorId) {
+      preferencedAuthor
+    }
+  }
+`;
+
+export const REMOVE_PREFERENCE_GENRE = gql`
+  mutation RemovePreferenceGenre($genreId: ID!) {
+    removePreferenceGenre(genreId: $genreId) {
+      preferencedGenre
     }
   }
 `;
