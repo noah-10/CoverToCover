@@ -7,6 +7,7 @@ import { searchOpenLibrary } from "../../utils/API";
 import { GET_ME } from "../../utils/queries";
 
 import coverPlaceholder from "../assets/coverPlaceholder.svg";
+import { loadImage } from "../../utils/loadImage";
 
 const Feed = () => {
     const [feed, setFeed] = useState([]);
@@ -112,9 +113,21 @@ const Feed = () => {
         }
     }, [user]);
 
+    // preload the current image and three images ahead
+    if (feed && feed.length > 4) {
+        loadImage(feed[0].cover);
+        loadImage(feed[1].cover);
+        loadImage(feed[2].cover);
+        loadImage(feed[3].cover);
+    }
+
     // progress to the next feed item
     const incrementFeed = () => {
         setFeedIndex(feedIndex + 1);
+        // preload the image three images ahead
+        if (feed.length > feedIndex + 3) {
+            loadImage(feed[feedIndex + 3].cover);
+        }
     }
 
     // if not logged in, show a message
@@ -131,7 +144,7 @@ const Feed = () => {
             ? 
             <FeedItem feedItem={feed[feedIndex]} incrementFeed={incrementFeed}></FeedItem>
             :
-            "No books"}
+            "Loading books..."}
         </div>
     );
 }

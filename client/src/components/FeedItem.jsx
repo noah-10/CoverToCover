@@ -4,6 +4,7 @@ import { SAVE_BOOK } from "../../utils/mutations";
 import BookModal from "./BookModal";
 
 import coverLoadingPlaceholder from "../assets/coverLoadingPlaceholder.svg";
+import { loadImage } from "../../utils/loadImage";
 
 const FeedItem = ({ feedItem, incrementFeed } ) => {
     // use the save book mutation, get a mutation function
@@ -11,15 +12,6 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
 
     // adapted from https://stackoverflow.com/questions/63854208/dynamically-load-images-with-react
     // dynamically load the cover image, showing a placeholder until loaded
-    const loadImage = (src) => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = src;
-            img.onload = () => resolve(src);
-            img.onerror = () => reject(new Error("Could not load image"));
-        });
-    }
-
     const [source, setSource] = useState(coverLoadingPlaceholder);
 
     useEffect(() => {
