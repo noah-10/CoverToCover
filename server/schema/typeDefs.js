@@ -55,8 +55,10 @@ const typeDefs = `
         updateUsername(username: String!): User
         updateEmail(email: String!): User
         updatePassword(password: String!): User
-        updatePreferences(preferencedAuthor: [String], preferencedGenre: [String]): User
+        removePreferenceAuthor(authorId: ID!): User
+        removePreferenceGenre(genreId: ID!): User
     }
-`
+`;
+
 
 module.exports = typeDefs;

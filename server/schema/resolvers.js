@@ -277,21 +277,36 @@ const resolvers = {
             }
         },
 
-        updatePreferences: async (parent, { preferencedAuthor, preferencedGenre }, context) => {
+        removePreferenceAuthor: async (parent, { authorId }, context) => {
             try {
-                if (context.user) {
-                    const updatedUser = await User.findByIdAndUpdate(
-                        context.user._id,
-                        { preferencedAuthor, preferencedGenre },
-                        { new: true }
-                    );
-                    return updatedUser;
-                }
+              if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                  context.user._id,
+                  { $pull: { preferencedAuthor: authorId } },
+                  { new: true }
+                );
+                return updatedUser;
+              }
             } catch (err) {
-                return { error: err };
+              return { error: err };
             }
         },
-    }
+
+        removePreferenceGenre: async (parent, { genreId }, context) => {
+            try {
+              if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                  context.user._id,
+                  { $pull: { preferencedGenre: genreId } },
+                  { new: true }
+                );
+                return updatedUser;
+              }
+            } catch (err) {
+              return { error: err };
+            }
+        },    
+    },
 }
 
 module.exports = resolvers;
