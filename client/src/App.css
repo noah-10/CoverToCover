@@ -1,10 +1,9 @@
 #root {
   --eggshell: #F0EBD8;
   --midnight-green: #0B3948;
-  --old-rose: #C8786A
+  --old-rose: #C8786A;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
   /* set custom background color */
   background-color: var(--eggshell);
