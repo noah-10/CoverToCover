@@ -1,0 +1,22 @@
+
+.hidden {
+    display: none;
+}
+
+.books-container {
+    margin-top: 5em;
+}
+
+.books-collection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 4em;
+    row-gap: 2em;
+    margin-top: 4em;
+}
+
+.book-cover img {
+    height: 20em;
+}

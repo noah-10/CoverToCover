@@ -1,6 +1,6 @@
 import '../css/bookModal.css';
 
-const BookModal = ({ closeModal, book }) => {
+const BookModal = ({ closeModal, book, page, bookState }) => {
     return (
         <div className="modal-background">
             <div className="modal-container">
@@ -18,6 +18,11 @@ const BookModal = ({ closeModal, book }) => {
                 </div>
                 <div className="footer">
                     <button onClick={() => closeModal()}>Close</button>
+                    {page === 'Currently Reading' ? (
+                        <button onClick={() => bookState(book)}>Finished Book</button> 
+                    ) : page === "Saved Book" ? (
+                        <button onClick={() => bookState(book)}>Started Reading</button>
+                    ) : (null)}
                 </div>
             </div>
         </div>

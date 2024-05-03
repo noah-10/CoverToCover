@@ -182,12 +182,33 @@ const resolvers = {
         },
 
         // removing a book from a users saved Books
-        removeBook: async (parent, { bookId }, context) => {
+        removeSavedBook: async (parent, { bookId }, context) => {
             try{
                 if(context.user){
                     const removeBook = await User.findOneAndUpdate(
                         { _id: context.user._id },
                         { $pull: { savedBooks: { bookId: bookId } }},
+                        { new: true }
+                    );
+
+                    if(!removeBook){
+                        return { message: "Error removing book"};
+                    };
+
+                    return removeBook;
+                }
+            }catch(err){
+                return { error: err };
+            }
+        },
+
+        // removing a book from a users currently reading Books
+        removeCurrentlyReadingBook: async (parent, { bookId }, context) => {
+            try{
+                if(context.user){
+                    const removeBook = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { currentlyReading: { bookId: bookId } }},
                         { new: true }
                     );
 

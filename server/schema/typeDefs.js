@@ -47,7 +47,8 @@ const typeDefs = `
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!, preferencedAuthor: [String], preferencedGenre: [String], currentlyReading: [BookInput], finishedBooks: [BookInput]): Auth
         saveBook(input: BookInput): User
-        removeBook(bookId: String!): User
+        removeSavedBook(bookId: String!): User
+        removeCurrentlyReadingBook(bookId: String!): User
         addToFinished(input: BookInput): User
         addToCurrentlyReading(input: BookInput): User
         addPreferenceAuthor(authors: [String!]): User
