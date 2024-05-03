@@ -123,6 +123,19 @@ const resolvers = {
         saveBook: async(parent, { input }, context) => {
             try{
                 if(context.user){
+                    // get user data to check if the book to save is a duplicate
+                    const userData = await User.findOne({ _id: context.user._id }).populate("savedBooks");
+
+                    if (!userData) {
+                        return { message: "Error fetching user data" };
+                    }
+
+                    // if the book is already in the saved books, return
+                    if (userData.savedBooks.reduce((acc, cur) => (acc || cur.bookId === input.bookId), false)) {
+                        return { message: "Book already saved" };
+                    }
+
+                    // otherwise save the book
                     const saveBook = await User.findOneAndUpdate(
                         { _id: context.user._id },
                         { $addToSet: { savedBooks: input }},

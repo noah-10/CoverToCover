@@ -6,6 +6,9 @@ import { searchOpenLibrary } from "../../utils/API";
 
 import { GET_ME } from "../../utils/queries";
 
+import coverPlaceholder from "../assets/coverPlaceholder.svg";
+import { loadImage } from "../../utils/loadImage";
+
 const Feed = () => {
     const [feed, setFeed] = useState([]);
     const [feedIndex, setFeedIndex] = useState(0);
@@ -32,9 +35,9 @@ const Feed = () => {
             const bookData = docs.map((book) => ({
                 authors: book.author_name,
                 title: book.title,
-                cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
+                cover: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg` : coverPlaceholder,
                 bookId: book.key,
-                firstSentence: book.first_sentence,
+                firstSentence: book.first_sentence ? book.first_sentence[0] : "",
                 link: `https://openlibrary.org${book.seed[0]}`
             }));
 
@@ -110,9 +113,21 @@ const Feed = () => {
         }
     }, [user]);
 
+    // preload the current image and three images ahead
+    if (feed && feed.length > 4) {
+        loadImage(feed[0].cover);
+        loadImage(feed[1].cover);
+        loadImage(feed[2].cover);
+        loadImage(feed[3].cover);
+    }
+
     // progress to the next feed item
     const incrementFeed = () => {
         setFeedIndex(feedIndex + 1);
+        // preload the image three images ahead
+        if (feed.length > feedIndex + 3) {
+            loadImage(feed[feedIndex + 3].cover);
+        }
     }
 
     // if not logged in, show a message
@@ -129,7 +144,7 @@ const Feed = () => {
             ? 
             <FeedItem feedItem={feed[feedIndex]} incrementFeed={incrementFeed}></FeedItem>
             :
-            "No books"}
+            "Loading books..."}
         </div>
     );
 }
