@@ -16,7 +16,7 @@ const SavedBooks = () => {
     const [showModal, setShowModal] = useState(false);
 
     // State for what book is clicked
-    const [clickedBook, setClickedBook] = useState(null)
+    const [clickedBook, setClickedBook] = useState(null);
 
     // Refetches the query to stay updated
     useEffect(() => {
@@ -27,13 +27,13 @@ const SavedBooks = () => {
 
     if(loading){
         return <div>Loading...</div>
-    };
+    }
 
     if(!user?.savedBooks.savedBooks){
         return (
             <h1>You need to be logged in to see this</h1>
         )
-    };
+    }
 
     const userSavedBooks = user.savedBooks.savedBooks;
 

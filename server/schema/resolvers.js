@@ -12,7 +12,6 @@ const resolvers = {
                 .populate('savedBooks')
                 .populate('currentlyReading')
                 .populate('finishedBooks')
-                .populate('preferences')
             }else{
                 return { message: "Error getting user" };
             };
@@ -55,8 +54,7 @@ const resolvers = {
         myPreferences: async (parent, args, context) => {
             if(context.user){
                 return User.findOne({ _id: context.user._id})
-                .populate('preferences')
-                .select('preferences')
+                .select('preferencedAuthor preferencedGenre')
             }else{
                 return { message: "Error getting preferences" }
             }
@@ -105,6 +103,19 @@ const resolvers = {
         // Saving a book to a user
         saveBook: async(parent, { input }, context) => {
             if(context.user){
+                // get user data to check if the book to save is a duplicate
+                const userData = await User.findOne({ _id: context.user._id }).populate("savedBooks");
+
+                if (!userData) {
+                    return { message: "Error fetching user data" };
+                }
+
+                // if the book is already in the saved books, return
+                if (userData.savedBooks.reduce((acc, cur) => (acc || cur.bookId === input.bookId), false)) {
+                    return { message: "Book already saved" };
+                }
+
+                // otherwise save the book
                 const saveBook = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $addToSet: { savedBooks: input }},

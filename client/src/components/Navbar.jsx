@@ -11,13 +11,15 @@ const AppNavbar = () => {
                 </Navbar.Brand>
                 <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
                     <Nav>
-                        <Nav.Link as={Link} to='/feed'>Feed</Nav.Link>
-                        <Nav.Link as={Link} to='/library'>Library</Nav.Link>
-                        <Nav.Link as={Link} to='/settings'>Settings</Nav.Link>
                         {Auth.loggedIn() ? (
-                            <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                            <>
+                                <Nav.Link as={Link} to='/feed'>Feed</Nav.Link>
+                                <Nav.Link as={Link} to='/library'>Library</Nav.Link>
+                                <Nav.Link as={Link} to='/settings'>Settings</Nav.Link>
+                                <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                            </>
                         ) : (
-                            <Nav.Link as={Link} to='/signup'>Sign Up</Nav.Link>
+                            <Nav.Link as={Link} to='/signup'>Sign In</Nav.Link>
                         )}
                     </Nav>
                 </Navbar.Collapse>
