@@ -61,7 +61,7 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
         <>
             <img onClick={() => handleOpenModal()} style={{width: "25vw"}} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
             <div>Title: {feedItem.title}</div>
-            <div>Authors: {feedItem.authors}</div>
+            <div>Authors: {feedItem.authors.join(", ")}</div>
             <button onClick={() => incrementFeed()}>Dismiss Book</button>
             <button onClick={() => handleSaveClick()}>Save Book</button>
             {showModal && (

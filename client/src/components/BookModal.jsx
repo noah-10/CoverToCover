@@ -11,7 +11,7 @@ const BookModal = ({ closeModal, book }) => {
                     <h1>{book.title}</h1>
                 </div>
                 <div className="author">
-                    <h1>{book.authors}</h1>
+                    <h1>{book.authors.join(", ")}</h1>
                 </div>
                 <div className="body">
                     <p>{book.firstSentence ? book.firstSentence : "No preview available"}</p>
