@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FormFields from "../components/FormFields";
 import Auth from '../../utils/auth';
+import '../css/login.css';
 
 const Login = () => {
     const [loginUser, { error, data }] = useMutation(LOGIN_USER);
@@ -37,21 +38,27 @@ const Login = () => {
     return (
         <div className="login-container">
             <h1>Login</h1>
-            <form>
-                <FormFields
-                    label="Email"
-                    name="email"
-                    type="text"
-                    onChange={handleInputChange}
-                />
-                <FormFields
-                    label="Password"
-                    name="password"
-                    type="password"
-                    onChange={handleInputChange}
-                />
-            </form>
-            <button id="login-btn" onClick={handleFormSubmit}>Login</button>
+            <form className="login-form">
+                <fieldset>
+                    <div className="personal-details">
+                        <FormFields
+                            label="Email"
+                            name="email"
+                            type="text"
+                            onChange={handleInputChange}
+                        />
+                        <FormFields
+                            label="Password"
+                            name="password"
+                            type="password"
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div className="Btn">
+                        <button className="action-btn" onClick={handleFormSubmit}>Login</button>
+                    </div>
+                </fieldset>
+            </form>  
             <div className="to-signup">
                 <Link to='/signup'>Sign Up Instead</Link>
             </div>
