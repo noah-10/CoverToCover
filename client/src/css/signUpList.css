@@ -30,11 +30,17 @@ ul.author-list::-webkit-scrollbar{
 
 .list-item button {
     border: 0;
-    color: red;
+    color: var(--old-rose);
     background: transparent;
     font-size: 22px;
     font-weight: 600;
     border-radius: 5px;
+    background-color: rgba(255, 0, 0, 0.25);
+    transition: 0.5s ease-out ;
+}
+
+.list-item button:hover{
+    color: red;
     background-color: rgba(255, 0, 0, 0.45);
 }
 

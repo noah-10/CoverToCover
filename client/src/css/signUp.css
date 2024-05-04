@@ -1,4 +1,12 @@
-
+:root {
+    --eggshell: #F0EBD8;
+    --midnight-green: #0B3948;
+    --old-rose: #C8786A;
+    --mint: #44C5A7;
+    --pacific-cyan: #31AFD4;
+    --gunmetal: #252B2C;
+    --floral-white: #F9F7F0;
+}
 
 .signupForm{
     text-align: center;
@@ -55,6 +63,43 @@
     border-radius: 20px;
     padding: 0.5em 1em;
     font-size: 16px;
+    border: 1px solid transparent;
+}
+
+button.next{
+    background-color: var(--pacific-cyan);
+    color: var(--floral-white);
+    transition: 0.5s ease-out;
+}
+
+button.next:hover{
+    background-color: white;
+    border: 1px solid var(--pacific-cyan);
+    color: var(--pacific-cyan);
+}
+
+button.previous{
+    background-color: var(--old-rose);
+    color: var(--floral-white);
+    transition: 0.5s ease-out;
+}
+
+button.previous:hover{
+    background-color: white;
+    color: var(--old-rose);
+    border: 1px solid var(--old-rose);
+}
+
+button.submit{
+    background-color: var(--mint);
+    color: var(--floral-white);
+    transition: 0.5s ease-out;
+}
+
+button.submit:hover{
+    background-color: white;
+    color: var(--mint);
+    border: 1px solid var(--mint);
 }
 
 .signup-input {
@@ -72,9 +117,18 @@
     width: 8em;
     font-size: 18px;
     border: 0;
-    background-color: green;
+    background-color: white;
     border-radius: 5px;
-    color: white;
+    color: var(--mint);
+    border: 2px solid var(--mint);
+    font-weight: 600;
+    transition: 0.5s ease-out;
+}
+
+.signup-input button:hover{
+    background-color: var(--mint);
+    color: var(--floral-white);
+
 }
 
 /* tablet */
@@ -92,6 +146,11 @@
 
 /* Mobile L */
 @media screen and (max-width: 426px){
+
+    .signupForm {
+        padding: 0 2rem;
+    }
+
     .signupForm fieldset{
         margin: 0;
         width: 100%;

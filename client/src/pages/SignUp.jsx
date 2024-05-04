@@ -156,6 +156,8 @@ const SignUp = () => {
             }
 
             setCurrentBooks([...currentBooks, saveBook]);
+
+            setCurrentBookInput("");
         }catch(err){
             return { error: err };
         }
@@ -182,6 +184,8 @@ const SignUp = () => {
             }
 
             setUserFinishedBooks([...userFinishedBooks, saveBook]);
+
+            setFinishedBookInput("");
         }catch(err){
             return { error: err };
         }
@@ -214,7 +218,7 @@ const SignUp = () => {
                         />
                     </div>
                     <div className="Btn">
-                        <button className="action-btn" onClick={nextField} type="button">Next</button>
+                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
                     </div>
                 </fieldset>
                 
@@ -231,8 +235,8 @@ const SignUp = () => {
                         ))}
                     </div>   
                     <div className="Btn">
-                        <button className="action-btn" onClick={previousField} type="button">Previous</button>
-                        <button className="action-btn" onClick={nextField} type="button">Next</button>
+                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
+                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
                     </div>
                 </fieldset>
 
@@ -254,8 +258,8 @@ const SignUp = () => {
                     </ul>
                     
                     <div className="Btn">
-                        <button className="action-btn" onClick={previousField} type="button">Previous</button>
-                        <button className="action-btn" onClick={nextField} type="button">Next</button>
+                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
+                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
                     </div>
                 </fieldset>
 
@@ -278,8 +282,8 @@ const SignUp = () => {
                     </ul>
 
                     <div className="Btn">
-                        <button className="action-btn" onClick={previousField} type="button">Previous</button>
-                        <button className="action-btn" onClick={nextField} type="button">Next</button>
+                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
+                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
                     </div>
                 </fieldset>
 
@@ -301,7 +305,7 @@ const SignUp = () => {
                         ))}
                     </ul>
                     <div className="Btn">
-                        <button className="action-btn" onClick={previousField} type="button">Previous</button>
+                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
                         <button className="action-btn submit" type="submit" onClick={handleFormSubmit}>Submit</button>
                     </div>
                 </fieldset>
