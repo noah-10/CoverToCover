@@ -1,3 +1,13 @@
+:root {
+    --eggshell: #F0EBD8;
+    --midnight-green: #0B3948;
+    --old-rose: #C8786A;
+    --mint: #44C5A7;
+    --pacific-cyan: #31AFD4;
+    --gunmetal: #252B2C;
+    --floral-white: #F9F7F0;
+}
+
 .modal-background {
     width: 100vw;
     height: 100vh;
@@ -11,8 +21,8 @@
 }
 
 .modal-container{
-    width: 30rem;
-    height: 30rem;
+    width: 35rem;
+    height: 35rem;
     border-radius: 12px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -21,10 +31,13 @@
     padding: 25px;
 }
 
-.mondal-container .title{
+.title h1{
     display: inline-block;
     text-align: center;
-    margin-top: 10px;
+}
+
+.author h2{
+    font-weight: 400;
 }
 
 .close-btn{
@@ -46,6 +59,15 @@
     align-items: center;
     font-size: 1.7em;
     text-align: center;
+    /* margin: 15px 0; */
+    overflow: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    /* margin: auto 0; */
+}
+
+.modal-container .body::-webkit-scrollbar{
+    display: none;
 }
 
 .modal-container .footer{
@@ -55,14 +77,74 @@
     align-items: center;
 }
 
-.modal-container .footer button {
+button.btn-action{
+    background-color: var(--mint);
+    transition: 0.5s ease-out;
+}
+
+button.btn-action:hover{
+    background-color: white;
+    border: 1px solid var(--mint);
+    color: var(--mint);
+}
+
+.modal-btn, .btn-action {
     width: 150px;
     height: 45px;
     margin: 10px;
     border: none;
-    background-color: red;
+    background-color: var(--old-rose);
     color: white;
     border-radius: 8px;
     font-size: 20px;
     cursor: pointer;
+    transition: 0.5s ease-out;
+}
+
+.modal-btn:hover{
+    background-color: white;
+    border: 1px solid var(--old-rose);
+    color: var(--old-rose);
+}
+
+/* Mobile L */
+@media screen and (max-width: 426px){
+    .modal-container{
+        width: 20rem;
+        height: 30rem;
+    }
+
+    .modal-container .body{
+        margin: 10px 0;
+        font-size: 20px;
+    }
+
+    .modal-container .body p {
+        margin: auto 0;
+    }
+}
+
+/* Mobile S */
+@media screen and (max-width: 321px){
+    .modal-container{
+        width: 15rem;
+        height: 25rem;
+    }
+
+    .title h1{
+        font-size: 23px;
+    }
+
+    .author h2{
+        font-size: 18px;
+    }
+
+    .modal-container .body{
+        font-size: 15px;
+    }
+
+    .modal-btn, .btn-action{
+        width: 120px;
+        height: 35px;
+    }
 }

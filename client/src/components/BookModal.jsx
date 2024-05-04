@@ -11,17 +11,17 @@ const BookModal = ({ closeModal, book, page, bookState }) => {
                     <h1>{book.title}</h1>
                 </div>
                 <div className="author">
-                    <h1>{book.authors.join(", ")}</h1>
+                    <h2>{book.authors.join(", ")}</h2>
                 </div>
                 <div className="body">
                     <p>{book.firstSentence ? book.firstSentence : "No preview available"}</p>
                 </div>
                 <div className="footer">
-                    <button onClick={() => closeModal()}>Close</button>
+                    <button className='modal-btn' onClick={() => closeModal()}>Close</button>
                     {page === 'Currently Reading' ? (
-                        <button onClick={() => bookState(book)}>Finished Book</button> 
+                        <button className='btn-action' onClick={() => bookState(book)}>Finished</button> 
                     ) : page === "Saved Book" ? (
-                        <button onClick={() => bookState(book)}>Started Reading</button>
+                        <button className='btn-action' onClick={() => bookState(book)}>Started</button>
                     ) : (null)}
                 </div>
             </div>
