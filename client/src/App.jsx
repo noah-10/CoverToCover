@@ -34,9 +34,7 @@ function App() {
       <header>
         <Navbar />
       </header>
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
     </ApolloProvider>
   )
 }
