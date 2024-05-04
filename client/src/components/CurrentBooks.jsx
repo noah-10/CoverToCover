@@ -70,9 +70,17 @@ const CurrentBooks = () => {
 
     return (
         <>
-            <h2>Currently Reading:</h2>
-            <p>Finished any books recently?</p>
-            <p>Add them to your finished books</p>
+            <h2 className="mb-3">Currently Reading:</h2>
+            {userBooks.length > 0 ? (
+                <>
+                    <p>Finished any books recently?</p>
+                    <p>Add them to your finished books!</p>
+                </>
+            ) : (
+                <>
+                    <p>Start Reading!</p>
+                </>
+            )}
             <div className="books-collection">
                 {userBooks.map((book) => {
                     return (

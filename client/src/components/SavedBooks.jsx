@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "@apollo/client"
 import { SAVED_BOOKS } from "../../utils/queries"
 import { ADD_CURRENTLY_READING, REMOVE_SAVED_BOOK } from "../../utils/mutations";
-
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import BookModal from "./BookModal";
@@ -81,18 +81,26 @@ const SavedBooks = () => {
         <>
             <h2>Saved Books:</h2>
             <div className="books-collection">
-                {userSavedBooks.map((book) => {
-                    return (
-                        <div className="book-items" key={book.bookId}>
-                            <Book 
-                            cover={book.cover}
-                            title={book.title}
-                            author={book.authors}
-                            onClick={() => handleOpenModal(book)}
-                            />
-                        </div>
-                    );
-                })}
+                {userSavedBooks.length > 0 ? (
+                    userSavedBooks.map((book) => (
+                            <div className="book-items" key={book.bookId}>
+                                <Book 
+                                cover={book.cover}
+                                title={book.title}
+                                author={book.authors}
+                                onClick={() => handleOpenModal(book)}
+                                />
+                            </div>
+                        
+                    ))
+                ) : (
+                    <div className="no-books">
+                        <p>You don't have any books saved!</p>
+                        <p>Go to the <Link to='/feed'>feed</Link>  to find a new book!</p>
+                    </div>
+                    
+                )}
+                
             </div>
             {showModal && <BookModal 
                 closeModal={handleCloseModal}

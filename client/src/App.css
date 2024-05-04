@@ -2,13 +2,16 @@
   --eggshell: #F0EBD8;
   --midnight-green: #0B3948;
   --old-rose: #C8786A;
+  --mint: #44C5A7;
+  --pacific-cyan: #31AFD4;
+  --gunmetal: #252B2C;
 }
 
 #root {
   margin: 0 auto;
   text-align: center;
   /* custom font color */
-  color: var(--midnight-green);
+  color: var(--gunmetal);
 }
 
 body {
