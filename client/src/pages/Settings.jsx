@@ -87,7 +87,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="settings-container">
+    <div className="container settings-container">
       <h1>Settings</h1>
       {successMessage && <p className="success-message">{successMessage}</p>}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
