@@ -1,7 +1,7 @@
 const { User } = require('../models');
 
 // sign token for auth
-const { signToken } = require('../utils/auth');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -62,7 +62,6 @@ const resolvers = {
     },
 
     Mutation: {
-
         // Logging a user in
         login: async (parent, { email, password }) => {
             const user = await User.findOne(
@@ -121,77 +120,68 @@ const resolvers = {
 
         // Saving a book to a user
         saveBook: async(parent, { input }, context) => {
-            try{
-                if(context.user){
-                    // get user data to check if the book to save is a duplicate
-                    const userData = await User.findOne({ _id: context.user._id }).populate("savedBooks");
+            if(context.user){
+                // get user data to check if the book to save is a duplicate
+                const userData = await User.findOne({ _id: context.user._id }).populate("savedBooks");
 
-                    if (!userData) {
-                        return { message: "Error fetching user data" };
-                    }
-
-                    // if the book is already in the saved books, return
-                    if (userData.savedBooks.reduce((acc, cur) => (acc || cur.bookId === input.bookId), false)) {
-                        return { message: "Book already saved" };
-                    }
-
-                    // otherwise save the book
-                    const saveBook = await User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $addToSet: { savedBooks: input }},
-                        { new: true },
-                    );
-
-                    if(!saveBook){
-                        return { message: "Error adding book" };
-                    };  
-
-                    return saveBook;
+                if (!userData) {
+                    return { message: "Error fetching user data" };
                 }
-            }catch(err){
-                return { error: err}
+
+                // if the book is already in the saved books, return
+                if (userData.savedBooks.reduce((acc, cur) => (acc || cur.bookId === input.bookId), false)) {
+                    return { message: "Book already saved" };
+                }
+
+                // otherwise save the book
+                const saveBook = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: input }},
+                    { new: true },
+                );
+
+                if(!saveBook){
+                    return { message: "Error adding book" };
+                };  
+
+                return saveBook;
             }
+            throw AuthenticationError;
         },
 
         addToFinished: async (parent, { input }, context) => {
-            try{
-                if(context.user){
-                    const finishedBook = await User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $addToSet: { finishedBooks: input }},
-                        {new: true }
-                    );
+            if(context.user){
+                const finishedBook = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { finishedBooks: input }},
+                    {new: true }
+                );
 
-                    if(!finishedBook){
-                        return { message: "Error adding book" };
-                    };
+                if(!finishedBook){
+                    return { message: "Error adding book" };
+                };
 
-                    return finishedBook;
-                }
-            }catch(err){
-                return { error: err };
+                return finishedBook;
             }
+            throw AuthenticationError;
         },
 
         // Add to users currently reading
         addToCurrentlyReading: async (parent, { input }, context) => {
-            try{
-                if(context.user){
-                    const currentlyReading = await User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $addToSet: { currentlyReading: input }},
-                        { new: true }
-                    );
+            if(context.user){
+                const currentlyReading = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { currentlyReading: input }},
+                    { new: true }
+                );
 
-                    if(!currentlyReading){
-                        return { message: "Error adding book" };
-                    };
+                if(!currentlyReading){
+                    return { message: "Error adding book" };
+                };
 
-                    return currentlyReading;
-                }
-            }catch(err){
-                return { error: err };
+                return currentlyReading;
             }
+            throw AuthenticationError;
         },
 
         // removing a book from a users saved Books
@@ -201,6 +191,28 @@ const resolvers = {
                     const removeBook = await User.findOneAndUpdate(
                         { _id: context.user._id },
                         { $pull: { savedBooks: { bookId: bookId } }},
+                        { new: true }
+                    );
+
+                    if(!removeBook){
+                        return { message: "Error removing book"};
+                    };
+
+                    return removeBook;
+                }
+                throw AuthenticationError;
+            }catch(err){
+                return { error: err }
+            }
+        },
+
+        // removing a book from a users currently reading Books
+        removeCurrentlyReadingBook: async (parent, { bookId }, context) => {
+            try{
+                if(context.user){
+                    const removeBook = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { currentlyReading: { bookId: bookId } }},
                         { new: true }
                     );
 
@@ -238,106 +250,104 @@ const resolvers = {
 
         //Add to users author preference
         addPreferenceAuthor: async (parent, { authors }, context) => {
-            try {
-                if(context.user){
-                    const addAuthor = await User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $push: { preferencedAuthor: { $each: authors }}},
-                        { new: true }
-                    );
+            if(context.user){
+                const addAuthor = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { preferencedAuthor: { $each: authors }}},
+                    { new: true }
+                );
 
-                    if(!addAuthor){
-                        return { message: "Error adding author"}
-                    };
-
-                    return addAuthor;
+                if(!addAuthor){
+                    return { message: "Error adding author"}
                 };
-            }catch(err){
-                return { error: err };
-            }
-        },
 
-        updateUsername: async (parent, { username }, context) => {
-            try {
-                if (context.user) {
-                    const updatedUser = await User.findByIdAndUpdate(
-                        context.user._id,
-                        { username },
-                        { new: true }
-                    );
-                    return updatedUser;
-                }
-            } catch (err) {
-                return { error: err };
-            }
+                return addAuthor;
+            };
+            throw AuthenticationError;
         },
 
         //Add to users genre preference
         addPreferenceGenre: async (parent, { genre }, context) => {
-            try {
-                if(context.user){
-                    const addGenre = await User.findOneAndUpdate(
-                        { _id: context.user._id },
-                        { $push: { preferencedGenre: { $each: genre }}},
-                        { new: true }
-                    );
+            if(context.user){
+                const addGenre = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { preferencedGenre: { $each: genre }}},
+                    { new: true }
+                );
 
-                    if(!addGenre){
-                        return { message: "Error adding genre"}
-                    };
-
-                    return addGenre;
+                if(!addGenre){
+                    return { message: "Error adding genre"}
                 };
-            }catch(err){
-                return { error: err };
+
+                return addGenre;
+            };
+            throw AuthenticationError;
+        },
+
+        updateUsername: async (parent, { username }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    context.user._id,
+                    { username },
+                    { new: true }
+                );
+                return updatedUser;
             }
+            throw AuthenticationError;
         },
 
         updateEmail: async (parent, { email }, context) => {
-            try {
-                if (context.user) {
-                    const updatedUser = await User.findByIdAndUpdate(
-                        context.user._id,
-                        { email },
-                        { new: true }
-                    );
-                    return updatedUser;
-                }
-            } catch (err) {
-                return { error: err };
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    context.user._id,
+                    { email },
+                    { new: true }
+                );
+                return updatedUser;
             }
+            throw AuthenticationError;
         },
 
         updatePassword: async (parent, { password }, context) => {
-            try {
-                if (context.user) {
-                    const updatedUser = await User.findByIdAndUpdate(
-                        context.user._id,
-                        { password },
-                        { new: true }
-                    );
-                    return updatedUser;
+            if (context.user) {
+                const user = await User.findById(context.user._id);
+    
+                if (!user) {
+                    throw new Error('User not found');
                 }
-            } catch (err) {
-                return { error: err };
+    
+                user.password = password;
+                const updatedUser = await user.save();
+    
+                return updatedUser;
             }
+            throw AuthenticationError;
         },
 
-        updatePreferences: async (parent, { preferences }, context) => {
-            try {
-                if (context.user) {
-                    const updatedUser = await User.findByIdAndUpdate(
-                        context.user._id,
-                        { preferences },
-                        { new: true }
-                    );
-                    return updatedUser;
-                }
-            } catch (err) {
-                return { error: err };
+        removePreferenceAuthor: async (parent, { authorId }, context) => {
+            if (context.user) {
+            const updatedUser = await User.findByIdAndUpdate(
+                context.user._id,
+                { $pull: { preferencedAuthor: authorId } },
+                { new: true }
+            );
+            return updatedUser;
             }
+            throw AuthenticationError;
         },
-    }
+
+        removePreferenceGenre: async (parent, { genreId }, context) => {
+            if (context.user) {
+            const updatedUser = await User.findByIdAndUpdate(
+                context.user._id,
+                { $pull: { preferencedGenre: genreId } },
+                { new: true }
+            );
+            return updatedUser;
+            }
+            throw AuthenticationError;
+        },    
+    },
 }
 
 module.exports = resolvers;
