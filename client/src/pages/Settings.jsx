@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_USERNAME, UPDATE_EMAIL, UPDATE_PASSWORD, ADD_PREFERENCE_AUTHOR, ADD_PREFERENCE_GENRE } from '../../utils/mutations';
 import FormFields from '../components/FormFields';
+import '../css/settings.css';
 
 const Settings = () => {
   const [updateUsername] = useMutation(UPDATE_USERNAME);

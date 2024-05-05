@@ -1,0 +1,97 @@
+:root {
+    --eggshell: #F0EBD8;
+    --midnight-green: #0B3948;
+    --old-rose: #C8786A;
+    --mint: #44C5A7;
+    --pacific-cyan: #31AFD4;
+    --gunmetal: #252B2C;
+    --floral-white: #F9F7F0;
+}
+
+.settings-container {
+    text-align: center;
+    background-color: var(--eggshell);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: 80%;
+    background-color: var(--eggshell);
+}
+
+.settings-container h1 {
+    color: var(--midnight-green);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--floral-white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input, button {
+    padding: 12px 20px;
+    border-radius: 5px;
+    border: 2px solid var(--mint);
+    font-size: 16px;
+}
+
+input {
+    background-color: var(--floral-white);
+    color: var(--gunmetal);
+}
+
+button {
+    background-color: var(--pacific-cyan);
+    color: var(--floral-white);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--mint);
+    border-color: var(--mint);
+}
+
+.success-message, .error-message {
+    color: var(--floral-white);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.success-message {
+    background-color: var(--mint);
+}
+
+.error-message {
+    background-color: var(--old-rose);
+}
+
+@media screen and (max-width: 769px) {
+    .settings-container {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 426px) {
+    .settings-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    input, button {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    input, button {
+        font-size: 13px;
+        padding: 10px 15px;
+    }
+}
