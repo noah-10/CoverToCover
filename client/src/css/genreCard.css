@@ -1,0 +1,70 @@
+.genre-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    row-gap: 1em;
+    column-gap: 1em;
+    flex-wrap: wrap;
+    font-size: 25px;
+    margin: 1em 0;
+}
+
+.cards{
+    background-color: var(--gunmetal);
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.2s ease-out;
+}
+
+.cards:hover{
+    scale: 1.1;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.cards p {
+    margin: 0;
+    background-color: transparent;
+    border: 0;
+    color: white;
+}
+
+.selected {
+    background-color: var(--mint);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.genre-btn {
+    padding: 0;
+    margin: auto 0;
+}
+
+/* Laptop */
+@media screen and (max-width: 1025px){
+    .genre-card{
+        font-size: 22px;
+
+    }
+}
+
+/* tablet */
+@media screen and (max-width: 769px){
+    .genre-card{
+        font-size: 25px;
+    }
+
+}
+
+/* Mobile L */
+@media screen and (max-width: 426px){
+    .genre-card{
+        font-size: 20px;
+    }
+}
+
+/* Mobile S */
+@media screen and (max-width: 321px){
+    .genre-card{
+        font-size: 17px;
+    }
+}

@@ -13,8 +13,8 @@ export const LOGIN_USER = gql`
 `
 
 export const ADD_USER = gql`
-    mutation AddUser($username: String!, $email: String!, $password: String!) {
-        addUser(username: $username, email: $email, password: $password) {
+    mutation Mutation($username: String!, $email: String!, $password: String!, $preferencedAuthor: [String], $preferencedGenre: [String], $currentlyReading: [BookInput], $finishedBooks: [BookInput]) {
+        addUser(username: $username, email: $email, password: $password, preferencedAuthor: $preferencedAuthor, preferencedGenre: $preferencedGenre, currentlyReading: $currentlyReading, finishedBooks: $finishedBooks) {
             token
             user {
                 _id
@@ -39,10 +39,25 @@ export const SAVE_BOOK = gql`
     }
 `
 // Removes a saved book
-export const REMOVE_BOOK = gql`
-    mutation RemoveBook($bookId: String!) {
-        removeBook(bookId: $bookId) {
+export const REMOVE_SAVED_BOOK = gql`
+    mutation RemoveSavedBook($bookId: String!) {
+        removeSavedBook(bookId: $bookId) {
             savedBooks {
+                authors
+                bookId
+                firstSentence
+                cover
+                link
+                title
+            }
+        }
+    }
+`
+// Removes a saved book
+export const REMOVE_CURRENTLY_READING_BOOK = gql`
+    mutation RemoveCurrentlyReadingBook($bookId: String!) {
+        removeCurrentlyReadingBook(bookId: $bookId) {
+            currentlyReading {
                 authors
                 bookId
                 firstSentence

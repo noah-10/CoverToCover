@@ -1,6 +1,7 @@
-import { useQuery } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import { SAVED_BOOKS } from "../../utils/queries"
-
+import { ADD_CURRENTLY_READING, REMOVE_SAVED_BOOK } from "../../utils/mutations";
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import BookModal from "./BookModal";
@@ -8,6 +9,9 @@ import BookModal from "./BookModal";
 import '../css/savedBooks.css'
 
 const SavedBooks = () => {
+
+    const [addToCurrentlyReading] = useMutation(ADD_CURRENTLY_READING);
+    const [removeBook] = useMutation(REMOVE_SAVED_BOOK);
 
     // Query for saved books
     const { loading, data, refetch } = useQuery(SAVED_BOOKS);
@@ -49,28 +53,62 @@ const SavedBooks = () => {
         setShowModal(false);
     }
 
+    const startedReading = async (book) => {
+        const { __typename, ...input } = book;
+        const bookId = input.bookId;
+        try{
+            // Adds book to finished books subdocument
+            const { data } = await addToCurrentlyReading({
+                variables: { input }
+            });
+
+            // Removes book from currently Reading subdocument
+            await removeBook({
+                variables: { bookId }
+            });
+
+            refetch();
+
+            handleCloseModal();
+
+            return data;
+        }catch(err){
+            return { error: err }
+        }
+    }
+
     return (
-        <div className="saved-books-container">
+        <>
             <h2>Saved Books:</h2>
-            <div className="saved-books-collection">
-                {userSavedBooks.map((book) => {
-                    return (
-                        <div className="saved-books" key={book.bookId}>
-                            <Book 
-                            cover={book.cover}
-                            title={book.title}
-                            author={book.authors}
-                            onClick={() => handleOpenModal(book)}
-                            />
-                        </div>
-                    );
-                })}
+            <div className="books-collection">
+                {userSavedBooks.length > 0 ? (
+                    userSavedBooks.map((book) => (
+                            <div className="book-items" key={book.bookId}>
+                                <Book 
+                                cover={book.cover}
+                                title={book.title}
+                                author={book.authors}
+                                onClick={() => handleOpenModal(book)}
+                                />
+                            </div>
+                        
+                    ))
+                ) : (
+                    <div className="no-books">
+                        <p>You don't have any books saved!</p>
+                        <p>Go to the <Link to='/feed'>feed</Link>  to find a new book!</p>
+                    </div>
+                    
+                )}
+                
             </div>
             {showModal && <BookModal 
                 closeModal={handleCloseModal}
                 book={clickedBook}
+                page= "Saved Book"
+                bookState = {startedReading}
             />}
-        </div>
+        </>
     )
 
 }

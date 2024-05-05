@@ -7,6 +7,8 @@ db.once('open', async () => {
   await cleanDB("User", "users");
 
   // create seed users
+
+db.once('open', async () => {
   await User.create({
     username: 'user1',
     email: 'user1@example.com',
@@ -38,6 +40,15 @@ db.once('open', async () => {
   );
 
   // populate seed users' currently reading
+  });
+
+  const book = { title: "Harry Potter", bookId: "1" };
+  await User.findOneAndUpdate(
+    { username: "user1" },
+    { $addToSet: { savedBooks: book } },
+    { new: true }
+  );
+
   const currentlyReadingBook = { title: "The Silent Patient", bookId: "2" };
   await User.findOneAndUpdate(
     { username: "user1" },
@@ -81,4 +92,5 @@ db.once('open', async () => {
 
   // exit
   process.exit(0);
+  process.exit();
 });

@@ -1,11 +1,15 @@
-import { useQuery } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import { CURRENTLY_READING } from "../../utils/queries"
+import { REMOVE_CURRENTLY_READING_BOOK, ADD_FINISHED_BOOK } from '../../utils/mutations';
 
 import { useEffect, useState } from "react";
 import Book from "./Book";
 import BookModal from "./BookModal";
 
 const CurrentBooks = () => {
+
+    const [removeBook] = useMutation(REMOVE_CURRENTLY_READING_BOOK);
+    const [addToFinished] = useMutation(ADD_FINISHED_BOOK);
 
     // Query for currently reading books
     const { loading, data, refetch } = useQuery(CURRENTLY_READING);
@@ -14,25 +18,20 @@ const CurrentBooks = () => {
     const [showModal, setShowModal] = useState(false);
 
     // State for book that's clicked
-    const [clickedBook, setClickedBook] = useState(null)
+    const [clickedBook, setClickedBook] = useState(null);
+
+    const [userBooks, setUserBooks] = useState([])
 
     useEffect(() => {
         refetch()
     }, []);
+    
+    useEffect(() => {
+        if (!loading && data && data.currentlyReading.currentlyReading) {
+            setUserBooks(data.currentlyReading.currentlyReading);
+        }
+    }, [loading, data]);
 
-    const user = data || [];
-
-    if(loading){
-        return <div>Loading...</div>
-    };
-
-    if(!user?.currentlyReading.currentlyReading){
-        return (
-            <h1>You need to be logged in to see this</h1>
-        )
-    };
-
-    const userCurrentlyReading = user.currentlyReading.currentlyReading;
 
     const handleOpenModal = (book) => {
         setClickedBook(book);
@@ -44,13 +43,48 @@ const CurrentBooks = () => {
         setShowModal(false);
     }
 
+    const finishedBook = async (book) => {
+        const { __typename, ...input } = book;
+        const bookId = input.bookId;
+        try{
+            // Adds book to finished books subdocument
+            const { data } = await addToFinished({
+                variables: { input }
+            });
+
+            // Removes book from currently Reading subdocument
+            await removeBook({
+                variables: { bookId }
+            });
+
+            refetch();
+
+            handleCloseModal();
+
+            return data;
+        }catch(err){
+            return { error: err }
+        }
+         
+    }
+
     return (
-        <div className="current-books-container">
-            <h2>Current Books:</h2>
-            <div className="current-books-collection">
-                {userCurrentlyReading.map((book) => {
+        <>
+            <h2 className="mb-3">Currently Reading:</h2>
+            {userBooks.length > 0 ? (
+                <>
+                    <p>Finished any books recently?</p>
+                    <p>Add them to your finished books!</p>
+                </>
+            ) : (
+                <>
+                    <p>Start Reading!</p>
+                </>
+            )}
+            <div className="books-collection">
+                {userBooks.map((book) => {
                     return (
-                        <div className="current-books" key={book.bookId}>
+                        <div className="book-items" key={book.bookId}>
                             <Book 
                             cover={book.cover}
                             title={book.title}
@@ -64,8 +98,10 @@ const CurrentBooks = () => {
             {showModal && <BookModal 
                 closeModal={handleCloseModal}
                 book={clickedBook}
+                page="Currently Reading"
+                bookState={finishedBook}
             />}
-        </div>
+        </>
     )
 
 }

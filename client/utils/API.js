@@ -1,3 +1,8 @@
+
+export const searchBookTitle = (title) => {
+    return fetch(`https://openlibrary.org/search.json?title=${title}`)
+}
+
 // query OpenLibrary for books, specifying query key and value
 export const searchOpenLibrary = (query, queryType = "q") => {
     // specifying fields to reduce the amount of data returned
