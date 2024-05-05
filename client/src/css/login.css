@@ -1,0 +1,68 @@
+:root {
+    --eggshell: #F0EBD8;
+    --midnight-green: #0B3948;
+    --old-rose: #C8786A;
+    --mint: #44C5A7;
+    --pacific-cyan: #31AFD4;
+    --gunmetal: #252B2C;
+    --floral-white: #F9F7F0;
+}
+
+.login-form{
+    text-align: center;
+    position: relative;
+    margin-top: 30px;
+    height: 20rem;
+}
+
+.login-form fieldset{
+    background: white;
+    display: flex;
+    flex-direction: column;
+    border: 0 none;
+    border-radius: 0px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    /* box-sizing: border-box; */
+    width: 80%;
+    margin: 0 10%;
+    height: 100%;
+    position: relative;
+}
+
+.login-form input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    font-size: 13px;
+}
+
+.personal-details{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+    gap: 1.5rem;
+}
+
+.Btn {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin: auto auto 20px auto;
+}
+
+.action-btn{
+    border: 0;
+    border-radius: 20px;
+    padding: 0.5em 1em;
+    font-size: 16px;
+    border: 1px solid var(--mint);
+    background-color: var(--mint);
+    color: var(--floral-white);
+    transition: 0.5s ease-out;
+}
+
+.action-btn:hover{
+    background-color: white;
+    color: var(--mint);
+}

@@ -84,20 +84,38 @@ const resolvers = {
         },
 
         // Adding user
-        addUser: async (parent, { username, email, password }) => {
-            const user = await User.create({
-                username,
-                email,
-                password
-            });
-
-            if(!user){
-                return { message: "Error creating account" };
-            };
-
-            const token = signToken(user);
-
-            return { token, user };
+        addUser: async (parent, { username, email, password, preferencedAuthor, preferencedGenre, currentlyReading, finishedBooks }) => {
+            try{
+                const user = await User.create({
+                    username,
+                    email,
+                    password,
+                    preferencedAuthor,
+                    preferencedGenre,
+                });
+    
+                if(!user){
+                    return { message: "Error creating account" };
+                };
+    
+                await User.findOneAndUpdate(
+                    { username: user.username },
+                    { $addToSet: { currentlyReading: { $each: currentlyReading} }},
+                    { new: true }
+                );
+                
+                await User.findOneAndUpdate(
+                    { username: user.username },
+                    { $addToSet: { finishedBooks: { $each: finishedBooks} }},
+                    { new: true }
+                );
+                
+                const token = signToken(user);
+    
+                return { token, user };
+            }catch(err){
+                return { error: err };
+            }
         },
 
         // Saving a book to a user
@@ -167,21 +185,67 @@ const resolvers = {
         },
 
         // removing a book from a users saved Books
-        removeBook: async (parent, { bookId }, context) => {
-            if(context.user){
-                const removeBook = await User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { savedBooks: { bookId: bookId } }},
-                    { new: true }
-                );
+        removeSavedBook: async (parent, { bookId }, context) => {
+            try{
+                if(context.user){
+                    const removeBook = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { savedBooks: { bookId: bookId } }},
+                        { new: true }
+                    );
 
-                if(!removeBook){
-                    return { message: "Error removing book"};
-                };
+                    if(!removeBook){
+                        return { message: "Error removing book"};
+                    };
 
-                return removeBook;
+                    return removeBook;
+                }
+                throw AuthenticationError;
+            }catch(err){
+                return { error: err }
             }
-            throw AuthenticationError;
+        },
+
+        // removing a book from a users currently reading Books
+        removeCurrentlyReadingBook: async (parent, { bookId }, context) => {
+            try{
+                if(context.user){
+                    const removeBook = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { currentlyReading: { bookId: bookId } }},
+                        { new: true }
+                    );
+
+                    if(!removeBook){
+                        return { message: "Error removing book"};
+                    };
+
+                    return removeBook;
+                }
+            }catch(err){
+                return { error: err };
+            }
+        },
+
+        // removing a book from a users currently reading Books
+        removeCurrentlyReadingBook: async (parent, { bookId }, context) => {
+            try{
+                if(context.user){
+                    const removeBook = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { currentlyReading: { bookId: bookId } }},
+                        { new: true }
+                    );
+
+                    if(!removeBook){
+                        return { message: "Error removing book"};
+                    };
+
+                    return removeBook;
+                }
+            }catch(err){
+                return { error: err };
+            }
         },
 
         //Add to users author preference

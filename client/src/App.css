@@ -1,42 +1,52 @@
+:root {
+  --eggshell: #F0EBD8;
+  --midnight-green: #0B3948;
+  --old-rose: #C8786A;
+  --mint: #44C5A7;
+  --pacific-cyan: #31AFD4;
+  --gunmetal: #252B2C;
+}
+
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  /* custom font color */
+  color: var(--gunmetal);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  /* custom background color */
+  background-color: var(--eggshell);
+  min-height: 100vh;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header {
+  height: 8vh;
+  position: sticky;
+  top: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.home-banner {
+  background-image: url("./assets/bookshelf.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  height: 80vh;
+  position: sticky;
+  top: 8vh;
+  z-index: -1;
+}
+
+.home-container {
+  position: relative;
+  background-color: var(--eggshell);
+  z-index: 12;
+}
+
+main {
+  height: 200vh;
 }
 
 .card {
   padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
