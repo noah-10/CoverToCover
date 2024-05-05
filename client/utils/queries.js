@@ -87,4 +87,13 @@ export const MY_PREFERENCES = gql`
             preferencedGenre
         }
     }
-`
+`;
+
+export const GET_PREFERENCES = gql`
+    query GetPreferences {i
+        myPreferences {
+            preferencedAuthor
+            preferencedGenre
+        }
+    }
+`;
