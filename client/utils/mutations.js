@@ -99,3 +99,45 @@ export const ADD_PREFERENCE_GENRE = gql`
         }
   }
 `
+export const UPDATE_USERNAME = gql`
+    mutation UpdateUsername($username: String!) {
+        updateUsername(username: $username) {
+            _id
+            username
+        }
+    }
+`;
+
+export const UPDATE_EMAIL = gql`
+    mutation UpdateEmail($email: String!) {
+        updateEmail(email: $email) {
+            _id
+            email
+        }
+    }
+`;
+
+export const UPDATE_PASSWORD = gql`
+    mutation UpdatePassword($password: String!) {
+        updatePassword(password: $password) {
+            _id
+            username
+        }
+    }
+`;
+
+export const REMOVE_PREFERENCE_AUTHOR = gql`
+  mutation RemovePreferenceAuthor($authorId: ID!) {
+    removePreferenceAuthor(authorId: $authorId) {
+      preferencedAuthor
+    }
+  }
+`;
+
+export const REMOVE_PREFERENCE_GENRE = gql`
+  mutation RemovePreferenceGenre($genreId: ID!) {
+    removePreferenceGenre(genreId: $genreId) {
+      preferencedGenre
+    }
+  }
+`;

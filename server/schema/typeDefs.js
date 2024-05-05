@@ -52,7 +52,13 @@ const typeDefs = `
         addToCurrentlyReading(input: BookInput): User
         addPreferenceAuthor(authors: [String!]): User
         addPreferenceGenre(genre: [String!]): User
+        updateUsername(username: String!): User
+        updateEmail(email: String!): User
+        updatePassword(password: String!): User
+        removePreferenceAuthor(authorId: ID!): User
+        removePreferenceGenre(genreId: ID!): User
     }
-`
+`;
+
 
 module.exports = typeDefs;
