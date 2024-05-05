@@ -22,9 +22,9 @@ const Home = () => {
             <div className="home-banner"></div>
             <div className="home-container">
                 <div className="main-content">
-                    <h2>Welcome to Book Tinder</h2>
+                    <h2>Welcome to Judge a Book</h2>
                     <p>Find your next favorite book!</p>
-                    <h3>How to Use Book Tinder</h3>
+                    <h3>How to Use Judge a Book</h3>
                     <ul className="no-bullets">
                         <li>Explore books by swiping left or right.</li>
                         <li>Save books to your library for later.</li>

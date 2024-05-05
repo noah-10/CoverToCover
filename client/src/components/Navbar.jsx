@@ -7,7 +7,7 @@ const AppNavbar = () => {
         <Navbar>
             <Container fluid>
                 <Navbar.Brand as={Link} to='/'>
-                    "Book Tinder"
+                    Judge a Book
                 </Navbar.Brand>
                 <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
                     <Nav>
