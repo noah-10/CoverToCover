@@ -2,6 +2,7 @@
   --eggshell: #F0EBD8;
   --midnight-green: #0B3948;
   --old-rose: #C8786A;
+  font-size: 150%;
 }
 
 #root {
@@ -11,6 +12,10 @@
   color: var(--midnight-green);
 }
 
+a {
+  color: var(--old-rose);
+}
+
 body {
   /* custom background color */
   background-color: var(--eggshell);
@@ -18,9 +23,11 @@ body {
 }
 
 header {
-  height: 8vh;
+  background-color: var(--eggshell);
+  /* height: 8vh; */
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 .home-banner {
@@ -34,10 +41,27 @@ header {
   z-index: -1;
 }
 
+.home-overlay {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 40vh;
+  width: 100%;
+  z-index: 0;
+}
+
+.home-overlay > div {
+  background-color: var(--eggshell);
+}
+
+.home-overlay > div > h2 {
+  font-size: 300%;
+}
+
 .home-container {
   position: relative;
   background-color: var(--eggshell);
-  z-index: 12;
+  z-index: 0;
 }
 
 main {

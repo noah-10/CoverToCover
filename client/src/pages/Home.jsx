@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [bookCoverUrl, setBookCoverUrl] = useState('');
@@ -20,9 +21,14 @@ const Home = () => {
     return (
         <>
             <div className="home-banner"></div>
+            <div className="home-overlay">
+                <div>
+                    <h2>Welcome to Judge a Book!</h2>
+                    <p>Sign up <Link to='/signup'>here</Link> to judge a book by its cover</p>
+                </div>
+            </div>
             <div className="home-container">
                 <div className="main-content">
-                    <h2>Welcome to Judge a Book</h2>
                     <p>Find your next favorite book!</p>
                     <h3>How to Use Judge a Book</h3>
                     <ul className="no-bullets">
