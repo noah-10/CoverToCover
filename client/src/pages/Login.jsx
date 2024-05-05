@@ -35,7 +35,7 @@ const Login = () => {
     }
 
     return (
-        <div className="login-container">
+        <div className="container login-container">
             <h1>Login</h1>
             <form>
                 <FormFields

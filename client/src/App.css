@@ -2,6 +2,7 @@
   --eggshell: #F0EBD8;
   --midnight-green: #0B3948;
   --old-rose: #C8786A;
+  --header-height: 12vh;
   font-size: 150%;
 }
 
@@ -24,7 +25,7 @@ body {
 
 header {
   background-color: var(--eggshell);
-  /* height: 8vh; */
+  height: var(--header-height);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -37,7 +38,7 @@ header {
   background-position: center;
   height: 80vh;
   position: sticky;
-  top: 8vh;
+  top: var(--header-height);
   z-index: -1;
 }
 
@@ -66,6 +67,19 @@ header {
 
 main {
   height: 200vh;
+}
+
+.login-container .form-field,
+.login-container button,
+.login-container a,
+.signup-container .form-field,
+.signup-container button,
+.signup-container a {
+  margin: 0 0 0.8em 0;
+}
+
+.form-label {
+  margin: 0;
 }
 
 .card {

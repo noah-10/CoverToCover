@@ -40,33 +40,37 @@ const SignUp = () => {
     }
 
     return (
-        <div className="signup-container">
-            <h1>Sign Up</h1>
-            <form>
-                <FormFields
-                    label="Username"
-                    name="username"
-                    type="text"
-                    onChange={handleInputChange}
-                />
-                <FormFields
-                    label="Email"
-                    name="email"
-                    type="text"
-                    onChange={handleInputChange}
-                />
-                <FormFields
-                    label="Password"
-                    name="password"
-                    type="password"
-                    onChange={handleInputChange}
-                />
-            </form>
-            <button id="signup-btn" onClick={handleFormSubmit}>SIGN UP</button>
-            <div className="to-login">
-                <Link to='/login'>Login Instead</Link>
+        <div className="container signup-container">
+            <div className="row">
+                <div className="col">
+                    <h1>Sign Up</h1>
+                    <form>
+                        <FormFields
+                            label="Username"
+                            name="username"
+                            type="text"
+                            onChange={handleInputChange}
+                        />
+                        <FormFields
+                            label="Email"
+                            name="email"
+                            type="text"
+                            onChange={handleInputChange}
+                        />
+                        <FormFields
+                            label="Password"
+                            name="password"
+                            type="password"
+                            onChange={handleInputChange}
+                        />
+                    </form>
+                    <button id="signup-btn" onClick={handleFormSubmit}>SIGN UP</button>
+                    <div className="to-login">
+                        <Link to='/login'>Login Instead</Link>
+                    </div>
+                    {showModal && <SignUpModal />}
+                </div>
             </div>
-            {showModal && <SignUpModal />}
         </div>
     )
 }
