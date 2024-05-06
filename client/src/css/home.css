@@ -1,3 +1,7 @@
+.home-container{
+    margin-top: -3em;
+}
+
 .home-overlay {
     background-image: url("../assets/background.jpg");
     background-repeat: no-repeat;
