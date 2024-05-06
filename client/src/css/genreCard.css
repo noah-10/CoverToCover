@@ -6,7 +6,15 @@
     column-gap: 1em;
     flex-wrap: wrap;
     font-size: 25px;
-    margin: 1em 0;
+    margin: auto 0;
+    padding: 1em 0;
+    overflow: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+}
+
+.genre-card::-webkit-scrollbar{
+    display: none;
 }
 
 .cards{
@@ -52,7 +60,6 @@
     .genre-card{
         font-size: 25px;
     }
-
 }
 
 /* Mobile L */

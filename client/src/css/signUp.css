@@ -13,6 +13,8 @@
     position: relative;
     margin-top: 30px;
     height: 30rem;
+    background-color: transparent;
+    box-shadow: none;
 }
 
 .signupForm fieldset{
@@ -70,6 +72,7 @@ button.next{
     background-color: var(--pacific-cyan);
     color: var(--floral-white);
     transition: 0.5s ease-out;
+    border: 1px solid var(--pacific-cyan);
 }
 
 button.next:hover{
@@ -82,6 +85,7 @@ button.previous{
     background-color: var(--old-rose);
     color: var(--floral-white);
     transition: 0.5s ease-out;
+    border: 1px solid var(--old-rose);
 }
 
 button.previous:hover{
@@ -116,7 +120,7 @@ button.submit:hover{
 .signup-input button {
     width: 8em;
     font-size: 18px;
-    border: 0;
+    margin-bottom: 0;
     background-color: white;
     border-radius: 5px;
     color: var(--mint);
@@ -129,19 +133,6 @@ button.submit:hover{
     background-color: var(--mint);
     color: var(--floral-white);
 
-}
-
-/* tablet */
-@media screen and (max-width: 769px){
-    .genre-card{
-        overflow: scroll;
-        -ms-overflow-style: none; /* for Internet Explorer, Edge */
-        scrollbar-width: none; /* for Firefox */
-    }
-
-    .genre-card::-webkit-scrollbar{
-        display: none;
-    }
 }
 
 /* Mobile L */
