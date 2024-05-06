@@ -1,6 +1,6 @@
 .footer-container {
     width: 100%;
-    margin: 3em 0 0 0;
+    margin: 8em 0 0 0;
     bottom: 0;
     background-color: var(--gunmetal);
     padding: 20px 0 30px 0;
@@ -17,9 +17,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    /* margin-bottom: 24px; */
     padding: 24px;
-    /* color: white; */
 }
 
 .subscription-heading {
@@ -81,4 +79,33 @@
 
 .footer-links a:hover{
     color: var(--old-rose);
+}
+
+/* Mobile L */
+@media screen and (max-width: 426px){
+    .subscription-heading {
+        font-size: 20px;
+    }
+    
+    .subscription-text {
+        font-size: 16px;
+    }
+
+    .input-area form{
+        padding: 0;
+    }
+
+    .footer-input {
+        width: 75%;
+        margin: 0;
+    }
+
+    .input-area form button{
+        width: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 12px;
+    }
 }

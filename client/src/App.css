@@ -19,14 +19,6 @@ a {
   color: var(--old-rose);
 }
 
-a.navbar-brand {
-  font-size: 170%;
-}
-
-a.nav-link {
-  font-size: 140%;
-}
-
 body {
   /* custom background color */
   background-color: var(--eggshell);
@@ -39,6 +31,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1;
+  /* height: 90%; */
 }
 
 main {

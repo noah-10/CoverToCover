@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 import Auth from '../../utils/auth';
+import '../css/navbar.css';
 
 const AppNavbar = () => {
     return (
-        <Navbar>
-            <Container fluid>
+        <Navbar className='Navbar'>
+            <Container fluid className='p-0 navbar-container'>
                 <Navbar.Brand as={Link} to='/'>
                     Judge a Book
                 </Navbar.Brand>
