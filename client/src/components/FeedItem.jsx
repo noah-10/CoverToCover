@@ -59,10 +59,10 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
 
     return (
         <div className="row">
-            <div className="col-7 cover-col">
-                <img onClick={() => handleOpenModal()} style={{width: "25vw"}} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
+            <div className="col-6 cover-col">
+                <img className="feed-img" onClick={() => handleOpenModal()} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
             </div>
-            <div className="col info-col">
+            <div className="col-6 info-col">
                 <div>Title: {feedItem.title}</div>
                 <div>Authors: {feedItem.authors.join(", ")}</div>
                 <button id="dismiss-button" onClick={() => incrementFeed()}>Dismiss Book</button>

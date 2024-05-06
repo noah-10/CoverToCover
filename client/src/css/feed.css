@@ -1,3 +1,8 @@
+.feed-img {
+    width: 25vw;
+    margin: 0 0 1em 0;
+}
+
 .info-col div,
 .info-col button {
     font-size: 1.2em;
@@ -28,4 +33,19 @@
 #save-button:hover {
     background-color: white;
     color: var(--mint);
+}
+
+@media (max-width: 768px) {
+    .cover-col,
+    .info-col {
+        width: 80vw;
+    }
+
+    .feed-img {
+        width: 50vw;
+    }
+
+    .info-col {
+        align-items: center;
+    }
 }
