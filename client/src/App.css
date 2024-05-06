@@ -5,7 +5,7 @@
   --pacific-cyan: #31AFD4;
   --gunmetal: #252B2C;
   --floral-white: #F9F7F0;
-  --header-height: 12vh;
+  --header-height: 10vh;
 }
 
 #root {
@@ -17,6 +17,14 @@
 
 a {
   color: var(--old-rose);
+}
+
+a.navbar-brand {
+  font-size: 170%;
+}
+
+a.nav-link {
+  font-size: 140%;
 }
 
 body {
