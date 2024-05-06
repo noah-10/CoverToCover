@@ -42,7 +42,7 @@ Visit the homepage to see general information about the app:
 
 Visit the login and signup pages by clicking on the button on the homepage, or by visiting the sign in tab in the navbar. Use the signup page to sign up for an account, and the login page to log in to your account. When signing up for an account, you will be prompted to answer questions about your reading preferences:
 
-![Screenshot of the login page](screenshots/signup-screenshot.png)
+![Screenshot of the signup page](screenshots/signup-screenshot.png)
 
 Visit the settings page to change your username, email, or password, or to manage your preferences:
 
