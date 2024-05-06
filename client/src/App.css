@@ -1,10 +1,11 @@
 :root {
   --eggshell: #F0EBD8;
-  --midnight-green: #0B3948;
   --old-rose: #C8786A;
   --mint: #44C5A7;
   --pacific-cyan: #31AFD4;
   --gunmetal: #252B2C;
+  --floral-white: #F9F7F0;
+  --header-height: 10vh;
 }
 
 #root {
@@ -14,6 +15,18 @@
   color: var(--gunmetal);
 }
 
+a {
+  color: var(--old-rose);
+}
+
+a.navbar-brand {
+  font-size: 170%;
+}
+
+a.nav-link {
+  font-size: 140%;
+}
+
 body {
   /* custom background color */
   background-color: var(--eggshell);
@@ -21,30 +34,19 @@ body {
 }
 
 header {
-  height: 8vh;
+  background-color: var(--eggshell);
+  height: var(--header-height);
   position: sticky;
   top: 0;
-}
-
-.home-banner {
-  background-image: url("./assets/bookshelf.jpg");
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-position: center;
-  height: 80vh;
-  position: sticky;
-  top: 8vh;
-  z-index: -1;
-}
-
-.home-container {
-  position: relative;
-  background-color: var(--eggshell);
-  z-index: 12;
+  z-index: 1;
 }
 
 main {
   height: 200vh;
+}
+
+.form-label {
+  margin: 0;
 }
 
 .card {

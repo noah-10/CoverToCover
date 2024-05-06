@@ -2,7 +2,7 @@ const genresData = [
     "Fiction",
     "Science Fiction",
     "Mystery",
-    "Noval",
+    "Novel",
     "History",
     "Fantasy",
     "Memoir",

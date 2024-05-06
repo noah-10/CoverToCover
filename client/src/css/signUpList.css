@@ -1,4 +1,3 @@
-
 ul.author-list {
     padding: 0;
     flex-direction: column;
@@ -37,6 +36,8 @@ ul.author-list::-webkit-scrollbar{
     border-radius: 5px;
     background-color: rgba(255, 0, 0, 0.25);
     transition: 0.5s ease-out ;
+    padding: 2px 5px;
+    margin-bottom: 0;
 }
 
 .list-item button:hover{

@@ -58,21 +58,25 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
     }
 
     return (
-        <>
-            <img onClick={() => handleOpenModal()} style={{width: "25vw"}} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
-            <div>Title: {feedItem.title}</div>
-            <div>Authors: {feedItem.authors.join(", ")}</div>
-            <button onClick={() => incrementFeed()}>Dismiss Book</button>
-            <button onClick={() => handleSaveClick()}>Save Book</button>
+        <div className="row">
+            <div className="col-6 cover-col">
+                <img className="feed-img" onClick={() => handleOpenModal()} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
+            </div>
+            <div className="col-6 info-col">
+                <div>Title: {feedItem.title}</div>
+                <div>Authors: {feedItem.authors.join(", ")}</div>
+                <button id="dismiss-button" onClick={() => incrementFeed()}>Dismiss Book</button>
+                <button id="save-button" onClick={() => handleSaveClick()}>Save Book</button>
+                {error && (
+                    <div>
+                        {error.message}
+                    </div>
+                )}
+            </div>
             {showModal && (
                 <BookModal closeModal={() => handleCloseModal()} book={feedItem} />
             )}
-            {error && (
-                <div>
-                    {error.message}
-                </div>
-            )}
-        </>
+        </div>
     )
 }
 

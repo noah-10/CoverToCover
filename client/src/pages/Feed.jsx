@@ -1,3 +1,5 @@
+import "../css/feed.css";
+
 import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 
@@ -139,7 +141,7 @@ const Feed = () => {
 
     // return the component
     return (
-        <div>
+        <div className="container feed-container">
             {feedIndex < feed.length 
             ? 
             <FeedItem feedItem={feed[feedIndex]} incrementFeed={incrementFeed}></FeedItem>
