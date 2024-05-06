@@ -1,0 +1,19 @@
+#dismiss-button {
+    background-color: var(--old-rose);
+    border-color: var(--old-rose);
+}
+
+#dismiss-button:hover {
+    background-color: white;
+    color: var(--old-rose);
+}
+
+#save-button {
+    background-color: var(--mint);
+    border-color: var(--mint);
+}
+
+#save-button:hover {
+    background-color: white;
+    color: var(--mint);
+}

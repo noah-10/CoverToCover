@@ -1,3 +1,5 @@
+import "../css/feedItem.css";
+
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { SAVE_BOOK } from "../../utils/mutations";
@@ -62,8 +64,8 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
             <img onClick={() => handleOpenModal()} style={{width: "25vw"}} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
             <div>Title: {feedItem.title}</div>
             <div>Authors: {feedItem.authors.join(", ")}</div>
-            <button onClick={() => incrementFeed()}>Dismiss Book</button>
-            <button onClick={() => handleSaveClick()}>Save Book</button>
+            <button id="dismiss-button" onClick={() => incrementFeed()}>Dismiss Book</button>
+            <button id="save-button" onClick={() => handleSaveClick()}>Save Book</button>
             {showModal && (
                 <BookModal closeModal={() => handleCloseModal()} book={feedItem} />
             )}
