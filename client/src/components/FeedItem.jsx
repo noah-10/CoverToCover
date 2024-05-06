@@ -59,7 +59,7 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
 
     return (
         <div className="row">
-            <div className="col cover-col">
+            <div className="col-7 cover-col">
                 <img onClick={() => handleOpenModal()} style={{width: "25vw"}} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
             </div>
             <div className="col info-col">
