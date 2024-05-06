@@ -5,6 +5,7 @@
   --mint: #44C5A7;
   --pacific-cyan: #31AFD4;
   --gunmetal: #252B2C;
+  --floral-white: #F9F7F0;
   --header-height: 12vh;
 }
 
@@ -31,40 +32,6 @@ header {
   position: sticky;
   top: 0;
   z-index: 1;
-}
-
-.home-banner {
-  background-image: url("./assets/bookshelf.jpg");
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-position: center;
-  height: 80vh;
-  position: sticky;
-  top: var(--header-height);
-  z-index: -1;
-}
-
-.home-overlay {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  top: 40vh;
-  width: 100%;
-  z-index: 0;
-}
-
-.home-overlay > div {
-  background-color: var(--eggshell);
-}
-
-.home-overlay > div > h2 {
-  font-size: 300%;
-}
-
-.home-container {
-  position: relative;
-  background-color: var(--eggshell);
-  z-index: 0;
 }
 
 main {

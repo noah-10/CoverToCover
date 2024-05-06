@@ -1,50 +1,46 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../css/home.css';
+import Auth from '../../utils/auth.js';
+import { faBarsProgress, faHandPointUp, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const Home = () => {
-    const [bookCoverUrl, setBookCoverUrl] = useState('');
-
-    useEffect(() => {
-        const fetchBookCover = async () => {
-            try {
-                const olid = 'OL33891821M';
-                const imageUrl = `http://covers.openlibrary.org/b/OLID/${olid}-M.jpg`;
-                setBookCoverUrl(imageUrl);
-            } catch (error) {
-                console.error('Error fetching book cover:', error);
-            }
-        };
-
-        fetchBookCover();
-    }, []);
-
+    
     return (
-        <>
-            <div className="home-banner"></div>
+        <div className='home-container'>
             <div className="home-overlay">
-                <div>
-                    <h2>Welcome to Judge a Book!</h2>
-                    <p>Sign up <Link to='/signup'>here</Link> to judge a book by its cover</p>
+                <div className="overlay-text">
+                    <h2>Judge a Book</h2>
+                    <p>Exploring New Worlds, One Page at a Time: Your Ultimate Book Discovery Companion with Judge a Book</p>
                 </div>
-            </div>
-            <div className="home-container">
-                <div className="main-content">
-                    <p>Find your next favorite book!</p>
-                    <h3>How to Use Judge a Book</h3>
-                    <ul className="no-bullets">
-                        <li>Explore books by swiping left or right.</li>
-                        <li>Save books to your library for later.</li>
-                        <li>Discover new authors and genres.</li>
-                    </ul>
-                    <p>Get started by swiping through our collection of books!</p>
-                    {bookCoverUrl && (
-                        <div className="image-container">
-                            <img src={bookCoverUrl} alt="Book Cover" />
-                        </div>
+                <div className="get-started">
+                    {Auth.loggedIn() ? (
+                        <Link to='/feed'><button>START SWIPING</button></Link>
+                    ) : (
+                        <Link to='/signup'><button>GET STARTED</button></Link>
                     )}
                 </div>
             </div>
-        </>
+            <div className="info-container">
+                <div className="info-content">
+                    <h3>Unlock the World of Books at Your Fingertips</h3>
+                    <FontAwesomeIcon className='home-icon' icon={faHandPointUp} />
+                    <p>Effortlessly Expand Your Reading List with Just One Click</p>
+                </div>
+                <div className="info-content">
+                    <h3>Curated to Each User's Taste</h3>
+                    <FontAwesomeIcon className='home-icon' icon={faUser} />
+                    <p>Curated Selections Designed to Reflect Each User's Personal Reading Preferences</p>
+                </div>
+                <div className="info-content">
+                    <h3>Stay on Top of Your Reading Path</h3>
+                    <FontAwesomeIcon className='home-icon' icon={faBarsProgress} />
+                    <p>Effortlessly Keep Tabs on Your Reading Progress</p>
+                </div>
+            </div>
+        </div>
     );
 }
 
