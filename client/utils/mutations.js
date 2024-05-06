@@ -38,7 +38,7 @@ export const SAVE_BOOK = gql`
         }
     }
 `
-// Removes a saved book
+
 export const REMOVE_SAVED_BOOK = gql`
     mutation RemoveSavedBook($bookId: String!) {
         removeSavedBook(bookId: $bookId) {
@@ -53,7 +53,7 @@ export const REMOVE_SAVED_BOOK = gql`
         }
     }
 `
-// Removes a saved book
+
 export const REMOVE_CURRENTLY_READING_BOOK = gql`
     mutation RemoveCurrentlyReadingBook($bookId: String!) {
         removeCurrentlyReadingBook(bookId: $bookId) {
