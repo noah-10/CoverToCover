@@ -1,6 +1,5 @@
 :root {
   --eggshell: #F0EBD8;
-  --midnight-green: #0B3948;
   --old-rose: #C8786A;
   --mint: #44C5A7;
   --pacific-cyan: #31AFD4;
@@ -36,15 +35,6 @@ header {
 
 main {
   height: 200vh;
-}
-
-.login-container .form-field,
-.login-container button,
-.login-container a,
-.signup-container .form-field,
-.signup-container button,
-.signup-container a {
-  margin: 0 0 0.8em 0;
 }
 
 .form-label {
