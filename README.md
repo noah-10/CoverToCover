@@ -70,4 +70,4 @@ Spencer worked on the feed page.
 
 All code was written by ourselves unless otherwise noted. A number of files were patterned in whole or in part on files provided by edX Boot Camps LLC. Notably `server/server.js` and especially `server/config/connection.js` have been modified very little due to their boilerplate nature.
 
-The image `client/assets/background.jpg` is from (TODO: get image link).
+The image `client/assets/background.jpg` is by [Gülfer ERGİN](https://unsplash.com/@gulfergin_01) on [Unsplash](https://unsplash.com/photos/white-and-brown-book-on-brown-woven-surface-LUGuCtvlk1Q).
