@@ -25,19 +25,6 @@ body {
   min-height: 100vh;
 }
 
-header {
-  background-color: var(--eggshell);
-  height: var(--header-height);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  /* height: 90%; */
-}
-
-main {
-  height: 200vh;
-}
-
 .form-label {
   margin: 0;
 }

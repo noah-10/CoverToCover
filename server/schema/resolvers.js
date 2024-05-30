@@ -1,7 +1,9 @@
-const { User } = require('../models');
+const { User, Book } = require('../models');
 
 // sign token for auth
 const { signToken, AuthenticationError } = require('../utils/auth');
+
+const checkBooks = require('../utils/checkBooks');
 
 const resolvers = {
     Query: {
@@ -12,6 +14,7 @@ const resolvers = {
                 .populate('savedBooks')
                 .populate('currentlyReading')
                 .populate('finishedBooks')
+                .populate('dislikedBooks')
             }else{
                 return { message: "Error getting user" };
             };
@@ -58,7 +61,33 @@ const resolvers = {
             }else{
                 return { message: "Error getting preferences" }
             }
-        }
+        },
+
+        allBooks: async(parent, args, context) => {
+            if(context.user){
+                return Book.find();
+            }else{
+                return { message: "Error getting books" };
+            }
+        },
+
+        allUsers: async(parent, args, context) => {
+            try{
+                if(context.user){
+                    const users = await User.find({ _id: { $ne : context.user._id }})
+                    .populate('savedBooks')
+                    .populate('currentlyReading')
+                    .populate('finishedBooks');
+
+                    return users;
+                }else{
+                    return { message: "Error getting all users"}
+                }
+            }catch(err){
+                return { error: err };
+            }
+            
+        },
     },
 
     Mutation: {
@@ -85,31 +114,88 @@ const resolvers = {
 
         // Adding user
         addUser: async (parent, { username, email, password, preferencedAuthor, preferencedGenre, currentlyReading, finishedBooks }) => {
+
             try{
+
+                // Array of book Ids
+                const saveCurrentBooks = [];
+                const saveFinishedBooks = [];
+
+                const checkBooksForDuplicates = async (bookId) => {
+                    const bookChecked = await checkBooks(bookId);
+
+                    return bookChecked;
+                }
+
+                // loop over each currently Reading book
+                const createdCurrentBooks = await Promise.all(currentlyReading.map(async (book) => {
+
+                    // Pass each bookId to function to check
+                    const checkBook = await checkBooksForDuplicates(book.bookId);
+
+                    if(checkBook === false){
+                        // If book isn't in database then create one
+                        const newBook = await Book.create({
+                            authors: book.authors,
+                            title: book.title,
+                            cover: book.cover,
+                            bookId: book.bookId,
+                            description: book.description,
+                            categories: book.categories
+    
+                        });
+
+                        // push new id to array
+                        saveCurrentBooks.push(newBook._id);
+                    }else {
+                        // push already saved book to database
+                        saveCurrentBooks.push(checkBook._id);
+                    }
+
+                    
+                }));
+
+                // add books to database
+                const createdFinishedBooks = await Promise.all(finishedBooks.map(async (book) => {
+                    // Pass each bookId to function to check
+                    const checkBook = await checkBooksForDuplicates(book.bookId);
+
+                    if(checkBook === false){
+                        // If book isn't in database then create one
+                        const newBook = await Book.create({
+                            authors: book.authors,
+                            title: book.title,
+                            cover: book.cover,
+                            bookId: book.bookId,
+                            description: book.description,
+                            categories: book.categories
+    
+                        });
+
+                        // push new id to array
+                        saveFinishedBooks.push(newBook._id);
+                    }else {
+                        // push already saved book to database
+                        saveFinishedBooks.push(checkBook._id);
+                    }
+                }))
+
+
+                // Create user
                 const user = await User.create({
                     username,
                     email,
                     password,
                     preferencedAuthor,
                     preferencedGenre,
+                    currentlyReading: saveCurrentBooks,
+                    finishedBooks: saveFinishedBooks,
                 });
     
                 if(!user){
                     return { message: "Error creating account" };
                 };
-    
-                await User.findOneAndUpdate(
-                    { username: user.username },
-                    { $addToSet: { currentlyReading: { $each: currentlyReading} }},
-                    { new: true }
-                );
-                
-                await User.findOneAndUpdate(
-                    { username: user.username },
-                    { $addToSet: { finishedBooks: { $each: finishedBooks} }},
-                    { new: true }
-                );
-                
+
                 const token = signToken(user);
     
                 return { token, user };
@@ -120,50 +206,126 @@ const resolvers = {
 
         // Saving a book to a user
         saveBook: async(parent, { input }, context) => {
-            if(context.user){
-                // get user data to check if the book to save is a duplicate
-                const userData = await User.findOne({ _id: context.user._id }).populate("savedBooks");
+            try{
+                if(context.user){
 
-                if (!userData) {
-                    return { message: "Error fetching user data" };
+                    //Check if book is in database
+                    const bookChecked = await checkBooks(input.bookId);
+
+                    // if it's not in database
+                    if(bookChecked === false){
+                        // save the book to database
+                        const saveBook = await Book.create(
+                            input
+                        );
+
+                        if(!saveBook){
+                            return { message: 'Error adding book' };
+                        };
+
+                        // Pass in the new books id to the user document
+                        const updatedUser = await User.findOneAndUpdate(
+                            { _id: context.user._id },
+                            { $push: { savedBooks: saveBook._id }},
+                            { new: true }
+                        );
+
+                        if(!updatedUser){
+                            return { message: "Error adding book to your collection"}
+                        }
+
+                        return saveBook;
+
+                    } else{
+                        // if the book is in database, then pass the id to the user
+                        const updatedUser = await User.findOneAndUpdate(
+                            { _id: context.user._id },
+                            { $push: { savedBooks: bookChecked._id }},
+                            { new: true }
+                        );
+
+                        if(!updatedUser){
+                            return { message: "Error adding book to your collection"}
+                        }
+
+                        return bookChecked;
+                    }                    
                 }
-
-                // if the book is already in the saved books, return
-                if (userData.savedBooks.reduce((acc, cur) => (acc || cur.bookId === input.bookId), false)) {
-                    return { message: "Book already saved" };
-                }
-
-                // otherwise save the book
-                const saveBook = await User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $addToSet: { savedBooks: input }},
-                    { new: true },
-                );
-
-                if(!saveBook){
-                    return { message: "Error adding book" };
-                };  
-
-                return saveBook;
+            }catch(err){
+                return { error: err };
             }
-            throw AuthenticationError;
         },
 
-        addToFinished: async (parent, { input }, context) => {
-            if(context.user){
-                const finishedBook = await User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $addToSet: { finishedBooks: input }},
-                    {new: true }
-                );
+        // For when a user swipes left on a book
+        addDislikedBook: async (parent, { input }, context) => {
+            console.log(input)
+            try{
+                if(context.user){
 
-                if(!finishedBook){
-                    return { message: "Error adding book" };
-                };
+                    // Check if book is in database
+                    const bookChecked = await checkBooks(input.bookId);
 
-                return finishedBook;
+                    // if not create book for database
+                    if(!bookChecked){
+                        const newBook = await Book.create(input);
+
+                        if(!newBook){
+                            return { message: "Error adding book"}
+                        };
+
+                        // Update users disliked book to save the new book _id
+                        await User.findOneAndUpdate(
+                            { _id: context.user._id },
+                            { $push: { dislikedBooks: newBook._id }},
+                            { new: true }
+                        );
+
+                        return;
+                    } else{
+
+                        // Update the user if book is already in database
+                        await User.findOneAndUpdate(
+                            { _id: context.user._id },
+                            { $push: { dislikedBooks: bookChecked._id }},
+                            { new: true }
+                        );
+
+                        return;
+                    }
+                    
+                }
+            } catch(err){
+                return { error: err };
             }
-            throw AuthenticationError;
+        },
+
+        // From currently reading => finished
+        finishedReading: async (parent, { bookId }, context) => {
+            try{
+                if(context.user){
+                    //remove from currently reading
+                    await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { currentlyReading: bookId }},
+                        {new: true }
+                    );
+    
+                    const addToFinished = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $push: { finishedBooks: bookId }},
+                        { new: true }
+                    );
+    
+                    if(!addToFinished){
+                        return { message: "Error adding book" };
+                    };
+        
+                    return { addToFinished };
+                }
+            }catch(err){
+                return { error: err };
+            }
+            
         },
 
         // Add to users currently reading
@@ -347,6 +509,8 @@ const resolvers = {
             }
             throw AuthenticationError;
         },    
+
+        
     },
 }
 

@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 // define book schema
 const bookSchema = new Schema(
@@ -18,17 +18,19 @@ const bookSchema = new Schema(
         bookId: {
             type: String,
             required: true,
-            // this seems not to do anything since bookSchema is only used for subdocuments
-            // unique: true
+            unique: true
         },
-        firstSentence: {
+        description: {
             type: String
         },
+        categories: [String],
         link: {
             type: String
         }
     }
 );
 
+const Book = model("Book", bookSchema)
+
 // export schema
-module.exports = bookSchema;
+module.exports = Book;

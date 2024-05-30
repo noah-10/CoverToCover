@@ -22,24 +22,19 @@ const SavedBooks = () => {
     // State for what book is clicked
     const [clickedBook, setClickedBook] = useState(null);
 
+    const [userBooks, setUserBooks] = useState([]);
+
     // Refetches the query to stay updated
     useEffect(() => {
         refetch()
     }, []);
 
-    const user = data || [];
 
-    if(loading){
-        return <div>Loading...</div>
-    }
-
-    if(!user?.savedBooks.savedBooks){
-        return (
-            <h1>You need to be logged in to see this</h1>
-        )
-    }
-
-    const userSavedBooks = user.savedBooks.savedBooks;
+    useEffect(() => {
+        if (!loading && data && data.savedBooks.savedBooks) {
+            setUserBooks(data.savedBooks.savedBooks);
+        }
+    }, [loading, data]);
 
     // Function to set state of books thats clicked and to show modal
     const handleOpenModal = (book) => {
@@ -81,8 +76,8 @@ const SavedBooks = () => {
         <>
             <h2>Saved Books:</h2>
             <div className="books-collection">
-                {userSavedBooks.length > 0 ? (
-                    userSavedBooks.map((book) => (
+                {userBooks.length > 0 ? (
+                    userBooks.map((book) => (
                             <div className="book-items" key={book.bookId}>
                                 <Book 
                                 cover={book.cover}

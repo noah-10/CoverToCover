@@ -31,7 +31,22 @@ export const SAVE_BOOK = gql`
                 authors
                 bookId
                 cover
-                firstSentence
+                description
+                link
+                title
+            }
+        }
+    }
+`
+
+export const DISLIKED_BOOK = gql`
+    mutation AddDislikedBook($input: BookInput) {
+        addDislikedBook(input: $input) {
+            dislikedBooks {
+                authors
+                bookId
+                cover
+                description
                 link
                 title
             }
@@ -69,14 +84,15 @@ export const REMOVE_CURRENTLY_READING_BOOK = gql`
     }
 `
 
-export const ADD_FINISHED_BOOK = gql`
-    mutation AddToFinished($input: BookInput) {
-        addToFinished(input: $input) {
+export const FINISHED_READING = gql`
+    mutation FinishedReading($bookId: ID!) {
+        finishedReading(bookId: $bookId) {
             finishedBooks {
+                _id
                 authors
                 bookId
                 cover
-                firstSentence
+                description
                 link
                 title
             }

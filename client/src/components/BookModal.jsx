@@ -11,10 +11,10 @@ const BookModal = ({ closeModal, book, page, bookState }) => {
                     <h1>{book.title}</h1>
                 </div>
                 <div className="author">
-                    <h2>{book.authors.join(", ")}</h2>
+                    <h2>{book.authors}</h2>
                 </div>
                 <div className="body">
-                    <p>{book.firstSentence ? book.firstSentence : "No preview available"}</p>
+                    <p>{book.description ? book.description : "No preview available"}</p>
                 </div>
                 <div className="footer">
                     <button className='modal-btn' onClick={() => closeModal()}>Close</button>

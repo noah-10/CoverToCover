@@ -1,9 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
-// import schemas
-const bookSchema = require("./Book");
-
 // define user schema
 const userSchema = new Schema(
     {
@@ -21,19 +18,32 @@ const userSchema = new Schema(
             type: String,
             required: true
         },
-        preferencedAuthor: [
+        preferencedAuthor: [String],
+        preferencedGenre: [String],
+        savedBooks: [
             {
-                type: String
-            }
+                type: Schema.Types.ObjectId, 
+                ref: 'Book',
+            },
         ],
-        preferencedGenre: [
+        currentlyReading: [
             {
-                type: String
-            }
+                type: Schema.Types.ObjectId,
+                ref: 'Book',
+            },
         ],
-        savedBooks: [bookSchema],
-        currentlyReading: [bookSchema],
-        finishedBooks: [bookSchema],
+        finishedBooks: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Book',
+            },
+        ],
+        dislikedBooks: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Book',
+            },
+        ],
     }
 );
 

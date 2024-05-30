@@ -143,16 +143,16 @@ const SignUp = () => {
         try{
             const bookTitle = currentBookInput.split(" ").join("+")
             const response = await searchBookTitle(bookTitle);
-            const items  = await response.json();
-            const book = items.docs[0];
-            const firstSentString = book.first_sentence[0]
+            const { items }  = await response.json();
+            const book = items[0];
 
             const saveBook = {
-                authors: book.author_name,
-                title: book.title,
-                cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
-                bookId: book.key,
-                firstSentence: firstSentString,
+                authors: book.volumeInfo.authors,
+                title: book.volumeInfo.title,
+                cover: book.volumeInfo.imageLinks.thumbnail,
+                bookId: book.id,
+                description: book.volumeInfo.description,
+                categories: book.volumeInfo.categories,
             }
 
             setCurrentBooks([...currentBooks, saveBook]);
@@ -172,15 +172,16 @@ const SignUp = () => {
         try{
             const bookTitle = finishedBookInput.split(" ").join("+")
             const response = await searchBookTitle(bookTitle);
-            const items  = await response.json();
-            const book = items.docs[0];
-            const firstSentString = book.first_sentence[0]
+            const { items }  = await response.json();
+            const book = items[0];
+
             const saveBook = {
-                authors: book.author_name,
-                title: book.title,
-                cover: `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`,
-                bookId: book.key,
-                firstSentence: firstSentString,
+                authors: book.volumeInfo.authors,
+                title: book.volumeInfo.title,
+                cover: book.volumeInfo.imageLinks.thumbnail,
+                bookId: book.id,
+                description: book.volumeInfo.description,
+                categories: book.volumeInfo.categories,
             }
 
             setUserFinishedBooks([...userFinishedBooks, saveBook]);

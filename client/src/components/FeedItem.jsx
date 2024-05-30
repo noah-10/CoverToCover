@@ -1,31 +1,25 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { SAVE_BOOK } from "../../utils/mutations";
+import { DISLIKED_BOOK, SAVE_BOOK } from "../../utils/mutations";
 import BookModal from "./BookModal";
 
 import coverLoadingPlaceholder from "../assets/coverLoadingPlaceholder.svg";
-import { loadImage } from "../../utils/loadImage";
 
-const FeedItem = ({ feedItem, incrementFeed } ) => {
+const FeedItem = ({ feedItem, checkFeed } ) => {
     // use the save book mutation, get a mutation function
     const [saveBook, { error }] = useMutation(SAVE_BOOK);
+    const [disLikedBook] = useMutation(DISLIKED_BOOK);
 
-    // adapted from https://stackoverflow.com/questions/63854208/dynamically-load-images-with-react
-    // dynamically load the cover image, showing a placeholder until loaded
     const [source, setSource] = useState(coverLoadingPlaceholder);
-
-    useEffect(() => {
-        // start preloading the image and set the image source when loaded
-        const load = async () => {
-            await loadImage(feedItem.cover).then((src) => setSource(src));
-        }
-        load();
-    }, [source, setSource]);
 
     useEffect(() => {
         // when the cover source updates, set the source to the placeholder until the cover loads
         setSource(coverLoadingPlaceholder);
     }, [feedItem.cover]);
+
+    useEffect(() => {
+        setSource(feedItem.cover)
+    }, [feedItem]);
 
     // State for if the modal is being shown
     const [showModal, setShowModal] = useState(false);
@@ -36,17 +30,34 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
     // handle the user clicking on the Save Book button
     const handleSaveClick = async () => {
         try {
+            const { score, __typename, ...formatBook} = feedItem
             // try to save the book to the user's data
-            await saveBook({ variables: { input: feedItem } });
+            await saveBook(
+                { variables: { input: formatBook }}
+            );
         } catch (error) {
             console.error(error);
         }
         // move on to the next book after saving
-        incrementFeed();
-    }
+        checkFeed(feedItem);
+    };
+
+    const handleDislikeClick = async () => {
+        try{
+            const { score, __typename, ...formatBook } = feedItem;
+            await disLikedBook(
+                { variables: { input: formatBook }}
+            );
+        }catch(err){
+            return { error: err };
+        }
+
+        checkFeed(feedItem);
+    }   
 
     // Function to set state of books thats clicked and to show modal
     const handleOpenModal = (book) => {
+        console.log(book);
         setClickedBook(book);
         setShowModal(true);
     }
@@ -58,25 +69,36 @@ const FeedItem = ({ feedItem, incrementFeed } ) => {
     }
 
     return (
-        <div className="row">
-            <div className="col-6 cover-col">
-                <img className="feed-img" onClick={() => handleOpenModal()} src={source} alt={`Cover of the book "${feedItem.title}"`}></img>
-            </div>
-            <div className="col-6 info-col">
-                <div>Title: {feedItem.title}</div>
-                <div>Authors: {feedItem.authors.join(", ")}</div>
-                <button id="dismiss-button" onClick={() => incrementFeed()}>Dismiss Book</button>
-                <button id="save-button" onClick={() => handleSaveClick()}>Save Book</button>
-                {error && (
-                    <div>
-                        {error.message}
-                    </div>
-                )}
-            </div>
+        <>
+        <div className="feed-item-container">
+            <img 
+                className="feed-img h-100" 
+                onClick={() => handleOpenModal(feedItem)} 
+                src={source} 
+                alt={`Cover of the book "${feedItem.title}"`}
+                style={{ imageRendering: 'high-quality', width: '100%', height: 'auto' }}>
+            </img>
+
             {showModal && (
                 <BookModal closeModal={() => handleCloseModal()} book={feedItem} />
             )}
         </div>
+        <div className="feed-info">
+            <div className="feed-title">
+                <h3>{feedItem.title}</h3>
+            </div>
+            <div className="feed-authors">
+                <p>{feedItem.authors}</p>
+            </div>
+            <div className="feed-description">
+                <p>{feedItem.description}</p>
+            </div>
+            <div className="feed-btns">
+                <button id="dismiss-button" onClick={() => handleDislikeClick()}>Dismiss Book</button>   
+                <button id="save-button" onClick={() => handleSaveClick()}>Save Book</button>
+            </div>
+        </div>
+        </>
     )
 }
 

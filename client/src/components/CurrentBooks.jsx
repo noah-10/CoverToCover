@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client"
 import { CURRENTLY_READING } from "../../utils/queries"
-import { REMOVE_CURRENTLY_READING_BOOK, ADD_FINISHED_BOOK } from '../../utils/mutations';
+import { FINISHED_READING } from '../../utils/mutations';
 
 import { useEffect, useState } from "react";
 import Book from "./Book";
@@ -8,8 +8,7 @@ import BookModal from "./BookModal";
 
 const CurrentBooks = () => {
 
-    const [removeBook] = useMutation(REMOVE_CURRENTLY_READING_BOOK);
-    const [addToFinished] = useMutation(ADD_FINISHED_BOOK);
+    const [finishedReading] = useMutation(FINISHED_READING);
 
     // Query for currently reading books
     const { loading, data, refetch } = useQuery(CURRENTLY_READING);
@@ -44,22 +43,21 @@ const CurrentBooks = () => {
     }
 
     const finishedBook = async (book) => {
-        const { __typename, ...input } = book;
-        const bookId = input.bookId;
+        
         try{
+            const bookId = book._id;
             // Adds book to finished books subdocument
-            const { data } = await addToFinished({
-                variables: { input }
-            });
-
-            // Removes book from currently Reading subdocument
-            await removeBook({
+            const { data } = await finishedReading({
                 variables: { bookId }
             });
 
-            refetch();
+            if(!data){
+                return { message: "Error adding book to finished" };
+            }
 
             handleCloseModal();
+
+            refetch();
 
             return data;
         }catch(err){
@@ -79,6 +77,7 @@ const CurrentBooks = () => {
                             cover={book.cover}
                             title={book.title}
                             author={book.authors}
+                            _id={book._id}
                             onClick={() => handleOpenModal(book)}
                             />
                         </div>
