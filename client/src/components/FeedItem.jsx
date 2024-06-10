@@ -30,9 +30,6 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
     // State for if the modal is being shown
     const [showModal, setShowModal] = useState(false);
 
-    // State for what book is clicked
-    const [clickedBook, setClickedBook] = useState(null);
-
     // handle the user clicking on the Save Book button
     const handleSaveClick = async () => {
         const element = document.querySelector('.small-feed-image-container');
@@ -122,15 +119,14 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
     }
 
     // Function to set state of books thats clicked and to show modal
-    const handleOpenModal = (book) => {
-        console.log(book);
-        setClickedBook(book);
+    const handleOpenModal = () => {
         setShowModal(true);
+        const bodyElem = document.querySelector("body");
+        bodyElem.style.overflow = "hidden"
     }
 
     // Function to empty the state of book clicked and not show modal
     const handleCloseModal = () => {
-        setClickedBook(null);
         setShowModal(false);
     }
 
@@ -204,6 +200,12 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
     const touchEnd = () => {
         setDragging(false)
 
+        // Determine if user is clicking or swiping
+        const swipeThreshold = 10;
+        if(Math.abs(position.x) < swipeThreshold || position.x === null){
+            handleOpenModal();
+        }
+
         const leftBoundary = window.innerWidth * -0.25; // 25% of the viewport width from the left
         const rightBoundary = window.innerWidth * 0.25; // 25% of the viewport width from the right
 
@@ -247,10 +249,6 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
                             alt={`Cover of the book "${feedItem[0].title}"`}
                             style={{ imageRendering: 'high-quality', width: '100%', height: 'auto' }}>
                         </img>
-
-                        {/* {showModal && (
-                            <BookModal closeModal={() => handleCloseModal()} book={feedItem} />
-                        )} */}
                     </div>
 
                     <div className="feed-description">
@@ -273,7 +271,6 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
                         onTouchStart={(e) => touchStart(e, 'touch')}
                         onTouchMove={(e) => touchMove(e, 'touch')}
                         onTouchEnd={touchEnd}
-                        // onMouseLeave={mouseUp}
                         style={{
                             position: 'relative',
                             left: position.x,
@@ -282,7 +279,7 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
                     >
                         <img 
                             className="small-feed-img" 
-                            onClick={() => handleOpenModal(feedItem[0])} 
+                            // onClick={() => handleOpenModal(feedItem[0])} 
                             src={source.index0} 
                             alt={`Cover of the book "${feedItem[0].title}"`}
                             style={{ imageRendering: 'high-quality' }}>
@@ -292,10 +289,7 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
                             <p>{overlayText}</p>
                         </div>
                         
-
-                        {/* {showModal && (
-                            <BookModal closeModal={() => handleCloseModal()} book={feedItem} />
-                        )} */}
+                        
                     </div>
                 </div>
                 <div className="next-img-container">
@@ -314,6 +308,9 @@ const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
                         <FontAwesomeIcon className="feed-icon" icon={faBookmark}></FontAwesomeIcon>
                     </button>
                 </div>
+                {showModal && (
+                            <BookModal closeModal={() => handleCloseModal()} book={feedItem[0]} />
+                )}
             </div>
         )}
         

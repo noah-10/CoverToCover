@@ -8,14 +8,15 @@
     left: 0;
     justify-content: center;
     align-items: center;
+    z-index: 3;
 }
 
 .modal-container{
-    width: 35rem;
-    height: 35rem;
+    width: 80vw;
+    height: 65vh;
     border-radius: 12px;
     background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.95) 0px 5px 15px;
     display: flex;
     flex-direction: column;
     padding: 25px;
@@ -24,10 +25,13 @@
 .title h1{
     display: inline-block;
     text-align: center;
+    font-size: calc(1rem + 4vw);
+    font-weight: 700;
 }
 
 .author h2{
-    font-weight: 400;
+    font-weight: 500;
+    font-size: calc(1rem + 2vw);
 }
 
 .close-btn{
@@ -53,14 +57,19 @@
     flex: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 1.7em;
+    font-size: calc(1.2rem + 1vw);
     text-align: center;
-    /* margin: 15px 0; */
-    overflow: scroll;
+    margin-top: 0.5rem;
+    overflow-y: scroll;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
-    /* margin: auto 0; */
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 4.5px;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+}
+
+.modal-container .body > p{
+    margin: 0;
 }
 
 .modal-container .body::-webkit-scrollbar{
@@ -107,44 +116,9 @@ button.btn-action:hover{
     color: var(--old-rose);
 }
 
-/* Mobile L */
-@media screen and (max-width: 426px){
-    .modal-container{
-        width: 20rem;
-        height: 30rem;
-    }
-
-    .modal-container .body{
-        margin: 10px 0;
-        font-size: 20px;
-    }
-
-    .modal-container .body p {
-        margin: auto 0;
-    }
-}
-
-/* Mobile S */
-@media screen and (max-width: 321px){
-    .modal-container{
-        width: 15rem;
-        height: 25rem;
-    }
-
-    .title h1{
-        font-size: 23px;
-    }
-
-    .author h2{
-        font-size: 18px;
-    }
-
-    .modal-container .body{
-        font-size: 15px;
-    }
-
-    .modal-btn, .btn-action{
-        width: 120px;
-        height: 35px;
+/* Mobile M */ 
+@media screen and (max-width: 376px){
+    .modal-container .body {
+        font-size: calc(1rem + 1vw);
     }
 }
