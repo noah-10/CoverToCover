@@ -14,10 +14,11 @@ import { loadImage } from "../../utils/loadImage";
 import { getContentRecommendations } from "../../utils/contentRecommendation";
 import { getCollaborativeRecommendation } from "../../utils/collaborativeRecommendation";
 
+
 const Feed = () => {
     const [feed, setFeed] = useState([]);
     const [feedIndex, setFeedIndex] = useState(0);
-    const [feedLength, setFeedLength] = useState(0);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
     // get the logged in user
     const { data: userData, loading: userLoading } = useQuery(GET_ME);
@@ -25,12 +26,26 @@ const Feed = () => {
     const { data: allUsersData, loading: allUsersLoading, error } = useQuery(ALL_USERS)
     let allUsers = [];
 
+
     useEffect(() => {
         if (!userLoading && userData && !allUsersLoading && allUsersData ) {
             allUsers = allUsersData.allUsers;
             getFeed();
         }
     }, [userLoading, userData, allUsersLoading, allUsersData]);
+
+    // effect for tracking screen size to be able to change layout
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, [window.innerWidth]);
 
     // Removes the feed item from feed state
     // Checks feed length after each click and will query to add to the feed
@@ -51,13 +66,15 @@ const Feed = () => {
         const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user);
 
         // Get content based books
-        const contentBooks = await getContentRecommendations(userPreferences, user);
+        // const contentBooks = await getContentRecommendations(userPreferences, user);
 
         // Combine the arrays
-        let combinedArrays = collaborativeBooks.concat(contentBooks);
+        // let combinedArrays = collaborativeBooks.concat(contentBooks);
 
         // Set array to feed
-        setFeed((prevFeed) => [...prevFeed, ...combinedArrays]);
+        // setFeed((prevFeed) => [...prevFeed, ...combinedArrays]);
+
+        setFeed(collaborativeBooks)
     }
 
     // Gets uers preferences based on saved, currently reading, finished, and prefered genres
@@ -95,13 +112,14 @@ const Feed = () => {
             {feedIndex < feed.length 
             ? 
             <>
-            <div className="feed-content">
+            <>
                 <FeedItem 
-                    feedItem={feed[feedIndex]} 
+                    feedItem={feed} 
                     checkFeed = {handleClick}
+                    screenSize = {screenWidth}
                 >
                 </FeedItem>
-            </div>
+            </>
             
             </>
             :
