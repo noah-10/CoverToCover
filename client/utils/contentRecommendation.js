@@ -15,12 +15,15 @@ export const getContentRecommendations = async (genres, currentUser) => {
     
     // For each book make query to google Books to get all info
     const bookData = await getBookInfo(openAiBooks) 
-    console.log(bookData)
 
-    // Filter books to not include any that have been seen/read
+    // Filter books to not include any that have been seen/read and are in english
     const filteredBooks = await filterViewerPersonalization(bookData, currentUserBooks)
 
-    return filteredBooks;
+    const formattedBooks = await Promise.all(filteredBooks.map(async (book) => {
+        return formatBook(book);
+    }))
+
+    return formattedBooks;
 }
 
 const getBookInfo = async(books) => {
@@ -28,7 +31,9 @@ const getBookInfo = async(books) => {
         const response = await searchBookTitle(book);
         const data = await response.json();
         const bookData = data.items[0];
-        return formatBook(bookData);
+        // console.log("book data",bookData);
+        // return formatBook(bookData);
+        return bookData;
     }))
 
     return allBookInfo
@@ -49,14 +54,11 @@ const openAiQuery = async (genreWeight) => {
             max_tokens: 250,
         });
 
-        console.log("response", response);
-
         const data = JSON.parse(response.choices[0].text.trim());
 
         let recommendations = data.titles;
         recommendations = recommendations.map((title) => title.split(" ").join("+"));
 
-        console.log(recommendations)
         return recommendations;
     
     }catch (err){
@@ -101,8 +103,14 @@ const createWeights = (genres, weights) => {
 // Checks if book has already been seen by user
 const filterViewerPersonalization = (allBooks, bookIds) => {
 
+    const checkLanguage = allBooks.filter((book) => {
+        if(book.volumeInfo.language === "en"){
+            return book;
+        }
+    })
+
     // Only return books if user doesn't already have them saved or already disliked them
-    const checkedBookIds = allBooks.filter((book) => {
+    const checkedBookIds = checkLanguage.filter((book) => {
         return !bookIds.includes(book.bookId);
     })
 

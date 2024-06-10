@@ -66,15 +66,15 @@ const Feed = () => {
         const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user);
 
         // Get content based books
-        // const contentBooks = await getContentRecommendations(userPreferences, user);
+        const contentBooks = await getContentRecommendations(userPreferences, user);
 
         // Combine the arrays
-        // let combinedArrays = collaborativeBooks.concat(contentBooks);
+        let combinedArrays = collaborativeBooks.concat(contentBooks);
 
         // Set array to feed
-        // setFeed((prevFeed) => [...prevFeed, ...combinedArrays]);
+        setFeed((prevFeed) => [...prevFeed, ...combinedArrays]);
 
-        setFeed(collaborativeBooks)
+        // setFeed(collaborativeBooks)
     }
 
     // Gets uers preferences based on saved, currently reading, finished, and prefered genres
