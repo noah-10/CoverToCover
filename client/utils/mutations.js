@@ -101,13 +101,13 @@ export const FINISHED_READING = gql`
 `
 
 export const ADD_CURRENTLY_READING = gql`
-    mutation AddToCurrentlyReading($input: BookInput) {
-        addToCurrentlyReading(input: $input) {
+    mutation AddToCurrentlyReading($bookId: String) {
+        addToCurrentlyReading(bookId: $bookId) {
             currentlyReading {
                 authors
                 bookId
                 cover
-                firstSentence
+                description
                 link
                 title
             }

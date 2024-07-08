@@ -2,11 +2,14 @@ import CurrentBooks from '../components/CurrentBooks';
 import SavedBooks from '../components/SavedBooks';
 import FinishedBooks from '../components/FinishedBooks';
 import { useEffect, useState } from 'react';
+import BookModal from "../components/BookModal";
 import '../css/library.css'
 
 const Library = () => {
     const [displayedContainer, setDisplayedContainer] = useState("Saved Books");
-    const [menuItems, setMenuItems] = useState(["Currently Reading", "Finished Books"])
+    const [menuItems, setMenuItems] = useState(["Currently Reading", "Finished Books"]);
+    const [backgroundStyle, setBackgroundStyle] = useState('');
+    // const [onModal, setOnModal] = useState(false);
 
     const handleMenuClick = (e) => {
         const clickedItem = e.target.textContent;
@@ -20,12 +23,11 @@ const Library = () => {
 
         // Set displayed container
         setDisplayedContainer(e.target.textContent);
-    }
+    };
 
     return (
         <>
-            <h1>Library</h1>
-            <div className="library-container">
+            <div className={`${backgroundStyle} library-container`}>
                 <div className="library-selection">
                     <p>View your library</p>
                     <ul className="library-list">

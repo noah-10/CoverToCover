@@ -116,6 +116,9 @@ const resolvers = {
         addUser: async (parent, { username, email, password, preferencedAuthor, preferencedGenre, currentlyReading, finishedBooks }) => {
 
             try{
+                console.log(email)
+                console.log(username)
+                console.log(password)
 
                 // Array of book Ids
                 const saveCurrentBooks = [];
@@ -128,7 +131,7 @@ const resolvers = {
                 }
 
                 // loop over each currently Reading book
-                const createdCurrentBooks = await Promise.all(currentlyReading.map(async (book) => {
+                await Promise.all(currentlyReading.map(async (book) => {
 
                     // Pass each bookId to function to check
                     const checkBook = await checkBooksForDuplicates(book.bookId);
@@ -156,7 +159,7 @@ const resolvers = {
                 }));
 
                 // add books to database
-                const createdFinishedBooks = await Promise.all(finishedBooks.map(async (book) => {
+                await Promise.all(finishedBooks.map(async (book) => {
                     // Pass each bookId to function to check
                     const checkBook = await checkBooksForDuplicates(book.bookId);
 
@@ -191,12 +194,19 @@ const resolvers = {
                     currentlyReading: saveCurrentBooks,
                     finishedBooks: saveFinishedBooks,
                 });
+
+                console.log("USER", user);
     
                 if(!user){
                     return { message: "Error creating account" };
                 };
 
                 const token = signToken(user);
+                console.log("TOKEN", token);
+
+                if(!token){
+                    console.log("Error signing token");
+                }
     
                 return { token, user };
             }catch(err){
@@ -329,26 +339,54 @@ const resolvers = {
         },
 
         // Add to users currently reading
-        addToCurrentlyReading: async (parent, { input }, context) => {
-            if(context.user){
-                const currentlyReading = await User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $addToSet: { currentlyReading: input }},
-                    { new: true }
-                );
+        addToCurrentlyReading: async (parent, { bookId }, context) => {
+            
+            try{
+                if (context.user) {
+            
+                    // Get books Object Id
+                    const book = await Book.findOne({ bookId });
+            
+                    if (!book) {
+                        console.error("Book not found");
+                    }
+            
+                    // Add object Id to user's currently reading list
+                    const addedToCurrentlyReading = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $push: { currentlyReading: book._id }},
+                        { new: true }
+                    );
+            
+                    if (!addedToCurrentlyReading) {
+                        console.error("Error adding book to currently reading list");
+                    }
 
-                if(!currentlyReading){
-                    return { message: "Error adding book" };
-                };
+                    // Remove object Id from user's saved books
+                    const removeFromSaved = await User.findOneAndUpdate(
+                        { _id: context.user._id },
+                        { $pull: { savedBooks: book._id }},
+                        { new: true }
+                    );
 
-                return currentlyReading;
+                    if(!removeFromSaved){
+                        console.error("Error removing from saved books");
+                    }
+            
+                    return { addedToCurrentlyReading };
+                }
+                throw AuthenticationError;
+            
+            }catch(error){
+                console.error("Error adding to currently reading", error);
             }
-            throw AuthenticationError;
+            
         },
 
         // removing a book from a users saved Books
         removeSavedBook: async (parent, { bookId }, context) => {
             try{
+                
                 if(context.user){
                     const removeBook = await User.findOneAndUpdate(
                         { _id: context.user._id },

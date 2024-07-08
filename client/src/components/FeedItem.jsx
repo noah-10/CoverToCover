@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import coverLoadingPlaceholder from "../assets/coverLoadingPlaceholder.svg";
 
-const FeedItem = ({ feedItem, checkFeed, screenSize } ) => {
+const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) => {
     // use the save book mutation, get a mutation function
-    const [saveBook, { error }] = useMutation(SAVE_BOOK);
-    const [disLikedBook] = useMutation(DISLIKED_BOOK);
+    // const [saveBook, { error }] = useMutation(SAVE_BOOK);
+    // const [disLikedBook] = useMutation(DISLIKED_BOOK);
 
     const [source, setSource] = useState({index0: coverLoadingPlaceholder, index1: coverLoadingPlaceholder});
     const [position, setPosition] = useState({ x: null, y: null });

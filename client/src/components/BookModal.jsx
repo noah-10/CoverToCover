@@ -1,6 +1,7 @@
 import '../css/bookModal.css';
 
 const BookModal = ({ closeModal, book, page, bookState }) => {
+    
     return (
         <div className="modal-background">
             <div className="modal-container">

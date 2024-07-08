@@ -5,7 +5,8 @@
 .feed-container{
     min-height: calc(100vh - 115px);
     max-height: calc(100vh - 115px);
-    margin-bottom: -8em;
+    /* min-height: 100vh; */
+    /* margin-bottom: -8em; */
     display: flex;
     /* padding-top: 3em; */
     background: linear-gradient(to bottom, #252B2C, #3A3F40);
@@ -17,6 +18,10 @@
 
 .feed-container::-webkit-scrollbar{
     display: none;
+}
+
+.loading-quote > p, .loading-text > p {
+    color: white;
 }
 
 .feed-content{

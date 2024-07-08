@@ -32,11 +32,13 @@ const FinishedBooks = () => {
     const handleOpenModal = (book) => {
         setClickedBook(book);
         setShowModal(true);
+        document.body.style.overflow = "hidden";
     }
 
     const handleCloseModal = () => {
         setClickedBook(null);
         setShowModal(false);
+        document.body.style.overflow = null;
     }
 
     return (

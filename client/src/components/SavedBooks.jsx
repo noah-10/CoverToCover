@@ -9,7 +9,6 @@ import BookModal from "./BookModal";
 import '../css/savedBooks.css'
 
 const SavedBooks = () => {
-
     const [addToCurrentlyReading] = useMutation(ADD_CURRENTLY_READING);
     const [removeBook] = useMutation(REMOVE_SAVED_BOOK);
 
@@ -40,26 +39,25 @@ const SavedBooks = () => {
     const handleOpenModal = (book) => {
         setClickedBook(book);
         setShowModal(true);
+        document.body.style.overflow = 'hidden'
     }
 
     // Function to empty the state of book clicked and not show modal
     const handleCloseModal = () => {
         setClickedBook(null);
         setShowModal(false);
+        document.body.style.overflow = null;
     }
 
     const startedReading = async (book) => {
-        const { __typename, ...input } = book;
-        const bookId = input.bookId;
+
+        // Get Object Id from the book
+        const bookId = book.bookId;
+
         try{
             // Adds book to finished books subdocument
-            const { data } = await addToCurrentlyReading({
-                variables: { input }
-            });
-
-            // Removes book from currently Reading subdocument
-            await removeBook({
-                variables: { bookId }
+            const { data } = await addToCurrentlyReading({ 
+                variables: { bookId } 
             });
 
             refetch();
@@ -67,15 +65,16 @@ const SavedBooks = () => {
             handleCloseModal();
 
             return data;
-        }catch(err){
-            return { error: err }
+        }catch(error){
+            console.error("Error adding to currently reading", error);
+            return { error: error }
         }
     }
 
     return (
         <>
             <h2>Saved Books:</h2>
-            <div className="books-collection">
+            <div className = "books-collection">
                 {userBooks.length > 0 ? (
                     userBooks.map((book) => (
                             <div className="book-items" key={book.bookId}>
@@ -83,7 +82,9 @@ const SavedBooks = () => {
                                 cover={book.cover}
                                 title={book.title}
                                 author={book.authors}
-                                onClick={() => handleOpenModal(book)}
+                                onClick={() => {
+                                    handleOpenModal(book); 
+                                }}
                                 />
                             </div>
                         

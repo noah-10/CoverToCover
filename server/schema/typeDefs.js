@@ -57,7 +57,7 @@ const typeDefs = `
         removeSavedBook(bookId: String!): User
         removeCurrentlyReadingBook(bookId: String!): User
         finishedReading(bookId: ID!): User
-        addToCurrentlyReading(input: BookInput): User
+        addToCurrentlyReading(bookId: String): User
         addPreferenceAuthor(authors: [String!]): User
         addPreferenceGenre(genre: [String!]): User
         updateUsername(username: String!): User
