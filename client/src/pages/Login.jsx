@@ -11,6 +11,8 @@ const Login = () => {
 
     const [userFormData, setUserFormData] = useState({ email: '', password: '' });
 
+    const [showError, setShowError] = useState("hide-login-error");
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserFormData({ ...userFormData, [name]: value });
@@ -23,10 +25,10 @@ const Login = () => {
             const { data } = await loginUser({
                 variables: { ...userFormData }
             });
-
             Auth.login(data.login.token);
+            setShowError("hide-login-error");
         }catch(err){
-            console.error(err);
+            setShowError("show-login-error");
         }
 
         setUserFormData({
@@ -53,6 +55,9 @@ const Login = () => {
                             type="password"
                             onChange={handleInputChange}
                         />
+                    </div>
+                    <div className={showError}>
+                        <p>The email or password is incorrect</p>
                     </div>
                     <div className="Btn">
                         <button className="action-btn" onClick={handleFormSubmit}>Login</button>

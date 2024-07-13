@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const uniqeValidator = require('mongoose-unique-validator');
 const bcrypt = require("bcrypt");
 
 // define user schema
@@ -6,17 +7,19 @@ const userSchema = new Schema(
     {
         username: {
             type: String,
-            required: true,
-            unique: true
+            required: [true, "Username is required"],
+            unique: true,
         },
         email: {
             type: String,
-            required: true,
-            match: [/.+@.+\..+/, 'Must use a valid email address'] 
+            required: [true, "Email is required"],
+            match: [/.+@.+\..+/, 'Must use a valid email address'], 
+            unique: true
         },
         password: {
             type: String,
-            required: true
+            required: [true, "Password is required"],
+            minLength: [8, "Password must be at least 8 characters long"]
         },
         preferencedAuthor: [String],
         preferencedGenre: [String],
@@ -61,6 +64,9 @@ userSchema.pre("save", async function(next) {
 userSchema.methods.isCorrectPassword = async function(password) {
     return bcrypt.compare(password, this.password);
 }
+
+// Apple the unique validator to schema to be able to get error msg
+userSchema.plugin(uniqeValidator, { message: `The {PATH} is already used`});
 
 // create and export user model
 const User = model("User", userSchema);

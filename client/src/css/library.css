@@ -52,7 +52,6 @@
 
 .books-container {
     width: 100%;
-    /* box-shadow: rgba(255, 255, 255, 1) 0px 10px 15px; */
     padding: 2em 1em;    
     display: flex;
     flex-direction: column;
@@ -65,87 +64,74 @@
 }
 
 .books-collection {
-    flex: 1 1 66.66%;
+    /* flex: 1 1 66.66%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
-    column-gap: 5vw;
+    justify-content: center; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+    column-gap: 3vw;
     row-gap: 2em;
     margin-top: 4em;
-    
+    width: 100%;
 }
 
 .book-items {
-    flex: 1 1 20%; /*Adjust the percentage to control the number of items per row*/
-    /* max-width: 20rem; */
-    width: 20rem;
+    /* flex: 1 1 20%;  */
+    /* width: 20rem; */
+    width: 100%;
     height: 26rem;
-    /* min-width: 14rem; */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 5px 15px;
 }
-
-/* .book-cover img {
-    min-height: 20rem;
-    max-height: 20rem;
-    border: 6px solid white;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; 
-    max-width: 14rem;
-    min-width: 14rem;
-} */
 
 .book-cover {
     width: 100%;
     height: auto;
     display: flex;
     justify-content: center;
+    border: 4px solid white;
+     
 }
-
-/* .book-cover img {
-    width: 100%;
-    height: 26rem;
-    object-fit: cover;
-} */
 
 .book-items:hover{
     scale: 1.05;
     cursor: pointer;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 835px) {
     .books-container{
         padding: 0;
     }
 
     .books-collection{
         margin-top: 2em;
+        grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
     }
 
-    .book-items {
-        flex: 1 1 25%; /* 3 items per row on smaller screens */
-    }
 }
 
 @media screen and (max-width: 600px) {
     .library-container{
-        padding: 0 0.5em;
+        padding: 0 1em;
     }
-    .books-collection {
-        flex: 1 1 90%;
-        width: 90%;
-        
-    }
+    
     .book-items {
-        flex: 1 1 33.33%; /* 2 item per row on very small screens */
         height: 20rem;
     }
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 470px) {
+
+    .books-collection {
+        grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+        
+    }
 
     .book-items {
         height: 16rem;

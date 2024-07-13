@@ -43,6 +43,39 @@
     gap: 1.5rem;
 }
 
+.input-error{
+    border: 1.2px solid rgba(218, 12, 12, 0.8) !important;
+    transition: 0.15s ease-in-out;
+}
+
+.input-error-hidden{
+    display: none;
+}
+
+.input-error:focus{
+    /* box-shadow: rgba(255, 0, 0, 0.25) 0px 5px 15px !important; */
+    /* box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 1); */
+    box-shadow: 0 0 0 0.2rem rgba(218, 12, 12, 0.5);
+}
+
+.input-error-message{
+    color: rgba(218, 12, 12, 0.7);
+    margin-top: 0.5rem;
+}
+
+.input-error-message > p{
+    margin: 0;
+}
+
+.input-error-message-hidden{
+    display: none;
+}
+
+.genre-error{
+    color: red;
+    font-size: 90%;
+}
+
 .Btn {
     display: flex;
     justify-content: center;
@@ -144,6 +177,11 @@ button.submit:hover{
     .signup-input button{
         width: 4em;
         font-size: 14px;
+    }
+
+    .input-error-message{
+        margin-bottom: -1rem;
+        margin-top: 1rem;
     }
 }
 

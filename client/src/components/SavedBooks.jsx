@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import Book from "./Book";
 import BookModal from "./BookModal";
 
-import '../css/savedBooks.css'
-
 const SavedBooks = () => {
     const [addToCurrentlyReading] = useMutation(ADD_CURRENTLY_READING);
     const [removeBook] = useMutation(REMOVE_SAVED_BOOK);

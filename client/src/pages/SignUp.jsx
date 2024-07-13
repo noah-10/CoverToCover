@@ -36,6 +36,21 @@ const SignUp = () => {
     // For finished books
     const [userFinishedBooks, setUserFinishedBooks] = useState([]);
 
+    // Sets which input field is active
+    const [activeField, setActiveField] = useState(1);
+
+    // class for small text foe genre
+    const [genreError, setGenreError] = useState(null);
+
+    // For input errors
+    const [inputError, setInputError] = useState(
+        {   inputName: null, 
+            className: "input-error-hidden", 
+            message: null, 
+            messageClass: "input-error-message-hidden",
+            type: null
+        });
+
     // For user info
     const [userFormData, setUserFormData] = useState(
         {   
@@ -51,10 +66,15 @@ const SignUp = () => {
 
     // Updates the userForm whenever the state of genre is updated
     useEffect(() => {
+        
         setUserFormData(prevData => ({
             ...prevData,
             preferencedGenre: userGenre
         }));
+
+        if(genreError === "genre-error" && userGenre.length >= 5){
+            setGenreError(null);
+        }
     }, [userGenre]);
 
     // Updates the userForm whenever the state of author is updated
@@ -80,19 +100,89 @@ const SignUp = () => {
             finishedBooks: userFinishedBooks
         }));
     }, [userFinishedBooks]);
-    
-    // Sets which input field is active
-    const [activeField, setActiveField] = useState(1);
 
     // handles input in the personal info section
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUserFormData({ ...userFormData, [name]: value });
+
+        // For required
+        if(inputError.inputName === name && value.length > 0 && inputError.type === "required"){
+            setInputError(prevData => ({
+                ...prevData,
+                className: null,
+                messageClass: "input-error-message-hidden"
+            }));
+        }
+
+        // If they delete their input when originally was empty
+        else if(inputError.message && inputError.inputName === name && value.length < 1 && inputError.type === "required"){
+            setInputError(prevData => ({
+                ...prevData,
+                className: "input-error",
+                messageClass: "input-error-message"
+            }));
+        }
+
+        // For password length after error message
+        else if(inputError.message && name === "password" && value.length > 7 && inputError.type === "length"){
+            setInputError(prevData => ({
+                ...prevData,
+                className: null,
+                messageClass: "input-error-message-hidden"
+            }));
+        }
+
+        // For password length if length goes under 7
+        else if(inputError.message && name === "password" && value.length < 8 && inputError.type === "length"){
+            setInputError(prevData => ({
+                ...prevData,
+                className: "input-error",
+                messageClass: "input-error-message"
+            }));
+        }
+
+        // For unique error msg
+        else if(inputError.message && inputError.inputName === name && inputError.type === "unique"){
+            setInputError(prevData => ({
+                ...prevData,
+                className: null,
+                messageClass: "input-error-message-hidden"
+            }));
+        }
+
+        // For valid email
+        else if(inputError.message && name === "email" && inputError.type === "valid"){
+            const checkEmail = (email) => {
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                return emailRegex.test(email);
+            };
+
+            if(checkEmail(value)){
+                setInputError(prevData => ({
+                    ...prevData,
+                    className: null,
+                    messageClass: "input-error-message-hidden"
+                }));
+            }else{
+                setInputError(prevData => ({
+                    ...prevData,
+                    className: "input-error",
+                    messageClass: "input-error-message"
+                }));
+            }
+        }
     }
 
     // For creating user
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        if(userGenre.length < 5){
+            setActiveField(2);
+            setGenreError("genre-error");
+            return;
+        }
 
         try{
             // Uses the addUSer mutation
@@ -100,17 +190,69 @@ const SignUp = () => {
                 // Variables of all of users data
                 variables: { ...userFormData }
             });
-
-            Auth.login(data.addUser.token);
+            if(data){
+                Auth.login(data.addUser.token);
+                setUserFormData({
+                    username: '',
+                    email: '',
+                    password: '',
+                })
+            }
         }catch(err){
-            console.error(err);
-        };
+            // find which input has the error
+            if(err.message.includes("Username") || err.message.includes("username")){
+                setInputError(prevData => ({
+                    ...prevData,
+                    inputName: "username"
+                }));
 
-        setUserFormData({
-            username: '',
-            email: '',
-            password: '',
-        })
+            }else if(err.message.includes("Password") || err.message.includes("password")){
+                setInputError(prevData => ({
+                    ...prevData,
+                    inputName: "password"
+                }));
+
+            }else if(err.message.includes("Email") || err.message.includes("email")){
+                setInputError(prevData => ({
+                    ...prevData,
+                    inputName: "email"
+                }));
+            }
+
+            // Find the type of error
+            if(err.message.includes("required")){
+                setInputError(prevData => ({
+                    ...prevData,
+                    type: "required"
+                }));
+            }
+            else if(err.message.includes("used")){
+                setInputError(prevData => ({
+                    ...prevData,
+                    type: "unique"
+                }));
+            }
+            else if(err.message.includes("characters")){
+                setInputError(prevData => ({
+                    ...prevData,
+                    type: "length"
+                }));
+            }
+            else if(err.message.includes("valid")){
+                setInputError(prevData => ({
+                    ...prevData,
+                    type: "valid"
+                }));
+            }
+
+            setActiveField(1);
+            setInputError(prevData => ({
+                ...prevData,
+                message: err.message,
+                className: "input-error",
+                messageClass: "input-error-message"
+            }));
+        };        
     }
 
     // When user clicks next, it sets the state to show that input field
@@ -204,19 +346,25 @@ const SignUp = () => {
                             name="username"
                             type="text"
                             onChange={handleInputChange}
+                            inputError= {inputError.inputName === "username" ? {inputError} : null}
                         />
                         <FormFields
                             label="Email"
                             name="email"
                             type="text"
                             onChange={handleInputChange}
+                            inputError= {inputError.inputName === "email" ? {inputError} : null}
                         />
                         <FormFields
                             label="Password"
                             name="password"
                             type="password"
                             onChange={handleInputChange}
+                            inputError= {inputError.inputName === "password" ? {inputError} : null}
                         />
+                    </div>
+                    <div className={`${inputError.messageClass}`}>
+                        <p>{inputError.message}</p>
                     </div>
                     <div className="Btn">
                         <button className="next action-btn" onClick={nextField} type="button">Next</button>
@@ -225,6 +373,7 @@ const SignUp = () => {
                 
                 <fieldset className={activeField === 2 ? 'current' : 'hidden'}>
                     <h2 className="mt-4">Favorite Genres</h2>
+                    <small className={`${genreError}`}>Please select atleast 5 genres</small>
                     <div className="genre-card">
                         {genresData.map((genre, index) => (
                             <GenreCards 

@@ -116,9 +116,6 @@ const resolvers = {
         addUser: async (parent, { username, email, password, preferencedAuthor, preferencedGenre, currentlyReading, finishedBooks }) => {
 
             try{
-                console.log(email)
-                console.log(username)
-                console.log(password)
 
                 // Array of book Ids
                 const saveCurrentBooks = [];
@@ -158,7 +155,7 @@ const resolvers = {
                     
                 }));
 
-                // add books to database
+                // loop over each finished book
                 await Promise.all(finishedBooks.map(async (book) => {
                     // Pass each bookId to function to check
                     const checkBook = await checkBooksForDuplicates(book.bookId);
@@ -194,23 +191,30 @@ const resolvers = {
                     currentlyReading: saveCurrentBooks,
                     finishedBooks: saveFinishedBooks,
                 });
-
-                console.log("USER", user);
     
                 if(!user){
-                    return { message: "Error creating account" };
+                    throw new Error("Error creating account");
                 };
 
                 const token = signToken(user);
-                console.log("TOKEN", token);
 
                 if(!token){
-                    console.log("Error signing token");
+                    throw new Error("Error signing token");
                 }
     
                 return { token, user };
             }catch(err){
-                return { error: err };
+
+                // For unique
+                if (err.code === 11000) {
+                    throw new Error('Username or email already exists');
+                }
+                // For required
+                else if(err.name === "ValidationError"){
+                    const messages = Object.values(err.errors).map(e => e.message);
+                    throw new Error(messages[0]);
+                }
+                throw new Error(err.message);
             }
         },
 

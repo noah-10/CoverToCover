@@ -36,11 +36,21 @@
     gap: 1.5rem;
 }
 
+.show-login-error{
+    color: red;
+    margin-top: 0.5rem;
+    font-size: calc(0.5rem + 0.66vw);
+}
+
+.hide-login-error{
+    display: none;
+}
+
 .Btn {
     display: flex;
     justify-content: center;
     gap: 1em;
-    margin: auto auto 20px auto;
+    margin: auto auto auto auto;
 }
 
 .action-btn{
