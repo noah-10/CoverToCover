@@ -1,7 +1,19 @@
+.login-container{
+    height: calc(100vh - 115px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 0.5rem;
+}
+
+.login-items{
+    margin-bottom: 4rem;
+}
+
 .login-form{
     text-align: center;
     position: relative;
-    margin-top: 30px;
+    /* margin-top: 30px; */
     height: 20rem;
     box-shadow: none;
     background-color: transparent;

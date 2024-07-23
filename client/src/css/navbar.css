@@ -24,6 +24,11 @@ a.navbar-brand{
     padding: 20px;
 }
 
+button.navbar-toggler{
+    box-shadow: none !important;
+    border: 1px solid var(--gunmetal);
+}
+
 a.nav-link {
     font-size: 140%;
     color: var(--gunmetal);

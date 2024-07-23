@@ -33,10 +33,6 @@
     max-width: 100%;
 }
 
-/* author and title */
-.book-info{
-}
-
 .feed-title{
     max-height: 66px;
     max-width: 100%;
@@ -269,6 +265,25 @@
     /* margin: 0 auto; */
     font-size: 2em;
     padding: 10px 5px;
+}
+
+.not-loggedIn {
+    height: calc(100vh - 115px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 2rem;
+}  
+
+.not-loggedIn button{
+    background-color: var(--mint);
+    border: 2px solid var(--mint);
+}
+
+.not-loggedIn button:hover{
+    background-color: transparent;
+    color: var(--mint);
 }
 
 @media screen and (max-width: 565px){

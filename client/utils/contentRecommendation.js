@@ -1,13 +1,12 @@
 import { searchBookTitle } from "./API.js";
 import OpenAI from 'openai';
 
-export const getContentRecommendations = async (genres, currentUser, feed) => {
-
+export const getContentRecommendations = async (genres, currentUser, feed, localStorage) => {
     //get weights
     let viewedBooks = [];
     let weights = {};
     weights = await createWeights(genres, weights);  
-    console.log(feed)
+
     // Array of all book titles the user has seen
     const currentUserBookTitles = userBookTitles(currentUser);
 
@@ -16,6 +15,9 @@ export const getContentRecommendations = async (genres, currentUser, feed) => {
 
     // array of the bookIds from the current feed
     const currentFeed = currentFeedIds(feed);
+
+    // array of the bookIds from the local storage
+    const localStorageBooks = localStorageIds(localStorage);
 
     // Make query to openai (Gives titles)
     let openAiBooks = await openAiQuery(weights);
@@ -29,7 +31,6 @@ export const getContentRecommendations = async (genres, currentUser, feed) => {
     while(filterSuccess === false){
         // Push seen books to array for prompt
         viewedBooks.push(...filteredBooks.viewedBooks);
-        console.log(viewedBooks);
         
         // Re query books from openAi
         openAiBooks = await openAiQuery(weights, viewedBooks);
@@ -43,11 +44,9 @@ export const getContentRecommendations = async (genres, currentUser, feed) => {
     const bookData = await getBookInfo(filteredBooks.checkedBooks); 
 
     // Double check books to not include any that have been seen/read and are in english
-    const recommendBooks = await filterViewerPersonalization(bookData, currentUserBookIds, currentFeed)
+    const recommendBooks = await filterViewerPersonalization(bookData, currentUserBookIds, currentFeed, localStorageBooks);
 
-    const formattedBooks = await Promise.all(recommendBooks.map(async (book) => {
-        return formatBook(book);
-    }))
+    const formattedBooks = await Promise.all(recommendBooks.map(formatBook).filter(book => book !== null));
 
     return formattedBooks;
 }
@@ -55,7 +54,6 @@ export const getContentRecommendations = async (genres, currentUser, feed) => {
 const filterBookTitles = (userBooks, aiBooks) => {
 
     let success = false;
-    console.log(aiBooks);
     // Only return books if user doesn't already have them saved or already disliked them
     const checkedBooks = aiBooks.filter((book) => {
         return !userBooks.includes(book);
@@ -77,7 +75,7 @@ const filterBookTitles = (userBooks, aiBooks) => {
 
 const getBookInfo = async(books) => {
 
-    const retryDelay = 10000; // 5 second delay for retries
+    const retryDelay = 10000; // 10 second delay for retries
     const maxRetries = 3; // Maximum number of retries;
 
     const allBookInfo = await Promise.all(books.map(async (book) => {
@@ -114,9 +112,12 @@ const getBookInfo = async(books) => {
             console.log("Failed to fetch books")
             return;
         }
+
+        if(!bookData){
+            return;
+        }
         return bookData;
     }));
-
     return allBookInfo
 }
 
@@ -132,9 +133,9 @@ const openAiQuery = async (genreWeight, viewedBooks) => {
             prompt += `- ${book}\n`;
         });
     }
-    prompt += "\nGive me 20 book recommendations in JSON format with only titles in an array Example: \"titles\": [\"Atomic Habits\", \"Harry Potter\"]";
-    console.log("prompt", prompt)
+    prompt += "\nGive me 20 book recommendations in JSON format with only titles, in an array. This is the format I expect: { \n\"titles\": [\n \"Atomic Habits\", \n \"Harry Potter\" \n] \n}";
     try{
+        console.log(prompt);
         const response = await openai.completions.create({
             model: 'gpt-3.5-turbo-instruct',
             prompt: prompt,
@@ -142,10 +143,10 @@ const openAiQuery = async (genreWeight, viewedBooks) => {
         });
 
         console.log(response)
+        console.log(response.choices[0].text)
 
-        // const cleanResponse = response.replace(/,\s*]/, ']');
-        // console.log("cleanResponse", cleanResponse)
         const data = JSON.parse(response.choices[0].text.trim());
+        console.log(data);
         let recommendations = data.titles;
 
         return recommendations;
@@ -185,6 +186,14 @@ const currentFeedIds = (feedBooks) => {
     return bookIds;
 }
 
+const localStorageIds = (localStorageBooks) => {
+    const bookIds = [
+        ...(localStorageBooks || []).flatMap(book => book.bookId || []),
+    ];
+
+    return bookIds;
+}
+
 // make a weight based on genres (More of the same add on for a bigger score)
 const createWeights = (genres, weights) => {
     genres.sortedPreferences.forEach((genre) => {
@@ -209,7 +218,7 @@ const createWeights = (genres, weights) => {
 }
 
 // Checks if book has already been seen by user
-const filterViewerPersonalization = (allBooks, bookIds, currentFeed) => {
+const filterViewerPersonalization = (allBooks, bookIds, currentFeed, localStorageBooks) => {
 
     const checkLanguage = allBooks.filter((book) => {
         if(book.volumeInfo.language === "en"){
@@ -223,24 +232,31 @@ const filterViewerPersonalization = (allBooks, bookIds, currentFeed) => {
     })
 
     // Only return books if user doesn't already have them saved or already disliked them
-    const checkedBookIds = checkedFeedIds.filter((book) => {
+    const checkedFeedBookIds = checkedFeedIds.filter((book) => {
         return !bookIds.includes(book.id);
     })
 
-   return checkedBookIds;
+    // Only return books if user doesn't already have them saved or already disliked them
+    const checkedlocalStorageIds = checkedFeedBookIds.filter((book) => {
+        return !localStorageBooks.includes(book.id);
+    })
+
+   return checkedlocalStorageIds;
 }
 
 const formatBook = (book) => {
+    if (!book || !book.volumeInfo || !book.volumeInfo.description) return null;
     const thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'client/src/assets/coverPlaceholder.svg';
-    if(!book.volumeInfo.description)return;
-    return {
-        authors: book.volumeInfo.authors,
-        title: book.volumeInfo.title,
-        cover: thumbnail,
-        bookId: book.id,
-        description: book.volumeInfo.description,
-        categories: book.volumeInfo.categories,
+    if(book){
+        return {
+            authors: book.volumeInfo.authors,
+            title: book.volumeInfo.title,
+            cover: thumbnail,
+            bookId: book.id,
+            description: book.volumeInfo.description,
+            categories: book.volumeInfo.categories,
 
+        }
     }
 }
 

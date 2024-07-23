@@ -3,13 +3,18 @@ import SavedBooks from '../components/SavedBooks';
 import FinishedBooks from '../components/FinishedBooks';
 import { useEffect, useState } from 'react';
 import BookModal from "../components/BookModal";
+import { useQuery } from '@apollo/client';
+import { GET_ME } from '../../utils/queries';
 import '../css/library.css'
+import NotLoggedIn from '../components/NotLoggedIn';
 
 const Library = () => {
     const [displayedContainer, setDisplayedContainer] = useState("Saved Books");
     const [menuItems, setMenuItems] = useState(["Currently Reading", "Finished Books"]);
     const [backgroundStyle, setBackgroundStyle] = useState('');
-    // const [onModal, setOnModal] = useState(false);
+    // get the logged in user
+    const { data: userData, loading: userLoading } = useQuery(GET_ME);
+    const user = userData?.me || [];
 
     const handleMenuClick = (e) => {
         const clickedItem = e.target.textContent;
@@ -25,9 +30,17 @@ const Library = () => {
         setDisplayedContainer(e.target.textContent);
     };
 
+    // if not logged in, show a message
+    if (!user.username) {
+        return (
+            <NotLoggedIn />
+            
+        );
+    }
+
     return (
         <>
-            <div className={`${backgroundStyle} library-container`}>
+            <div className="library-container">
                 <div className="library-selection">
                     <p>View your library</p>
                     <ul className="library-list">

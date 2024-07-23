@@ -24,13 +24,12 @@
 }
 
 .library-selection p{
-    font-size: 36px;
-    margin-bottom: 1em;
+    font-size: calc(1em + 2.125vw);
     font-weight: 600;
 }
 
 .library-list{
-    font-size: 24px;
+    font-size: calc(0.5em + 1.85vw);
     list-style-type: none;
     padding: 0;
     display: flex;
@@ -42,12 +41,12 @@
 
 .library-list li{
     width: fit-content;
+    transition: 0.25s ease-in-out;
 }
 
 .library-list li:hover {
-    scale: 1.2;
-    color: var(--mint);
     cursor: pointer;
+    color: var(--mint);
 }
 
 .books-container {

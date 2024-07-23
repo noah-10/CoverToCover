@@ -337,132 +337,134 @@ const SignUp = () => {
     return (
         <div className="signup-container">
             <h1>Sign Up</h1>
-            <form className="signupForm">
-                <fieldset className={ activeField === 1 ? 'current' : 'hidden'}>
-                    <h2 className="mt-4">Personal Details</h2>
-                    <div className="personal-details">
-                        <FormFields
-                            label="Username"
-                            name="username"
-                            type="text"
-                            onChange={handleInputChange}
-                            inputError= {inputError.inputName === "username" ? {inputError} : null}
-                        />
-                        <FormFields
-                            label="Email"
-                            name="email"
-                            type="text"
-                            onChange={handleInputChange}
-                            inputError= {inputError.inputName === "email" ? {inputError} : null}
-                        />
-                        <FormFields
-                            label="Password"
-                            name="password"
-                            type="password"
-                            onChange={handleInputChange}
-                            inputError= {inputError.inputName === "password" ? {inputError} : null}
-                        />
-                    </div>
-                    <div className={`${inputError.messageClass}`}>
-                        <p>{inputError.message}</p>
-                    </div>
-                    <div className="Btn">
-                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
-                    </div>
-                </fieldset>
-                
-                <fieldset className={activeField === 2 ? 'current' : 'hidden'}>
-                    <h2 className="mt-4">Favorite Genres</h2>
-                    <small className={`${genreError}`}>Please select atleast 5 genres</small>
-                    <div className="genre-card">
-                        {genresData.map((genre, index) => (
-                            <GenreCards 
-                                key={index}
-                                name={genre}
-                                state={userGenre}
-                                setState={setUserGenre}
+            <div className="signup-items">
+                <form className="signupForm">
+                    <fieldset className={ activeField === 1 ? 'current' : 'hidden'}>
+                        <h2 className="mt-4">Personal Details</h2>
+                        <div className="personal-details">
+                            <FormFields
+                                label="Username"
+                                name="username"
+                                type="text"
+                                onChange={handleInputChange}
+                                inputError= {inputError.inputName === "username" ? {inputError} : null}
                             />
-                        ))}
-                    </div>   
-                    <div className="Btn">
-                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
-                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
-                    </div>
-                </fieldset>
-
-                <fieldset className={activeField === 3 ? 'current' : 'hidden'}>
-                    <h2 className="mt-4">Favorite Authors</h2>
-                    <div className="signup-input">
-                        <input className="form-control" type="text" placeholder="Author" value={authorInput} onChange={handleAuthorChange}/>
-                        <button type="button" onClick={handleSaveAuthor}>Save</button>
-                    </div>
-
-                    <ul className="author-list mt-4">
-                        {userAuthor.map((author, index) => (
-                            <SignUpList 
-                                key={index}
-                                name={author}
-                                setState={setUserAuthor}
+                            <FormFields
+                                label="Email"
+                                name="email"
+                                type="text"
+                                onChange={handleInputChange}
+                                inputError= {inputError.inputName === "email" ? {inputError} : null}
                             />
-                        ))}
-                    </ul>
+                            <FormFields
+                                label="Password"
+                                name="password"
+                                type="password"
+                                onChange={handleInputChange}
+                                inputError= {inputError.inputName === "password" ? {inputError} : null}
+                            />
+                        </div>
+                        <div className={`${inputError.messageClass}`}>
+                            <p>{inputError.message}</p>
+                        </div>
+                        <div className="Btn">
+                            <button className="next action-btn" onClick={nextField} type="button">Next</button>
+                        </div>
+                    </fieldset>
                     
-                    <div className="Btn">
-                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
-                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
-                    </div>
-                </fieldset>
+                    <fieldset className={activeField === 2 ? 'current' : 'hidden'}>
+                        <h2 className="mt-4">Favorite Genres</h2>
+                        <small className={`${genreError}`}>Please select atleast 5 genres</small>
+                        <div className="genre-card">
+                            {genresData.map((genre, index) => (
+                                <GenreCards 
+                                    key={index}
+                                    name={genre}
+                                    state={userGenre}
+                                    setState={setUserGenre}
+                                />
+                            ))}
+                        </div>   
+                        <div className="Btn">
+                            <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
+                            <button className="next action-btn" onClick={nextField} type="button">Next</button>
+                        </div>
+                    </fieldset>
 
-                <fieldset className={activeField === 4 ? 'current' : 'hidden'}>
-                    <h2 className="mt-4">Currently Reading</h2>
-                    <div className="signup-input">
-                        <input className="form-control" type="text" placeholder="Book Title" value={currentBookInput} onChange={currentBookInputChange}/>
-                        <button type="button" onClick={handleSaveCurrentBook}>Save</button>
-                    </div>
+                    <fieldset className={activeField === 3 ? 'current' : 'hidden'}>
+                        <h2 className="mt-4">Favorite Authors</h2>
+                        <div className="signup-input">
+                            <input className="form-control" type="text" placeholder="Author" value={authorInput} onChange={handleAuthorChange}/>
+                            <button type="button" onClick={handleSaveAuthor}>Save</button>
+                        </div>
 
-                    <ul className="book-container mt-4">
-                        {currentBooks.map((book, index) => (
-                            <SignUpBooks 
-                                key={index}
-                                name={book.title}
-                                cover={book.cover}
-                                setState={setCurrentBooks}
-                            />
-                        ))}
-                    </ul>
+                        <ul className="author-list mt-4">
+                            {userAuthor.map((author, index) => (
+                                <SignUpList 
+                                    key={index}
+                                    name={author}
+                                    setState={setUserAuthor}
+                                />
+                            ))}
+                        </ul>
+                        
+                        <div className="Btn">
+                            <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
+                            <button className="next action-btn" onClick={nextField} type="button">Next</button>
+                        </div>
+                    </fieldset>
 
-                    <div className="Btn">
-                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
-                        <button className="next action-btn" onClick={nextField} type="button">Next</button>
-                    </div>
-                </fieldset>
+                    <fieldset className={activeField === 4 ? 'current' : 'hidden'}>
+                        <h2 className="mt-4">Currently Reading</h2>
+                        <div className="signup-input">
+                            <input className="form-control" type="text" placeholder="Book Title" value={currentBookInput} onChange={currentBookInputChange}/>
+                            <button type="button" onClick={handleSaveCurrentBook}>Save</button>
+                        </div>
 
-                <fieldset className={activeField === 5 ? 'current' : 'hidden'}>
-                    <h2 className="mt-4">Finished Books</h2>
-                    <div className="signup-input">
-                        <input className="form-control" type="text" placeholder="Book Title" value={finishedBookInput} onChange={finishedBookInputChange}/>
-                        <button type="button" onClick={handleSaveFinishedBook}>Save</button>
-                    </div>
+                        <ul className="book-container mt-4">
+                            {currentBooks.map((book, index) => (
+                                <SignUpBooks 
+                                    key={index}
+                                    name={book.title}
+                                    cover={book.cover}
+                                    setState={setCurrentBooks}
+                                />
+                            ))}
+                        </ul>
 
-                    <ul className="book-container mt-4">
-                        {userFinishedBooks.map((book, index) => (
-                            <SignUpBooks 
-                                key={index}
-                                name={book.title}
-                                cover={book.cover}
-                                setState={setUserFinishedBooks}
-                            />
-                        ))}
-                    </ul>
-                    <div className="Btn">
-                        <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
-                        <button className="action-btn submit" type="submit" onClick={handleFormSubmit}>Submit</button>
-                    </div>
-                </fieldset>
-                
-            </form>
-            <div className="to-login">
-                <Link to='/login'>Login Instead</Link>
+                        <div className="Btn">
+                            <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
+                            <button className="next action-btn" onClick={nextField} type="button">Next</button>
+                        </div>
+                    </fieldset>
+
+                    <fieldset className={activeField === 5 ? 'current' : 'hidden'}>
+                        <h2 className="mt-4">Finished Books</h2>
+                        <div className="signup-input">
+                            <input className="form-control" type="text" placeholder="Book Title" value={finishedBookInput} onChange={finishedBookInputChange}/>
+                            <button type="button" onClick={handleSaveFinishedBook}>Save</button>
+                        </div>
+
+                        <ul className="book-container mt-4">
+                            {userFinishedBooks.map((book, index) => (
+                                <SignUpBooks 
+                                    key={index}
+                                    name={book.title}
+                                    cover={book.cover}
+                                    setState={setUserFinishedBooks}
+                                />
+                            ))}
+                        </ul>
+                        <div className="Btn">
+                            <button className="previous action-btn" onClick={previousField} type="button">Previous</button>
+                            <button className="action-btn submit" type="submit" onClick={handleFormSubmit}>Submit</button>
+                        </div>
+                    </fieldset>
+                    
+                </form>
+                <div className="to-login">
+                    <Link to='/login'>Login Instead</Link>
+                </div>
             </div>
         </div>
     )

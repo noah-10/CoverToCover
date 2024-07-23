@@ -1,5 +1,5 @@
 import "../css/feed.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import FeedItem from "../components/FeedItem";
 import { GET_ME, ALL_USERS } from "../../utils/queries";
@@ -8,6 +8,8 @@ import { getCollaborativeRecommendation } from "../../utils/collaborativeRecomme
 import { SAVE_BOOK, DISLIKED_BOOK } from "../../utils/mutations";
 import { useApolloClient } from "@apollo/client";
 import { getQuote } from "../../utils/quotes.js";
+import NotLoggedIn from "../components/NotLoggedIn.jsx";
+import { useLocation } from "react-router-dom";
 
 const Feed = () => {
     const [feed, setFeed] = useState([]);
@@ -25,6 +27,9 @@ const Feed = () => {
     const { data: allUsersData, loading: allUsersLoading, error } = useQuery(ALL_USERS)
     let allUsers = [];
 
+    const location = useLocation();
+    const feedRef = useRef(feed);
+
     const client = useApolloClient();
 
     useEffect(() => {
@@ -33,6 +38,15 @@ const Feed = () => {
             getFeed();
         }
     }, [userLoading, userData, allUsersLoading, allUsersData]);
+
+    // Update the ref each time feed changes
+    useEffect(() => {
+        console.log("feed", feed);
+        feedRef.current = feed;
+        if(feed && feed.length > 3){
+            setLoadingBooks(false)
+        }
+    }, [feed]);
 
     // effect for tracking screen size to be able to change layout
     useEffect(() => {
@@ -53,39 +67,98 @@ const Feed = () => {
         }
     }, [window.innerWidth]);
 
+    useEffect(() => {
+
+        // Function to call when leaving the Feed page
+        const handleLeaveFeed = () => {
+          localStorage.setItem('feed', JSON.stringify(feedRef.current));
+        };
+    
+        // Check if the current path is '/feed'
+        if (location.pathname !== '/feed') {
+          handleLeaveFeed();
+        }
+    
+        // Return a cleanup function to be called when the component unmounts
+        return () => {
+          if (location.pathname === '/feed') {
+            handleLeaveFeed();
+          }
+        };
+      }, [location]);
+
+    useEffect(() => {
+    const localStorageFeed = JSON.parse(localStorage.getItem('feed'));
+    if(localStorageFeed && localStorageFeed.length > 1){
+        setFeed((prevFeed) => [...prevFeed, ...localStorageFeed]);
+    }
+    }, []);
+
     // Removes the feed item from feed state
     // Checks feed length after each click and will query to add to the feed
     const handleClick = async (book) => {
         const updateFeed = feed.filter(item => item.bookId !== book.bookId);
         setFeed(updateFeed);
-        if(feed.length <= 5){
+        if(feed.length === 1){
             
             await client.refetchQueries({
                 include: [GET_ME]
             });
+            setLoadingBooks(true);
             getFeed();
         }
     }
 
     const getFeed = async () => {
-        
+
+        if(loadingBooks === false){
+            return;
+        }
+
+        let localStorageFeed = null;
+
+        if(localStorage.getItem('feed')){
+            
+            localStorageFeed = localStorage.getItem('feed');
+            localStorageFeed = JSON.parse(localStorageFeed);
+        }
+
         // Gets all of users preferences
         const userPreferences = await getPreferences();
         // Get collaborative books
-        const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user);
+        const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user, feed, localStorageFeed);
 
         // Get content based books
-        const contentBooks = await getContentRecommendations(userPreferences, user, feed);
+        const contentBooks = await getContentRecommendations(userPreferences, user, feed, localStorageFeed);
+
+        let combinedArrays = null;
 
         // Combine the arrays
-        let combinedArrays = collaborativeBooks.concat(contentBooks);
+        if(collaborativeBooks){
+            combinedArrays = collaborativeBooks.concat(contentBooks);
+        }else{
+            combinedArrays = contentBooks;
+        }
+
+        const shuffleArray = (array) => {
+            const newArray = array.slice();
+
+            for(let i = newArray.length -1; i > 0; i--){
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
+
+            return newArray;
+        }
+
+        const shuffledBooks = shuffleArray(combinedArrays);
 
         setLoadingBooks(false);
-
+        
         // Set array to feed
-        setFeed((prevFeed) => [...prevFeed, ...combinedArrays]);
-
-        // setFeed(collaborativeBooks)
+        setFeed((prevFeed) => [...prevFeed, ...shuffledBooks]);
     }
 
     // Gets uers preferences based on saved, currently reading, finished, and prefered genres
@@ -111,11 +184,9 @@ const Feed = () => {
     // if not logged in, show a message
     if (!user.username) {
         return (
-            <h1>You need to be logged in to see this</h1>
+            <NotLoggedIn />
         );
     }
-
-    
 
     // return the component
     return (

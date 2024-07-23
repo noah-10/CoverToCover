@@ -1,7 +1,19 @@
+.signup-container{
+    height: calc(100vh - 115px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 0.5rem;
+}
+
+.signup-items{
+    margin-bottom: 4rem;
+}
+
 .signupForm{
     text-align: center;
     position: relative;
-    margin-top: 30px;
+    /* margin-top: 30px; */
     height: 30rem;
     background-color: transparent;
     box-shadow: none;

@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 const AppNavbar = () => {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    // const [navbarState, setNavbarState] = useState("offcanvas-end");
 
     useEffect(() => {
         const handleResize = () => {
@@ -19,6 +20,15 @@ const AppNavbar = () => {
             window.removeEventListener('resize', handleResize);
         }
     });
+
+    const handleLinkClick = () => {
+        // Get the offcanvas element
+        const offcanvasElement = document.getElementById('offcanvasNavbar');
+        // Create a new Bootstrap Offcanvas instance
+        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+        // Hide the offcanvas
+        offcanvas.hide();
+    };
 
 
     return (
@@ -66,6 +76,7 @@ const AppNavbar = () => {
                                         className="nav-link active" 
                                         aria-current="page" 
                                         to='/feed'
+                                        onClick={() => handleLinkClick()}
                                     >   Feed
                                     </Link>
                                 </li>
@@ -74,6 +85,7 @@ const AppNavbar = () => {
                                         className="nav-link active" 
                                         aria-current="page" 
                                         to='/library'
+                                        onClick={() => handleLinkClick()}
                                     >
                                         Library
                                     </Link>
@@ -83,6 +95,7 @@ const AppNavbar = () => {
                                         className="nav-link active" 
                                         aria-current="page" 
                                         to='/setting'
+                                        onClick={() => handleLinkClick()}
                                     >
                                         Setting
                                     </Link>
@@ -103,6 +116,7 @@ const AppNavbar = () => {
                                             className="nav-link active" 
                                             aria-current="page" 
                                             to='/signup'
+                                            onClick={() => handleLinkClick()}
                                         >
                                             Sign Up
                                         </Link>

@@ -40,32 +40,34 @@ const Login = () => {
     return (
         <div className="login-container">
             <h1>Login</h1>
-            <form className="login-form">
-                <fieldset>
-                    <div className="personal-details">
-                        <FormFields
-                            label="Email"
-                            name="email"
-                            type="text"
-                            onChange={handleInputChange}
-                        />
-                        <FormFields
-                            label="Password"
-                            name="password"
-                            type="password"
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className={showError}>
-                        <p>The email or password is incorrect</p>
-                    </div>
-                    <div className="Btn">
-                        <button className="action-btn" onClick={handleFormSubmit}>Login</button>
-                    </div>
-                </fieldset>
-            </form>  
-            <div className="to-signup">
-                <Link to='/signup'>Sign Up Instead</Link>
+            <div className="login-items">
+                <form className="login-form">
+                    <fieldset>
+                        <div className="personal-details">
+                            <FormFields
+                                label="Email"
+                                name="email"
+                                type="text"
+                                onChange={handleInputChange}
+                            />
+                            <FormFields
+                                label="Password"
+                                name="password"
+                                type="password"
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        <div className={showError}>
+                            <p>The email or password is incorrect</p>
+                        </div>
+                        <div className="Btn">
+                            <button className="action-btn" onClick={handleFormSubmit}>Login</button>
+                        </div>
+                    </fieldset>
+                </form>  
+                <div className="to-signup">
+                    <Link to='/signup'>Sign Up Instead</Link>
+                </div>
             </div>
         </div>
     )
