@@ -3,10 +3,10 @@
     flex-direction: column;
     /* margin-top: 5em; */
     width: 100%;
-    padding: 0 2em;
+    padding: 0 2em 3em 2em;
     gap: 2em;
     background: linear-gradient(to bottom, #252B2C, #3A3F40);
-    min-height: calc(100vh - 115px);
+    min-height: calc(100vh - 11vh);
 }
 
 .library-selection{

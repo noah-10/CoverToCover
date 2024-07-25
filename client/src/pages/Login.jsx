@@ -18,6 +18,10 @@ const Login = () => {
         setUserFormData({ ...userFormData, [name]: value });
     }
 
+    useEffect(() => {
+        console.log(userFormData)
+    })
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
@@ -27,14 +31,16 @@ const Login = () => {
             });
             Auth.login(data.login.token);
             setShowError("hide-login-error");
+            setUserFormData({
+                email: '',
+                password: '',
+            });
         }catch(err){
             setShowError("show-login-error");
+            
         }
 
-        setUserFormData({
-            email: '',
-            password: '',
-        });
+        
     }
 
     return (

@@ -13,12 +13,13 @@
 
 .modal-container{
     width: 80vw;
-    height: 85vh;
+    height: 80vh;
     border-radius: 12px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.95) 0px 5px 15px;
     display: flex;
     flex-direction: column;
+    row-gap: 2vh;
     padding: 25px;
 }
 
@@ -94,6 +95,10 @@
     align-items: center;
 }
 
+.footer{
+    max-height: 80px;
+}
+
 button.btn-action{
     background-color: var(--mint);
     transition: 0.5s ease-out;
@@ -127,9 +132,9 @@ button.btn-action:hover{
     color: var(--old-rose);
 }
 
-/* Mobile M */ 
-@media screen and (max-width: 376px){
-    .modal-container .body {
-        font-size: calc(1rem + 1vw);
+/* Mobile L */ 
+@media screen and (max-width: 426px){
+    .body p {
+        font-size: calc(0.75rem + 1vw);
     }
 }

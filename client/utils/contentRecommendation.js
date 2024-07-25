@@ -10,6 +10,8 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
     // Array of all book titles the user has seen
     const currentUserBookTitles = userBookTitles(currentUser);
 
+    const currentUserAuthors = currentUser.preferencedAuthor;
+
     // Array of all bookIds the user has seen
     const currentUserBookIds = userBookIds(currentUser);
 
@@ -20,7 +22,7 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
     const localStorageBooks = localStorageIds(localStorage);
 
     // Make query to openai (Gives titles)
-    let openAiBooks = await openAiQuery(weights);
+    let openAiBooks = await openAiQuery(weights, null, currentUserAuthors);
 
     // Filters books given by openai to not show duplicates
     let filterSuccess = null
@@ -121,19 +123,27 @@ const getBookInfo = async(books) => {
     return allBookInfo
 }
 
-const openAiQuery = async (genreWeight, viewedBooks) => {
+const openAiQuery = async (genreWeight, viewedBooks, authors) => {
+    console.log(authors);
+    console.log(viewedBooks);
     // Create prompt
     let prompt = "Given this list of book genres and a score (higher the score, the more I like it): \n\n"; 
     Object.entries(genreWeight).forEach(([genre, score]) => {
         prompt += `- ${genre}: ${score} \n`;
     });
+    if(authors){
+        prompt += `\n Also this list of authors I like: \n`;
+        authors.forEach((author) => {
+            prompt += `\- ${author}\n`;
+        })
+    }
     if(viewedBooks){
         prompt += `\nI have already seen these books so do not include them: \n\n`
         viewedBooks.forEach((book) => {
             prompt += `- ${book}\n`;
         });
     }
-    prompt += "\nGive me 20 book recommendations in JSON format with only titles, in an array. This is the format I expect: { \n\"titles\": [\n \"Atomic Habits\", \n \"Harry Potter\" \n] \n}";
+    prompt += "\nGive me 20 book recommendations, include only the title, and it shouldn't be numbered. It should be in JSON format, this is what I expect: { \n\"titles\": [\n \"Atomic Habits\", \n \"Harry Potter\" \n] \n}";
     try{
         console.log(prompt);
         const response = await openai.completions.create({

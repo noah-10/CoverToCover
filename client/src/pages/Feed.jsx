@@ -99,7 +99,7 @@ const Feed = () => {
     const handleClick = async (book) => {
         const updateFeed = feed.filter(item => item.bookId !== book.bookId);
         setFeed(updateFeed);
-        if(feed.length === 1){
+        if(feed.length === 2){
             
             await client.refetchQueries({
                 include: [GET_ME]

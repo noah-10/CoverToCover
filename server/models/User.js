@@ -65,7 +65,7 @@ userSchema.methods.isCorrectPassword = async function(password) {
     return bcrypt.compare(password, this.password);
 }
 
-// Apple the unique validator to schema to be able to get error msg
+// message for if unique values are already taken
 userSchema.plugin(uniqeValidator, { message: `The {PATH} is already used`});
 
 // create and export user model

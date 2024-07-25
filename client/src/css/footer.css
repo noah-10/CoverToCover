@@ -18,7 +18,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 24px;
+    padding: 24px 0;
 }
 
 .subscription-heading {
@@ -36,6 +36,7 @@
     box-shadow: none;
     display: flex;
     flex-direction: row;
+    padding: 0;
 }
 
 .input-area form button{

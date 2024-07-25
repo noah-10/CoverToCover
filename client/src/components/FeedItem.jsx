@@ -17,6 +17,7 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
     const [dragging, setDragging] = useState(false);
     const [rel, setRel] = useState({ x: 0, y: 0});
     const [overlayText, setOverlayText] = useState(null);
+    const [swipeMode, setSwipeMode] = useState(false);
     // console.log(feedItem)
     useEffect(() => {
         // when the cover source updates, set the source to the placeholder until the cover loads
@@ -128,6 +129,8 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
     // Function to empty the state of book clicked and not show modal
     const handleCloseModal = () => {
         setShowModal(false);
+        const bodyElem = document.querySelector("body");
+        bodyElem.style.overflow = null;
     }
 
     const touchStart = (e, type) => {
@@ -230,7 +233,21 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
 
     return (
         <>
-        {screenSize >= 800 ? (
+        {swipeMode === false || screenSize > 600  ? (
+            <>
+            {screenSize < 600 ? (
+                <div className="switch-mode">
+                    <div className="switch-text">
+                        <p>Switch to swiping mode</p>
+                    </div>
+                    <div className="switch-btn">
+                        <button onClick={() => setSwipeMode(true)}>X</button>
+                    </div>
+                </div>
+            ) : (
+                null
+            )}
+            
             <div className="feed-content">
                 <div className="book-info"> 
                     <div className="feed-title">
@@ -244,7 +261,6 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
                     <div className="feed-image-container">
                         <img 
                             className="feed-img" 
-                            onClick={() => handleOpenModal(feedItem[0])} 
                             src={source.index0} 
                             alt={`Cover of the book "${feedItem[0].title}"`}
                             style={{ imageRendering: 'high-quality', width: '100%', height: 'auto' }}>
@@ -260,7 +276,19 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
                     <button id="save-button" onClick={() => handleSaveClick()}><FontAwesomeIcon className="feed-icon" icon={faBookmark}></FontAwesomeIcon></button>
                 </div>
             </div>
+            </>
         ): (
+            <>
+            {screenSize < 600 ? (
+            <>
+            <div className="switch-mode">
+                <div className="switch-text">
+                    <p>Switch to standard mode</p>
+                </div>
+                <div className="switch-btn">
+                    <button onClick={() => setSwipeMode(false)}>X</button>
+                </div>
+            </div>
             <div className="small-feed-content">
                 <div className="feed-img-container">
                     <div 
@@ -291,8 +319,7 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
                         
                         
                     </div>
-                </div>
-                <div className="next-img-container">
+                    <div className="next-img-container">
                     <img 
                         className="next-feed-img" 
                         src={source.index1} 
@@ -300,6 +327,8 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
                         style={{ imageRendering: 'high-quality' }}>
                     </img>
                 </div>
+                </div>
+                
                 <div className="small-feed-btns">
                     <button id="small-dismiss-button" onClick={() => handleDislikeClick()}>
                         <FontAwesomeIcon className="feed-icon" icon={faBan}></FontAwesomeIcon>
@@ -312,6 +341,9 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
                             <BookModal closeModal={() => handleCloseModal()} book={feedItem[0]} />
                 )}
             </div>
+            </>
+            ): null}
+            </>
         )}
         
         </>

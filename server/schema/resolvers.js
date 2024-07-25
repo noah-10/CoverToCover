@@ -93,23 +93,27 @@ const resolvers = {
     Mutation: {
         // Logging a user in
         login: async (parent, { email, password }) => {
-            const user = await User.findOne(
-                { email: email }
-            );
+            try{
+                const user = await User.findOne(
+                    { email: email }
+                );
+    
+                if(!user){
+                    return;
+                };
+    
+                const checkPassword = await user.isCorrectPassword(password);
 
-            if(!user){
-                return { message: "No user found" }
-            };
-
-            const checkPassword = user.isCorrectPassword(password);
-
-            if(!checkPassword){
-                return { message: "Wrong email or password" }
+                if(!checkPassword){
+                    return;
+                }
+    
+                const token = signToken(user);
+    
+                return { token, user };
+            }catch(err){
+                return;
             }
-
-            const token = signToken(user);
-
-            return { token, user };
         },
 
         // Adding user
