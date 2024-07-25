@@ -193,7 +193,7 @@ const Feed = () => {
         <div className="container-fluid feed-container">
             {loadingBooks  ? (
                 <>
-                    <div className="d-flex justify-content-center w-100 align-items-center flex-column px-1">
+                    <div className="d-flex justify-content-center w-100 align-items-center flex-column px-1 my-auto">
                         <div className="loading-quote">
                             <p>"{quote.quote}" - {quote.author}</p>
                         </div>

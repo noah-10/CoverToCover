@@ -72,21 +72,23 @@ const SavedBooks = () => {
     return (
         <>
             <h2>Saved Books:</h2>
-            <div className = "books-collection">
+            
                 {userBooks.length > 0 ? (
-                    userBooks.map((book) => (
-                            <div className="book-items" key={book.bookId}>
-                                <Book 
-                                cover={book.cover}
-                                title={book.title}
-                                author={book.authors}
-                                onClick={() => {
-                                    handleOpenModal(book); 
-                                }}
-                                />
-                            </div>
-                        
-                    ))
+                    <div className = "books-collection">
+                        {userBooks.map((book) => (
+                                <div className="book-items" key={book.bookId}>
+                                    <Book 
+                                    cover={book.cover}
+                                    title={book.title}
+                                    author={book.authors}
+                                    onClick={() => {
+                                        handleOpenModal(book); 
+                                    }}
+                                    />
+                                </div>
+                            
+                        ))}
+                    </div>
                 ) : (
                     <div className="no-books">
                         <p>You don't have any books saved!</p>
@@ -95,7 +97,6 @@ const SavedBooks = () => {
                     
                 )}
                 
-            </div>
             {showModal && <BookModal 
                 closeModal={handleCloseModal}
                 book={clickedBook}

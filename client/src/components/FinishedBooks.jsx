@@ -44,20 +44,28 @@ const FinishedBooks = () => {
     return (
         <>
             <h2>Finished Books:</h2>
-            <div className="books-collection">
-                {userBooks.map((book) => {
-                    return (
-                        <div className="book-items" key={book.bookId}>
-                            <Book 
-                            cover={book.cover}
-                            title={book.title}
-                            author={book.authors}
-                            onClick={() => handleOpenModal(book)}
-                            />
-                        </div>
-                    );
-                })}
-            </div>
+            {userBooks.length > 0 ? (
+                <div className="books-collection">
+                    {userBooks.map((book) => {
+                        return (
+                            <div className="book-items" key={book.bookId}>
+                                <Book 
+                                cover={book.cover}
+                                title={book.title}
+                                author={book.authors}
+                                onClick={() => handleOpenModal(book)}
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
+            ): (
+                <div className="no-books">
+                    <p>You do not have any finished books!</p>
+                    <p>Pick up a book and start reading!</p>
+                </div>
+            )}
+            
             {showModal && <BookModal 
                 closeModal={handleCloseModal}
                 book={clickedBook}

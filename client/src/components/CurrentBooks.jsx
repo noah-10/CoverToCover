@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from "@apollo/client"
 import { CURRENTLY_READING } from "../../utils/queries"
 import { FINISHED_READING } from '../../utils/mutations';
+import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import Book from "./Book";
@@ -71,7 +72,8 @@ const CurrentBooks = () => {
     return (
         <>
             <h2 className="mb-3">Currently Reading:</h2>
-            <div className="books-collection">
+            {userBooks.length > 0 ? (
+                <div className="books-collection">
                 {userBooks.map((book) => {
                     return (
                         <div className="book-items" key={book.bookId}>
@@ -86,6 +88,13 @@ const CurrentBooks = () => {
                     );
                 })}
             </div>
+            ) : (
+                <div className="no-books">
+                    <p>You are not currently reading any books!</p>
+                    <p>Pick up a book and start reading!</p>
+                </div>
+            )}
+            
             {showModal && <BookModal 
                 closeModal={handleCloseModal}
                 book={clickedBook}

@@ -103,6 +103,15 @@
     cursor: pointer;
 }
 
+/*  for no books in a component */
+.no-books{
+    margin-top: 2rem;
+}
+
+.no-books > p {
+    color: white;
+}
+
 @media screen and (max-width: 835px) {
     .books-container{
         padding: 0;
