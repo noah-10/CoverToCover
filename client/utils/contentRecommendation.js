@@ -1,5 +1,7 @@
 import { searchBookTitle } from "./API.js";
 import OpenAI from 'openai';
+import { checkImgSize, scrapeBookCover } from "./bookCover.js";
+
 
 export const getContentRecommendations = async (genres, currentUser, feed, localStorage) => {
     //get weights
@@ -48,7 +50,8 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
     // Double check books to not include any that have been seen/read and are in english
     const recommendBooks = await filterViewerPersonalization(bookData, currentUserBookIds, currentFeed, localStorageBooks);
 
-    const formattedBooks = await Promise.all(recommendBooks.map(formatBook).filter(book => book !== null));
+    let formattedBooks = await Promise.all(recommendBooks.map(formatBook).filter(book => book !== null));
+    formattedBooks = formattedBooks.filter(book => book !== null);
 
     return formattedBooks;
 }
@@ -254,14 +257,18 @@ const filterViewerPersonalization = (allBooks, bookIds, currentFeed, localStorag
    return checkedlocalStorageIds;
 }
 
-const formatBook = (book) => {
-    if (!book || !book.volumeInfo || !book.volumeInfo.description) return null;
-    const thumbnail = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'client/src/assets/coverPlaceholder.svg';
+const formatBook = async(book) => {
+    if (!book || !book.volumeInfo || !book.volumeInfo.description || !book.volumeInfo.imageLinks || !book.volumeInfo.imageLinks.thumbnail ) return null;
+    let bookCover = book.volumeInfo.imageLinks.thumbnail;
+    bookCover = bookCover.replace('zoom=1', 'zoom=4');
+
+    // checks book size after changing the zoom // makes sure the img is still compatible
+    const checkedImgSize = await checkImgSize(bookCover, book.volumeInfo.title, book.volumeInfo.authors[0]);
     if(book){
         return {
             authors: book.volumeInfo.authors,
             title: book.volumeInfo.title,
-            cover: thumbnail,
+            cover: checkedImgSize,
             bookId: book.id,
             description: book.volumeInfo.description,
             categories: book.volumeInfo.categories,

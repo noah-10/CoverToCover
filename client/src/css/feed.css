@@ -62,7 +62,7 @@
 
 .feed-title h3{
     text-align: center;
-    font-size: calc(1.3rem + 3vw);
+    font-size: calc(1rem + 2.33vw);
     font-weight: 700;
     color: var(--floral-white);
     text-transform: uppercase;
@@ -72,7 +72,7 @@
 }
 
 .feed-authors p {
-    font-size: calc(1rem + 1.5vw);
+    font-size: calc(0.33rem + 2.33vw);
     font-weight: 500;
     margin-bottom: 0;
     color: var(--floral-white);
@@ -187,6 +187,10 @@
     .feed-content{
         padding: 0 1rem;
     }
+
+    .feed-info{
+        column-gap: 3vw;
+    }
 }
 
 @media screen and (max-width: 646px){
@@ -214,8 +218,9 @@
     }
 
     .feed-image-container{
-        min-width: calc(7.75rem + 9.5vw);
-        height: 30vh;
+        min-width: calc(6.75rem + 12.5vw);
+        max-width: calc(6.75rem + 12.5vw);
+        /* min-height: 20vh; */
     }
 
     .feed-description{
@@ -229,6 +234,14 @@
 
     .feed-btns{
         margin-top: 0;
+    }
+
+    #dismiss-button, #save-button {
+        height: calc(1.5rem + 2vh);
+    }
+
+    #save-button > svg,  #dismiss-button > svg{
+        height: calc(0.33rem + 2vh);
     }
 }
 

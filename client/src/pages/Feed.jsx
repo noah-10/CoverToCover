@@ -126,39 +126,39 @@ const Feed = () => {
         // Gets all of users preferences
         const userPreferences = await getPreferences();
         // Get collaborative books
-        const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user, feed, localStorageFeed);
+        // const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user, feed, localStorageFeed);
 
         // Get content based books
         const contentBooks = await getContentRecommendations(userPreferences, user, feed, localStorageFeed);
 
-        let combinedArrays = null;
+        // let combinedArrays = null;
 
-        // Combine the arrays
-        if(collaborativeBooks){
-            combinedArrays = collaborativeBooks.concat(contentBooks);
-        }else{
-            combinedArrays = contentBooks;
-        }
+        // // Combine the arrays
+        // if(collaborativeBooks){
+        //     combinedArrays = collaborativeBooks.concat(contentBooks);
+        // }else{
+        //     combinedArrays = contentBooks;
+        // }
 
-        const shuffleArray = (array) => {
-            const newArray = array.slice();
+        // const shuffleArray = (array) => {
+        //     const newArray = array.slice();
 
-            for(let i = newArray.length -1; i > 0; i--){
-                const j = Math.floor(Math.random() * (i + 1));
-                const temp = newArray[i];
-                newArray[i] = newArray[j];
-                newArray[j] = temp;
-            }
+        //     for(let i = newArray.length -1; i > 0; i--){
+        //         const j = Math.floor(Math.random() * (i + 1));
+        //         const temp = newArray[i];
+        //         newArray[i] = newArray[j];
+        //         newArray[j] = temp;
+        //     }
 
-            return newArray;
-        }
+        //     return newArray;
+        // }
 
-        const shuffledBooks = shuffleArray(combinedArrays);
+        // const shuffledBooks = shuffleArray(combinedArrays);
 
         setLoadingBooks(false);
         
         // Set array to feed
-        setFeed((prevFeed) => [...prevFeed, ...shuffledBooks]);
+        setFeed((prevFeed) => [...prevFeed, ...contentBooks]);
     }
 
     // Gets uers preferences based on saved, currently reading, finished, and prefered genres
