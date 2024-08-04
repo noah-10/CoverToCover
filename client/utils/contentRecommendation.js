@@ -2,7 +2,6 @@ import { searchBookTitle } from "./API.js";
 import OpenAI from 'openai';
 import { checkImgSize, scrapeBookCover } from "./bookCover.js";
 
-
 export const getContentRecommendations = async (genres, currentUser, feed, localStorage) => {
     //get weights
     let viewedBooks = [];
@@ -46,9 +45,14 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
     
     // For each book make query to google Books to get all info
     const bookData = await getBookInfo(filteredBooks.checkedBooks); 
+    console.log(bookData);
+
+    if(bookData.limitReached === true){
+        return bookData;
+    }
 
     // Double check books to not include any that have been seen/read and are in english
-    const recommendBooks = await filterViewerPersonalization(bookData, currentUserBookIds, currentFeed, localStorageBooks);
+    const recommendBooks = await filterViewerPersonalization(bookData.allBookInfo, currentUserBookIds, currentFeed, localStorageBooks);
 
     let formattedBooks = await Promise.all(recommendBooks.map(formatBook).filter(book => book !== null));
     formattedBooks = formattedBooks.filter(book => book !== null);
@@ -80,28 +84,31 @@ const filterBookTitles = (userBooks, aiBooks) => {
 
 const getBookInfo = async(books) => {
 
-    const retryDelay = 10000; // 10 second delay for retries
+    // const retryDelay = 10000; // 10 second delay for retries
     const maxRetries = 3; // Maximum number of retries;
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    const allBookInfo = [];
+    let limitReached = false;
 
-    const allBookInfo = await Promise.all(books.map(async (book) => {
+    for (const book of books) {
 
-        let attempts = 0;
+        // let attempts = 0;
         let success = false;
         let bookData = null;
 
-        while (attempts < maxRetries && !success){
+        while (!success){
             try{
                 // delay between retries
-                if(attempts > 0) {
-                    await new Promise(resolve => setTimeout(resolve, retryDelay));
-                }
+                // if(attempts > 0) {
+                //     await delay(retryDelay);
+                // }
 
                 const response = await searchBookTitle(book);
 
                 if(response.status === 429){
                     console.log("Error code 429 - Too many requests");
-                    attempts++;
-                    continue; //Retry after delay
+                    // attempts++;
+                    return { limitReached: true }; //Retry after delay
                 }
 
                 const data = await response.json();
@@ -109,21 +116,30 @@ const getBookInfo = async(books) => {
                 success = true;
             }catch(err){
                 console.log(`${err}`);
-                attempts++;
             }
         }
 
-        if(!success){
-            console.log("Failed to fetch books")
-            return;
-        }
+        // if(!success){
+        //     console.log("Failed to fetch books")
+        //     await delay(2000);
+        //     return;
+        // }
 
-        if(!bookData){
-            return;
-        }
-        return bookData;
-    }));
-    return allBookInfo
+        // if(!bookData){
+        //     await delay(2000);
+        //     return;
+        // }else{
+        allBookInfo.push(bookData);
+        await delay(1000);
+        // }
+ 
+    };
+
+    // if(success){
+    return { allBookInfo, limitReached }
+    // }else{
+    //     return { limitReached: true };
+    // }
 }
 
 const openAiQuery = async (genreWeight, viewedBooks, authors) => {

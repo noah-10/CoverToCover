@@ -10,6 +10,7 @@ import { useApolloClient } from "@apollo/client";
 import { getQuote } from "../../utils/quotes.js";
 import NotLoggedIn from "../components/NotLoggedIn.jsx";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Feed = () => {
     const [feed, setFeed] = useState([]);
@@ -20,6 +21,7 @@ const Feed = () => {
     const [disLikedBook] = useMutation(DISLIKED_BOOK);
     const [quote, setQuote] = useState(getQuote());
     const [loadingWidth, setLoadingWidth] = useState(null)
+    const [limitUsed, setLimitUsed] = useState(false);
 
     // get the logged in user
     const { data: userData, loading: userLoading } = useQuery(GET_ME);
@@ -71,6 +73,7 @@ const Feed = () => {
 
         // Function to call when leaving the Feed page
         const handleLeaveFeed = () => {
+            console.log(feedRef.current);
           localStorage.setItem('feed', JSON.stringify(feedRef.current));
         };
     
@@ -96,7 +99,8 @@ const Feed = () => {
 
     // Removes the feed item from feed state
     // Checks feed length after each click and will query to add to the feed
-    const handleClick = async (book) => {
+    const handleClick = async () => {
+        const book = feed[0];
         const updateFeed = feed.filter(item => item.bookId !== book.bookId);
         setFeed(updateFeed);
         if(feed.length === 2){
@@ -130,6 +134,11 @@ const Feed = () => {
 
         // Get content based books
         const contentBooks = await getContentRecommendations(userPreferences, user, feed, localStorageFeed);
+        console.log(contentBooks);
+
+        if(contentBooks.limitReached === true){
+            return setLimitUsed(true);
+        }
 
         // let combinedArrays = null;
 
@@ -188,9 +197,28 @@ const Feed = () => {
         );
     }
 
+    if(limitUsed && feed.length < 3){
+        return(
+            <div className="limit-used-container">
+                <div className="limit-text">
+                    <h1>Limit has been used for the day!</h1>
+                    <p>Take this time to look through your library and start reading!</p>
+                </div>
+                <div className="limit-link">
+                    <Link to='/library'><button>Library</button></Link>
+                </div>
+                <div className="check-back">
+                    <small>Check back in 24 hours to find new books</small>
+                </div>
+            </div>
+        )
+    }
+
+
     // return the component
     return (
         <div className="container-fluid feed-container">
+        
             {loadingBooks  ? (
                 <>
                     <div className="d-flex justify-content-center w-100 align-items-center flex-column px-1 my-auto">

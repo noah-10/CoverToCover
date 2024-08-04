@@ -57,7 +57,7 @@ const scrapeBookCover = async (title, author, originalCover) => {
 }
 
 const checkImgSize = async(imgUrl, title, author) => {
-
+    console.log(imgUrl)
     try{
         const url = `http://localhost:3001/api/check`;
         let { data } = await axios.get(url, {
