@@ -463,7 +463,7 @@ const SignUp = () => {
                     
                 </form>
                 <div className="to-login">
-                    <Link to='/login'>Login Instead</Link>
+                    <Link to='/login'>Login</Link>
                 </div>
             </div>
         </div>

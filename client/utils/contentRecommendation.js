@@ -1,6 +1,7 @@
 import { searchBookTitle } from "./API.js";
-import OpenAI from 'openai';
 import { checkImgSize, scrapeBookCover } from "./bookCover.js";
+import axios from "axios";
+
 
 export const getContentRecommendations = async (genres, currentUser, feed, localStorage) => {
     //get weights
@@ -165,18 +166,17 @@ const openAiQuery = async (genreWeight, viewedBooks, authors) => {
     prompt += "\nGive me 20 book recommendations, include only the title, and it shouldn't be numbered. It should be in JSON format, this is what I expect: { \n\"titles\": [\n \"Atomic Habits\", \n \"Harry Potter\" \n] \n}";
     try{
         console.log(prompt);
-        const response = await openai.completions.create({
-            model: 'gpt-3.5-turbo-instruct',
-            prompt: prompt,
-            max_tokens: 2000,
-        });
+        const url = "http://localhost:3001/api/content"
 
-        console.log(response)
-        console.log(response.choices[0].text)
+        let { data } = await axios.get(url, {
+            params: { prompt }
+        })
 
-        const data = JSON.parse(response.choices[0].text.trim());
-        console.log(data);
-        let recommendations = data.titles;
+        console.log(data)
+
+        const response = JSON.parse(data.choices[0].text.trim());
+        console.log(response);
+        let recommendations = response.titles;
 
         return recommendations;
             

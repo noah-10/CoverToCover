@@ -3,7 +3,7 @@ const genresData = [
     "Science Fiction",
     "Mystery",
     "Novel",
-    "History",
+    "Historical Fiction",
     "Fantasy",
     "Memoir",
     "Biography",
@@ -18,7 +18,10 @@ const genresData = [
     "Paranormal",
     "Dystopia",
     "Thriller",
-    "Post Apocalyptic"
+    "Post Apocalyptic",
+    "Literary Fiction",
+    "Magical Realism",
+    "Self-Help",
 ]
 
 export default genresData;

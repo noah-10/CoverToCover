@@ -65,7 +65,7 @@
 .info-content{
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
+    row-gap: 2vh;
     border-radius: 15px;
     padding: 10px 15px;
     box-shadow: rgba(255, 255, 255, 0.55) 0px 5px 15px;
@@ -204,7 +204,7 @@
     flex-direction: row;
     justify-content: end;
     align-items: center;
-    margin: 0.75rem 0.5rem -0.75rem 0;
+    margin: 0.75rem 1rem -0.75rem 0;
     column-gap: 0.5rem;
 }
 
@@ -278,6 +278,12 @@
     max-height: calc(100vh - 11vh);
     display: flex;
     flex-direction: column;
+}
+
+@media screen and (min-width: 1350px){
+    .info-content {
+        padding: 7.5rem 15px ;
+    }
 }
 
 /* Tablet */

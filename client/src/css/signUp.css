@@ -6,8 +6,8 @@
     row-gap: 0.5rem;
 }
 
-.signup-items{
-    margin-bottom: 4rem;
+.signup-container > h1{
+    color: var(--floral-white);
 }
 
 .signupForm{
@@ -170,11 +170,15 @@ button.submit:hover{
 
 }
 
+.to-login{
+    font-size: calc(1rem + 0.66vw);
+}
+
 /* Mobile L */
 @media screen and (max-width: 426px){
 
     .signupForm {
-        padding: 0 2rem;
+        padding: 20px 2rem;
     }
 
     .signupForm fieldset{

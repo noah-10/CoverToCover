@@ -5,6 +5,7 @@ import Auth from '../../utils/auth.js';
 import { faBarsProgress, faHandPointUp, faUser, faBan, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SwipeFeed from '../components/SwipeFeed.jsx';
+import logo from '../assets/logo.png';
 
 const Home = () => {
 
@@ -45,8 +46,8 @@ const Home = () => {
     const books = [
         {
             title: "Books You'll Love",
-            cover: "http://books.google.com/books/content?id=BIxPEAAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&source=gbs_api",
-            description: "Welcome to Judge A Book, where book discovery meets fun. Our user-friendly feed helps you find new and exciting books in a matter of minutes. Give our demo feed a try and experience the joy of effortless book discovery today!",
+            cover: logo,
+            description: "Welcome to Cover To Cover, where book discovery meets fun. Our user-friendly feed helps you find new and exciting books in a matter of minutes. Give our demo feed a try and experience the joy of effortless book discovery today!",
             authors: "Enjoy a seamless book discovery experience",
         },
         {
@@ -67,8 +68,8 @@ const Home = () => {
         <div className='home-container'>
             <div className="home-overlay">
                 <div className="overlay-text">
-                    <h2>Judge a Book</h2>
-                    <p>Exploring New Worlds, One Page at a Time: Your Ultimate Book Discovery Companion with Judge a Book</p>
+                    <h2>Cover To Cover</h2>
+                    <p>Exploring New Worlds, One Page at a Time: Your Ultimate Book Discovery Companion with Cover To Cover</p>
                 </div>
                 <div className="get-started">
                     {Auth.loggedIn() ? (

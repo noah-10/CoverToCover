@@ -6,30 +6,37 @@
     row-gap: 0.5rem;
 }
 
+.login-container > h1{
+    color: var(--floral-white);
+}
+
 .login-items{
-    margin-bottom: 4rem;
+    padding: 20px;
 }
 
 .login-form{
     text-align: center;
     position: relative;
     /* margin-top: 30px; */
-    height: 20rem;
+    height: 30rem;
     box-shadow: none;
     background-color: transparent;
+    width: 100%;
 }
 
 .login-form fieldset{
     background: white;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
     border: 0 none;
     border-radius: 0px;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
     padding: 20px 30px;
     /* box-sizing: border-box; */
     width: 80%;
-    margin: 0 10%;
+    margin: auto;
     height: 100%;
     position: relative;
 }
@@ -44,7 +51,7 @@
 .personal-details{
     display: flex;
     flex-direction: column;
-    margin-top: 2em;
+    margin-top: 0;
     gap: 1.5rem;
 }
 
@@ -62,7 +69,7 @@
     display: flex;
     justify-content: center;
     gap: 1em;
-    margin: auto auto auto auto;
+    margin: 0 auto;
 }
 
 .action-btn{
@@ -79,4 +86,11 @@
 .action-btn:hover{
     background-color: white;
     color: var(--mint);
+}
+
+@media screen and (max-width: 426px){
+
+    .login-form {
+        padding: 20px 2rem;
+    }
 }

@@ -72,7 +72,7 @@ const Login = () => {
                     </fieldset>
                 </form>  
                 <div className="to-signup">
-                    <Link to='/signup'>Sign Up Instead</Link>
+                    <Link to='/signup'>Sign Up</Link>
                 </div>
             </div>
         </div>

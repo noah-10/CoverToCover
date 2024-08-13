@@ -37,7 +37,7 @@ const AppNavbar = () => {
         <Navbar className='Navbar'>
             <Container fluid className='p-0 navbar-container'>
                 <Navbar.Brand as={Link} to='/'>
-                    Judge a Book
+                    Cover To Cover
                 </Navbar.Brand>
                 <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
                     <Nav>
@@ -59,14 +59,14 @@ const AppNavbar = () => {
             <nav className="navbar w-100">
                 <div className="container-fluid">
                     <Navbar.Brand as={Link} to='/'>
-                        Judge a Book
+                        Cover To Cover
                     </Navbar.Brand>
                     <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-header">
-                            <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Judge A Book</h5>
+                            <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Cover To Cover</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">

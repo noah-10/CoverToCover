@@ -5,9 +5,11 @@
   --gunmetal: #252B2C;
   --floral-white: #F9F7F0;
   --header-height: 11vh;
+  --header-background: linear-gradient(to bottom right, #ffffff, var(--floral-white));
   --main-background: linear-gradient(to bottom, #252B2C, #3A3F40);
   --radial-background: radial-gradient(#252B2C, #3A3F40);
-  --footer-background: linear-gradient(to bottom, #4D5253, #5A5F60);
+  /* --footer-background: linear-gradient(to bottom, #4d5253c4, #5A5F60); */
+  --footer-background: #6670726c;
 }
 
 #root {
@@ -22,8 +24,10 @@ a {
 }
 
 body {
+  font-family: 'Cormorant', serif;
   /* custom background color */
-  background-image: radial-gradient(#252B2C, #3A3F40);
+  /* background-image: radial-gradient(#252B2C, #3A3F40); */
+  background-color: var(--gunmetal);
   /* background-color: var(--floral-white); */
   min-height: 100vh;
 }
