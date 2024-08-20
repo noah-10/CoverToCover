@@ -1,5 +1,5 @@
 import { searchBookTitle } from "./API.js";
-import { checkImgSize, scrapeBookCover } from "./bookCover.js";
+import { checkImg, scrapeBookCover } from "./bookCover.js";
 import axios from "axios";
 
 
@@ -164,25 +164,43 @@ const openAiQuery = async (genreWeight, viewedBooks, authors) => {
         });
     }
     prompt += "\nGive me 20 book recommendations, include only the title, and it shouldn't be numbered. It should be in JSON format, this is what I expect: { \n\"titles\": [\n \"Atomic Habits\", \n \"Harry Potter\" \n] \n}";
-    try{
-        console.log(prompt);
-        const url = "http://localhost:3001/api/content"
 
-        let { data } = await axios.get(url, {
-            params: { prompt }
-        })
+    let attempts = 0;
+    let success = false;
+    const maxRetries = 5;
+    const retryDelay = 2000;
+    let recommendations = [];
+    while (attempts < maxRetries && !success){
+        try{
+            console.log(prompt);
+            const url = "http://localhost:3001/api/content"
+    
+            let { data } = await axios.get(url, {
+                params: { prompt }
+            })
+    
+            console.log(data)
+    
+            const response = JSON.parse(data.choices[0].text.trim());
+            console.log(response);
+            recommendations = response.titles;
+            success = true;
+                
+        }catch (err){
+            console.error("Error getting recommendation", err);
+            attempts++;
 
-        console.log(data)
-
-        const response = JSON.parse(data.choices[0].text.trim());
-        console.log(response);
-        let recommendations = response.titles;
-
-        return recommendations;
-            
-    }catch (err){
-        console.error("Error getting recommendation", err);
+            if (attempts < maxRetries) {
+                console.log(`Retrying... (${attempts}/${maxRetries})`);
+                await new Promise(resolve => setTimeout(resolve, retryDelay));
+            } else {
+                console.error("Max retries reached. Failed to get recommendations.");
+            }
+        }
     }
+
+    return recommendations;
+    
 }
 
 const userBookTitles = (currentUser) => {
@@ -279,12 +297,13 @@ const formatBook = async(book) => {
     bookCover = bookCover.replace('zoom=1', 'zoom=4');
 
     // checks book size after changing the zoom // makes sure the img is still compatible
-    const checkedImgSize = await checkImgSize(bookCover, book.volumeInfo.title, book.volumeInfo.authors[0]);
+    bookCover = await checkImg(bookCover, book.volumeInfo.title, book.volumeInfo.authors[0]);
+    
     if(book){
         return {
             authors: book.volumeInfo.authors,
             title: book.volumeInfo.title,
-            cover: checkedImgSize,
+            cover: bookCover,
             bookId: book.id,
             description: book.volumeInfo.description,
             categories: book.volumeInfo.categories,

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const OpenAI = require('openai');
 
+// finds new content
 router.get('/', async (req, res) => {
     const { prompt } = req.query;
     const key = process.env.OPENAI_API_KEY;

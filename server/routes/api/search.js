@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const puppeteer = require('puppeteer')
 
+// scrapes book cover if needed
 router.get('/', async (req, res) => {
     console.log('Received request')
     const { query } = req.query;
@@ -20,17 +21,25 @@ router.get('/', async (req, res) => {
 
             return Array.from(searchResults).map((result) => {
                 const img = result.querySelector('td.i a img');
-                return img ? img.src : null
+                console.log({"imageSrc":img.src, "imageSrcSet": img.srcset})
+                return img ? {"imageSrc":img.src, "imageSrcSet": img.srcset} : null
             })
         })
 
         console.log("all imgs", allImgs);
         await browser.close();
-        res.json(allImgs);
+        res.json({allImgs, "timoutExceeded": false});
 
     } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).json({ error: 'Failed to fetch data' });
+        console.log("error.message", error.message);
+        if(error.message.includes('Navigation timeout') || error.message.includes("TimeoutError")  || error.message.includes("Cannot read properties of null") || error.message.includes('Waiting for selector')){
+            console.log("timeout was exceeded");
+            res.json({ "timoutExceeded": true })
+        }else{
+            console.error('Error scartching imgs:', error);
+            res.status(500).json({ error: 'Failed to fetch data' });
+        }
+       
     }
 });
 

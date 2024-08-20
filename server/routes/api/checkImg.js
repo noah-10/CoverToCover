@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { createCanvas, loadImage } = require('canvas');
 
+// checks if image is right size
 router.get('/', async (req, res) => {
     const { imgUrl } = req.query;
     console.log("test", imgUrl);

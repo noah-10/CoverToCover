@@ -6,7 +6,8 @@ import { createCanvas, loadImage } from 'canvas'
 
 const calculateDifference = async (testImg, originalCover) => {
     try {
-        const url = `http://localhost:3001/api/calculate`;
+        console.log('testImg', testImg)
+        const url = `http://localhost:3001/api/compare`;
         const {data} = await axios.get(url, {
             params: { testImg, originalCover }
         });
@@ -30,56 +31,54 @@ const scrapeBookCover = async (title, author, originalCover) => {
     let { data } = await axios.get(url, {
         params: { query }
     });
-
-    data = data.filter(url => url !== null);
-
-    let highestGradedImg = null;
-    // Lower the score the more a like the imgs are
-    let lowestScore = 1;
-
-    for (const book of data) {
-        if(!book)return;
-        const score = await calculateDifference(book, originalCover);
-        console.log("score", score);
-        if (score < lowestScore) {
-            lowestScore = score;
-            highestGradedImg = book;
-        }
+    console.log("data", data);
+    if(data.timoutExceeded === true){
+        return;
     }
+    data = data.allImgs.filter(url => url !== null);
 
-    if(lowestScore > 0.15){
-        highestGradedImg = data[0];
+    let newImg = data[0];
+
+    console.log("highest grade", newImg);
+
+    if(newImg.imageSrc.includes('_SX50_')){
+        newImg = newImg.imageSrc.replace('_SX50_', '_SX400_');
+    }else if(newImg.imageSrc.includes('_SX100_')){
+        newImg = newImg.imageSrc.replace('_SX100_', '_SX400_');
     }
-
-    highestGradedImg = highestGradedImg.replace('_SX50_', '_SX400_');
-
-    return highestGradedImg;
+    
+    return newImg;
 }
 
-const checkImgSize = async(imgUrl, title, author) => {
-    console.log(imgUrl)
+const checkUnavailable = async(imgUrl) => {
     try{
-        const url = `http://localhost:3001/api/check`;
+        const url = `http://localhost:3001/api/unavailable`;
         let { data } = await axios.get(url, {
             params: { imgUrl }
         });
-        console.log(data.height);
 
-        // For when increasing zoom doesn't work on an img
-        if(data.height < 750){
-            
-            imgUrl = imgUrl.replace('zoom=4', 'zoom=1');
+        return data;
+
+    }catch(error){
+        return error;
+    }
+}
+
+const checkImg = async(imgUrl, title, author) => {
+    try{
+        // checks if image is unavailable and if so scrapes for new img
+        const { decimalDifference } = await checkUnavailable(imgUrl);
+
+        if(decimalDifference === 0){
             const newCover = await scrapeBookCover(title, author, imgUrl);
-
             return newCover;
-        }else{
-            return imgUrl;
         }
 
+        return imgUrl;
     }catch(error){
         return console.error("Error checking images: ", error);
     }
 }
 
-export {checkImgSize, scrapeBookCover} ;
+export {checkImg, scrapeBookCover} ;
 
