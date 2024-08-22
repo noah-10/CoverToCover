@@ -48,11 +48,14 @@
     font-size: 13px;
 }
 
-.personal-details{
+.signup-personal-details{
     display: flex;
     flex-direction: column;
-    margin-top: 2em;
+    /* margin-top: 2em; */
+    margin: auto 0;
     gap: 1.5rem;
+    font-size: 13px;
+    font-family: serif;
 }
 
 .input-error{
@@ -92,7 +95,7 @@
     display: flex;
     justify-content: center;
     gap: 1em;
-    margin: auto auto 10px auto;
+    margin: 0.66rem auto 0.33rem auto;
 }
 
 .action-btn{
@@ -162,6 +165,9 @@ button.submit:hover{
     border: 2px solid var(--mint);
     font-weight: 600;
     transition: 0.5s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .signup-input button:hover{
@@ -171,11 +177,12 @@ button.submit:hover{
 }
 
 .to-login{
-    font-size: calc(1rem + 0.66vw);
+    font-weight: 700;
+    font-size: calc(0.70rem + 0.66vw);
 }
 
 /* Mobile L */
-@media screen and (max-width: 426px){
+@media screen and (max-width: 500px){
 
     .signupForm {
         padding: 20px 2rem;
@@ -184,6 +191,7 @@ button.submit:hover{
     .signupForm fieldset{
         margin: 0;
         width: 100%;
+        padding: 15px 25px;
     }
 
     .signup-input{
@@ -202,7 +210,7 @@ button.submit:hover{
 }
 
 /* Mobile S */
-@media screen and (max-width: 321px){
+@media screen and (max-width: 350px){
     .action-btn{
         font-size: 13px;
     }

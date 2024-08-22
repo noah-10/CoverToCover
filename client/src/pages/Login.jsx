@@ -66,7 +66,7 @@ const Login = () => {
                         <div className={showError}>
                             <p>The email or password is incorrect</p>
                         </div>
-                        <div className="Btn">
+                        <div className="login-Btn">
                             <button className="action-btn" onClick={handleFormSubmit}>Login</button>
                         </div>
                     </fieldset>

@@ -2,10 +2,12 @@ ul.book-container{
     display: flex;
     flex-direction: column;
     row-gap: 1em;
-    padding: 0;
+    padding-bottom: -0.5rem;
+    padding-left: 0;
     overflow-y: scroll;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
+    margin: auto 0;
 }
 
 ul.book-container::-webkit-scrollbar{
@@ -21,30 +23,35 @@ ul.book-container::-webkit-scrollbar{
 .current-cover {
     margin-left: 0;
     margin-right: auto;
+    height: 20vh;
+    min-width: calc(5rem + 3vw);
+    display: flex;
+    align-self: center;
+    flex: 1;
+}
+
+.current-cover img{
+    height: auto;
+    width: 100%;
+    /* float: left; */
 }
 
 .book-list p {
     margin: 0 auto;
     width: 100%;
-}
-
-.current-cover img{
-    height: 120px;
-    float: left;
+    font-size: calc(0.33rem + 2.5vw);
 }
 
 /* Mobile L */
 @media screen and (max-width: 426px){
-    .current-cover img{
-        height: 80px;    
-    }
 
-    .book-list p {
-        font-size: 12px;
+    .current-cover {
+        height: 15vh;
+        min-width: calc(3.5rem + 3vw);
     }
 
     button.remove-book{
-        font-size: 12px;
+        font-size: calc(0.5rem + 2.5vw);
     }
 
 }

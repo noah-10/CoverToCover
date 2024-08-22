@@ -6,7 +6,7 @@ ul.author-list {
     overflow-y: scroll;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
-    margin-bottom: 1em;
+    margin: auto 0;
 }
 
 ul.author-list::-webkit-scrollbar{
@@ -23,7 +23,7 @@ ul.author-list::-webkit-scrollbar{
 }
 
 .list-item p {
-    margin: 0;
+    margin: 0 auto 0 0;
     font-size: 22px;
 }
 

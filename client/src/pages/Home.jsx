@@ -6,6 +6,8 @@ import { faBarsProgress, faHandPointUp, faUser, faBan, faBookmark } from '@forta
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SwipeFeed from '../components/SwipeFeed.jsx';
 import logo from '../assets/logo.png';
+import ofMiceAndMen from '../assets/ofMiceAndMen.jpg';
+import theGiver from '../assets/theGiver.jpg';
 
 const Home = () => {
 
@@ -52,7 +54,7 @@ const Home = () => {
         },
         {
             title: "Of Mice and Men",
-            cover: "http://books.google.com/books/content?id=BIxPEAAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&source=gbs_api",
+            cover: ofMiceAndMen,
             description: "A controversial tale of friendship and tragedy during the Great Depression, in a deluxe centennial edition Over seventy-five years since its first publication, Steinbeck’s tale of commitment, loneliness, hope, and loss remains one of America’s most widely read and taught novels. An unlikely pair, George and Lennie, two migrant workers in California during the Great Depression, grasp for their American Dream. They hustle work when they can, living a hand-to-mouth existence. For George and Lennie have a plan: to own an acre of land and a shack they can call their own. When they land jobs on a ranch in the Salinas Valley, the fulfillment of their dream seems to be within their grasp. But even George cannot guard Lennie from the provocations, nor predict the consequences of Lennie's unswerving obedience to the things George taught him. Of Mice and Men represents an experiment in form, which Steinbeck described as “a kind of playable novel, written in a novel form but so scened and set that it can be played as it stands.” A rarity in American letters, it achieved remarkable success as a novel, a Broadway play, and three acclaimed films. This Centennial edition, specially designed to commemorate one hundred years of Steinbeck, features french flaps and deckle-edged pages. For more than sixty-five years, Penguin has been the leading publisher of classic literature in the English-speaking world. With more than 1,500 titles, Penguin Classics represents a global bookshelf of the best works throughout history and across genres and disciplines. Readers trust the series to provide authoritative texts enhanced by introductions and notes by distinguished scholars and contemporary authors, as well as up-to-date translations by award-winning translators.",
             authors: "John Steinbeck",
         },

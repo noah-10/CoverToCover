@@ -21,11 +21,16 @@ const calculateDifference = async (testImg, originalCover) => {
 
 const scrapeBookCover = async (title, author, originalCover) => {
 
-    // title and author joined
-    const joined = title.concat(' by ', author);
+    let query = '';
 
-    // create query
-    const query = joined.split(" ").join("+");
+    //  Create a query based on the length of title
+    if(title.length <= 12){
+        // title and author joined
+        const joined = title.concat(' by ', author);
+        query = joined.split(" ").join("+");
+    }else{
+        query = title.split(" ").join("+");
+    }
  
     const url = `http://localhost:3001/api/search`;
     let { data } = await axios.get(url, {
@@ -53,13 +58,17 @@ const scrapeBookCover = async (title, author, originalCover) => {
 const checkUnavailable = async(imgUrl) => {
     try{
         const url = `http://localhost:3001/api/unavailable`;
+        const unavailableImg1 = 'https://books.google.com/books/content?id=_zSzAwAAJ&printsec=frontcover&img=1&zoom=6&edge=curl&source=gbs_api';
+        const unavailableImg2 = 'https://books.google.com/books/content?id=gRJSEAAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&source=gbs_api'
         let { data } = await axios.get(url, {
-            params: { imgUrl }
+            params: { imgUrl, "unavailableImgs": [unavailableImg1, unavailableImg2]}
         });
+        console.log(data);
 
         return data;
 
     }catch(error){
+        console.log(error);
         return error;
     }
 }
@@ -67,9 +76,9 @@ const checkUnavailable = async(imgUrl) => {
 const checkImg = async(imgUrl, title, author) => {
     try{
         // checks if image is unavailable and if so scrapes for new img
-        const { decimalDifference } = await checkUnavailable(imgUrl);
-
-        if(decimalDifference === 0){
+        const { differences } = await checkUnavailable(imgUrl);
+        console.log(differences)
+        if(differences[0] === 0 || differences[1] === 0){
             const newCover = await scrapeBookCover(title, author, imgUrl);
             return newCover;
         }

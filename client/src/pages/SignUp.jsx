@@ -9,6 +9,7 @@ import genresData from "../../utils/genres" ;
 import SignUpList from "../components/SignUpList";
 import { searchBookTitle } from "../../utils/API";
 import SignUpBooks from "../components/SignUpBooks";
+import { checkImg } from "../../utils/bookCover";
 import '../css/signUp.css';
 
 const SignUp = () => {
@@ -100,6 +101,10 @@ const SignUp = () => {
             finishedBooks: userFinishedBooks
         }));
     }, [userFinishedBooks]);
+
+    useEffect(() => {
+        console.log(currentBooks)
+    })
 
     // handles input in the personal info section
     const handleInputChange = (e) => {
@@ -288,17 +293,22 @@ const SignUp = () => {
             const { items }  = await response.json();
             const book = items[0];
 
+            let cover = book.volumeInfo.imageLinks.thumbnail;
+            cover = cover.replace("zoom=1", "zoom=4");
+
+            cover = await checkImg(cover, book.volumeInfo.title, book.volumeInfo.authors[0]);
+
             const saveBook = {
                 authors: book.volumeInfo.authors,
                 title: book.volumeInfo.title,
-                cover: book.volumeInfo.imageLinks.thumbnail,
+                cover: cover,
                 bookId: book.id,
                 description: book.volumeInfo.description,
                 categories: book.volumeInfo.categories,
             }
 
             setCurrentBooks([...currentBooks, saveBook]);
-
+            console.log(currentBooks)
             setCurrentBookInput("");
         }catch(err){
             return { error: err };
@@ -317,10 +327,15 @@ const SignUp = () => {
             const { items }  = await response.json();
             const book = items[0];
 
+            let cover = book.volumeInfo.imageLinks.thumbnail;
+            cover = cover.replace("zoom=1", "zoom=4");
+
+            cover = await checkImg(cover, book.volumeInfo.title, book.volumeInfo.authors[0]);
+
             const saveBook = {
                 authors: book.volumeInfo.authors,
                 title: book.volumeInfo.title,
-                cover: book.volumeInfo.imageLinks.thumbnail,
+                cover: cover,
                 bookId: book.id,
                 description: book.volumeInfo.description,
                 categories: book.volumeInfo.categories,
@@ -341,7 +356,7 @@ const SignUp = () => {
                 <form className="signupForm">
                     <fieldset className={ activeField === 1 ? 'current' : 'hidden'}>
                         <h2 className="mt-4">Personal Details</h2>
-                        <div className="personal-details">
+                        <div className="signup-personal-details">
                             <FormFields
                                 label="Username"
                                 name="username"

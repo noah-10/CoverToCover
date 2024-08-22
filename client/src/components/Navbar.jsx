@@ -49,7 +49,7 @@ const AppNavbar = () => {
                                 <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                             </>
                         ) : (
-                            <Nav.Link as={Link} to='/signup'>Sign In</Nav.Link>
+                            <Nav.Link as={Link} to='/signup'>Sign Up</Nav.Link>
                         )}
                     </Nav>
                 </Navbar.Collapse>

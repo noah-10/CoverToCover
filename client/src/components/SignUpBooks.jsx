@@ -11,7 +11,7 @@ const SignUpBooks = ({ name, cover, setState }) => {
     return (
         <li className="list-item book-list">
             <div className="current-cover">
-                <img src={cover} alt="" />
+                <img src={cover} alt={`Cover for ${name}`} />
             </div>
             <p>{name}</p>
             <button className="remove-book" type="button" onClick={() => removeListItem(name)}>X</button>
