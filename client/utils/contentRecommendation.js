@@ -1,5 +1,5 @@
 import { searchBookTitle } from "./API.js";
-import { checkImg, scrapeBookCover } from "./bookCover.js";
+import { checkImg } from "./bookCover.js";
 import axios from "axios";
 
 
@@ -25,6 +25,9 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
 
     // Make query to openai (Gives titles)
     let openAiBooks = await openAiQuery(weights, null, currentUserAuthors);
+    if(openAiBooks.ErrorGettingRecommendations === true){
+        return { "error" : true }
+    }
 
     // Filters books given by openai to not show duplicates
     let filterSuccess = null
@@ -38,6 +41,9 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
         
         // Re query books from openAi
         openAiBooks = await openAiQuery(weights, viewedBooks);
+        if(openAiBooks.ErrorGettingRecommendations === true){
+            return { "error" : true }
+        }
 
         filteredBooks = filterBookTitles(currentUserBookTitles, openAiBooks);
 
@@ -46,7 +52,6 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
     
     // For each book make query to google Books to get all info
     const bookData = await getBookInfo(filteredBooks.checkedBooks); 
-    console.log(bookData);
 
     if(bookData.limitReached === true){
         return bookData;
@@ -99,17 +104,11 @@ const getBookInfo = async(books) => {
 
         while (!success){
             try{
-                // delay between retries
-                // if(attempts > 0) {
-                //     await delay(retryDelay);
-                // }
-
                 const response = await searchBookTitle(book);
 
                 if(response.status === 429){
-                    console.log("Error code 429 - Too many requests");
-                    // attempts++;
-                    return { limitReached: true }; //Retry after delay
+                    // Limit has been reached for user
+                    return { limitReached: true }; 
                 }
 
                 const data = await response.json();
@@ -120,32 +119,16 @@ const getBookInfo = async(books) => {
             }
         }
 
-        // if(!success){
-        //     console.log("Failed to fetch books")
-        //     await delay(2000);
-        //     return;
-        // }
-
-        // if(!bookData){
-        //     await delay(2000);
-        //     return;
-        // }else{
         allBookInfo.push(bookData);
         await delay(1000);
-        // }
  
     };
 
-    // if(success){
     return { allBookInfo, limitReached }
-    // }else{
-    //     return { limitReached: true };
-    // }
 }
 
 const openAiQuery = async (genreWeight, viewedBooks, authors) => {
-    console.log(authors);
-    console.log(viewedBooks);
+
     // Create prompt
     let prompt = "Given this list of book genres and a score (higher the score, the more I like it): \n\n"; 
     Object.entries(genreWeight).forEach(([genre, score]) => {
@@ -170,31 +153,27 @@ const openAiQuery = async (genreWeight, viewedBooks, authors) => {
     const maxRetries = 5;
     const retryDelay = 2000;
     let recommendations = [];
+
+    // While loop for incase it returns an unsuccessful syntax 
     while (attempts < maxRetries && !success){
         try{
-            console.log(prompt);
             const url = "http://localhost:3001/api/content"
     
             let { data } = await axios.get(url, {
                 params: { prompt }
             })
-    
-            console.log(data)
-    
+        
             const response = JSON.parse(data.choices[0].text.trim());
-            console.log(response);
             recommendations = response.titles;
             success = true;
                 
         }catch (err){
-            console.error("Error getting recommendation", err);
             attempts++;
 
             if (attempts < maxRetries) {
-                console.log(`Retrying... (${attempts}/${maxRetries})`);
                 await new Promise(resolve => setTimeout(resolve, retryDelay));
             } else {
-                console.error("Max retries reached. Failed to get recommendations.");
+                return { "ErrorGettingRecommendations": true };
             }
         }
     }

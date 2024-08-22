@@ -43,19 +43,6 @@ export const getCollaborativeRecommendation = async(genres, allUsers, currentUse
     }
 
     return;
-
-    // Get current users Books ids (prevent duplicates showing)
-    // const currentUserBooks = userBookIds(currentUser);
-
-    // // filter all users to have atleast one common genre
-    // const filteredUsers = await filterUsers(genres.sortedPreferences, allUsers);
-
-    // // Rank other users using weights
-    // const rankedUsers = rankUsers(filteredUsers, weights);
-
-    // // Get books from the most similar liking
-    // const recommend = getRecommendations(rankedUsers, currentUserBooks);
-    // return recommend;
 }
 
 const getRecommendationFromUser = (mostSimilarUser, currentUser, feed, localStorage) => {

@@ -5,7 +5,6 @@ import BookModal from "./BookModal";
 import '../css/swipeFeed.css';
 
 const SwipeFeed = ({ feedItem, likedBook, dislikedBook, reset, demoFeed }) => {
-    console.log("feed", demoFeed)
 
     const [position, setPosition] = useState({ x: null, y: null });
     const [dragging, setDragging] = useState(false);

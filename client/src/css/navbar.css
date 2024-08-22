@@ -4,13 +4,10 @@ header{
     flex-direction: row;
     align-items: center;
     width: 100%;
-    /* min-height: 115px; */
     padding: 20px 15px;
     box-shadow: rgba(255, 255, 255, 0.10) 0px 5px 15px;
     background: var(--header-background);
-    /* background-color: var(--floral-white); */
     height: var(--header-height);
-    /* position: sticky; */
     top: 0;
     z-index: 3;
 }
@@ -70,7 +67,6 @@ div.navbar-nav{
 
     header{
         padding: 0;
-        /* height: 8em; */
     }
 }
 

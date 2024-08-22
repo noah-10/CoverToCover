@@ -45,7 +45,7 @@ const AppNavbar = () => {
                             <>
                                 <Nav.Link as={Link} to='/feed'>Feed</Nav.Link>
                                 <Nav.Link as={Link} to='/library'>Library</Nav.Link>
-                                <Nav.Link as={Link} to='/settings'>Settings</Nav.Link>
+                                {/* <Nav.Link as={Link} to='/settings'>Settings</Nav.Link> */}
                                 <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                             </>
                         ) : (
@@ -90,7 +90,7 @@ const AppNavbar = () => {
                                         Library
                                     </Link>
                                 </li>
-                                <li className="nav-item">
+                                {/* <li className="nav-item">
                                     <Link 
                                         className="nav-link active" 
                                         aria-current="page" 
@@ -99,7 +99,7 @@ const AppNavbar = () => {
                                     >
                                         Setting
                                     </Link>
-                                </li>
+                                </li> */}
                                 {Auth.loggedIn() ? (
                                     <li className="nav-item">
                                         <Link 

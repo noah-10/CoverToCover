@@ -33,7 +33,6 @@ ul.book-container::-webkit-scrollbar{
 .current-cover img{
     height: auto;
     width: 100%;
-    /* float: left; */
 }
 
 .book-list p {

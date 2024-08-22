@@ -3,10 +3,8 @@ const { createCanvas, loadImage } = require('canvas');
 
 router.get('/', async (req, res) => {
     try{
-        console.log("request recieved")
         const { imgUrl } = req.query;
         const { unavailableImgs }= req.query;
-        console.log("unavaible imgs",unavailableImgs)
         if(!unavailableImgs){
             return res.status(400).json({ error: "imgUrl query is required"});
         }
@@ -16,7 +14,6 @@ router.get('/', async (req, res) => {
         let differences = [];
         
         for(let i = 0; i < unavailableImgs.length; i++){
-            console.log(i)
             // fetch and load images
             const fetchImage = async (url) => {
                 const response = await fetch(url);
@@ -30,9 +27,6 @@ router.get('/', async (req, res) => {
                 fetchImage(imgUrl),
                 fetchImage(unavailableImgs[i]),
             ]);
-
-            console.log("img1", img1);
-            console.log("img2", img2);
 
             const width = Math.min(img1.width, img2.width);
             const height = Math.min(img1.height, img2.height);
@@ -60,14 +54,11 @@ router.get('/', async (req, res) => {
             const numDiffPixels = pixelmatch(
                 img1Data.data, img2Data.data, diff.data, width, height, { threshold: 0.1 }
             );
-            // console.log("numDiffPixels", numDiffPixels);
             const totalPixels = width * height;
             const decimalDifference = numDiffPixels / totalPixels;
-            console.log("decimal difference", decimalDifference)
             differences.push(decimalDifference);
         }
 
-        console.log("differences", differences)
         res.json({ differences })
 
     }catch(error){

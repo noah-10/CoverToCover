@@ -1,8 +1,6 @@
 .footer-container {
     width: 100%;
-    /* margin: 8em 0 0 0; */
     bottom: 0;
-    /* background: var(--footer-background); */
     background: var(--footer-background);
     padding: 20px 0 30px 0;
     display: flex;
@@ -11,7 +9,6 @@
     align-items: center;
     gap: 1rem;
     color: var(--floral-white);
-    /* box-shadow: rgba(255, 255, 255, 0.35) 0px 5px 15px; */
 } 
 
 .footer-content{

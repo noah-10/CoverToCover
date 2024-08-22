@@ -18,10 +18,6 @@ const Login = () => {
         setUserFormData({ ...userFormData, [name]: value });
     }
 
-    useEffect(() => {
-        console.log(userFormData)
-    })
-
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 

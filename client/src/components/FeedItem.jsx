@@ -25,9 +25,7 @@ const FeedItem = ({ feedItem, checkFeed, screenSize, saveBook, disLikedBook } ) 
 
     const likedBook = async () => {
         try {
-            console.log(feedItem[0]);
             const { score, __typename, ...formatBook} = feedItem[0]
-            console.log(formatBook);
             // try to save the book to the user's data
             await saveBook(
                 { variables: { input: formatBook }}

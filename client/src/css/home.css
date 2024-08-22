@@ -15,7 +15,6 @@
     row-gap: 2em;
     justify-content: center;
     align-items: center;
-    /* margin-bottom: 2em; */
 }
 
 .overlay-text{
@@ -56,7 +55,6 @@
     padding: 5px 10px;
     width: 85%;
     margin: 0 auto;
-    /* align-items: center; */
     justify-content: center;
     text-align: center;
     max-height: 100vh;
@@ -95,16 +93,13 @@
 .demo-container{
     min-height: calc(100vh - 7vh);
     max-height: calc(100vh - 7vh);
-    /* min-height: 100vh; */
     margin-bottom: 2rem;
     display: flex;
-    /* padding-top: 3em; */
     max-width: 100%;
     overflow-y: hidden;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     justify-content: center;
-    /* width: 100vw; */
 }
 
 .demo-container::-webkit-scrollbar{
@@ -157,13 +152,8 @@
 }
 
 .demo-image-container{
-    /* width: 300vw; */
-    /* width: 30%; */
     min-width: calc(15rem + 3vw);
-    /* width: calc(250vw - 5vh);
-    height: calc(70vh - 10vw); */
     height: 50vh;
-    /* margin: auto 0; */
     display: flex;
     align-self: center;
     box-shadow: rgba(255, 255, 255, 0.4) 0px 5px 15px; 
@@ -176,10 +166,8 @@
 
 
 .demo-description{
-    /* margin: 25px 0; */
     max-height: calc(50vh - 3em);
     max-width: 70%;
-    /* min-width: 70%; */
     width: 70%;
     overflow-y: scroll;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
@@ -312,12 +300,10 @@
     }
 
     .demo-description{
-        /* max-height: 70%; */
         max-height: calc(50vh - 8em);
     }
 
     .demo-description p{
-        /* min-width: 100%; */
         font-size: 105%;
     }
 }
@@ -330,7 +316,6 @@
 
     .demo-content{
         row-gap: calc(0.5rem + 2vh);
-        /* margin-top: -3.5vh; */
     }
 
     .demo-book-info{
@@ -344,7 +329,6 @@
         max-width: calc(6.75rem + 25.5vw);
         min-height: 38.75vh;
         max-height: 38.75vh;
-        /* min-height: 20vh; */
     }
 
     .demo-description{
@@ -354,7 +338,6 @@
     }
 
     .demo-description p{
-        /* min-width: 100%; */
         font-size: 95%;
     }
 

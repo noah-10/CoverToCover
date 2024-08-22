@@ -43,7 +43,6 @@ const Feed = () => {
 
     // Update the ref each time feed changes
     useEffect(() => {
-        console.log("feed", feed);
         feedRef.current = feed;
         if(feed && feed.length > 3){
             setLoadingBooks(false)
@@ -73,7 +72,6 @@ const Feed = () => {
 
         // Function to call when leaving the Feed page
         const handleLeaveFeed = () => {
-            console.log(feedRef.current);
           localStorage.setItem('feed', JSON.stringify(feedRef.current));
         };
     
@@ -130,45 +128,44 @@ const Feed = () => {
         // Gets all of users preferences
         const userPreferences = await getPreferences();
         // Get collaborative books
-        // const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user, feed, localStorageFeed);
-        console.log("before")
+        const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user, feed, localStorageFeed);
+        console.log("collaborative", collaborativeBooks)
         // Get content based books
         const contentBooks = await getContentRecommendations(userPreferences, user, feed, localStorageFeed);
-        // const contentBooks = await test();
-        console.log(contentBooks);
+        console.log("content", contentBooks)
 
-        if(contentBooks.limitReached === true){
+        if(contentBooks.limitReached === true || contentBooks.error === true){
             return setLimitUsed(true);
         }
 
-        // let combinedArrays = null;
+        let combinedArrays = null;
 
         // // Combine the arrays
-        // if(collaborativeBooks){
-        //     combinedArrays = collaborativeBooks.concat(contentBooks);
-        // }else{
-        //     combinedArrays = contentBooks;
-        // }
+        if(collaborativeBooks){
+            combinedArrays = collaborativeBooks.concat(contentBooks);
+        }else{
+            combinedArrays = contentBooks;
+        }
 
-        // const shuffleArray = (array) => {
-        //     const newArray = array.slice();
+        const shuffleArray = (array) => {
+            const newArray = array.slice();
 
-        //     for(let i = newArray.length -1; i > 0; i--){
-        //         const j = Math.floor(Math.random() * (i + 1));
-        //         const temp = newArray[i];
-        //         newArray[i] = newArray[j];
-        //         newArray[j] = temp;
-        //     }
+            for(let i = newArray.length -1; i > 0; i--){
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+            }
 
-        //     return newArray;
-        // }
+            return newArray;
+        }
 
-        // const shuffledBooks = shuffleArray(combinedArrays);
+        const shuffledBooks = shuffleArray(combinedArrays);
 
         setLoadingBooks(false);
         
         // Set array to feed
-        setFeed((prevFeed) => [...prevFeed, ...contentBooks]);
+        setFeed((prevFeed) => [...prevFeed, ...shuffledBooks]);
     }
 
     // Gets uers preferences based on saved, currently reading, finished, and prefered genres

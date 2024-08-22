@@ -102,10 +102,6 @@ const SignUp = () => {
         }));
     }, [userFinishedBooks]);
 
-    useEffect(() => {
-        console.log(currentBooks)
-    })
-
     // handles input in the personal info section
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -308,7 +304,6 @@ const SignUp = () => {
             }
 
             setCurrentBooks([...currentBooks, saveBook]);
-            console.log(currentBooks)
             setCurrentBookInput("");
         }catch(err){
             return { error: err };

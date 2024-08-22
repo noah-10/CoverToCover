@@ -5,10 +5,7 @@
 .feed-container{
     min-height: calc(100vh - 11vh);
     max-height: calc(100vh - 11vh);
-    /* min-height: 100vh; */
-    /* margin-bottom: -8em; */
     display: flex;
-    /* padding-top: 3em; */
     background: linear-gradient(to bottom, #252B2C, #3A3F40);
     max-width: 100%;
     overflow-y: hidden;
@@ -90,13 +87,8 @@
 }
 
 .feed-image-container{
-    /* width: 300vw; */
-    /* width: 30%; */
     min-width: 17em;
-    /* width: calc(250vw - 5vh);
-    height: calc(70vh - 10vw); */
     height: 50vh;
-    /* margin: auto 0; */
     display: flex;
     align-self: center;
     box-shadow: rgba(255, 255, 255, 0.4) 0px 5px 15px; 
@@ -109,7 +101,6 @@
 
 
 .feed-description{
-    /* margin: 25px 0; */
     max-height: calc(50vh - 3em);
     max-width: 70%;
     overflow-y: scroll;
@@ -220,7 +211,6 @@
     .feed-image-container{
         min-width: calc(6.75rem + 12.5vw);
         max-width: calc(6.75rem + 12.5vw);
-        /* min-height: 20vh; */
     }
 
     .feed-description{
@@ -228,7 +218,6 @@
     }
 
     .feed-description p{
-        /* min-width: 100%; */
         font-size: 95%;
     }
 
