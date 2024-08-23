@@ -244,25 +244,6 @@
     }
 }
 
-.not-loggedIn {
-    min-height: calc(100vh - 11vh);
-    max-height: calc(100vh - 11vh);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    row-gap: 2rem;
-}  
-
-.not-loggedIn button, .limit-link button{
-    background-color: var(--mint);
-    border: 2px solid var(--mint);
-}
-
-.not-loggedIn button:hover,  .limit-link button:hover{
-    background-color: transparent;
-    color: var(--mint);
-}
 
 .limit-used-container{
     min-height: calc(100vh - 11vh);
@@ -274,8 +255,31 @@
     color: var(--floral-white);
 }
 
+@media screen and (max-width: 756px){
+    .limit-used-container, .feed-container {
+        min-height: 100vh;
+        max-height: 100vh;
+    }
+
+}
+
 .limit-text{
     display: flex;
     flex-direction: column;
     row-gap: 0.25rem;
+    color: var(--floral-white);
+}
+
+.limit-link button{
+    background-color: var(--mint);
+    border: 2px solid var(--mint);
+}
+
+.limit-link button:hover{
+    background-color: transparent;
+    color: var(--mint);
+}
+
+.check-back{
+    color: var(--floral-white);
 }

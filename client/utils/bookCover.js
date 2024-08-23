@@ -10,8 +10,13 @@ const scrapeBookCover = async (title, author) => {
         const joined = title.concat(' by ', author);
         query = joined.split(" ").join("+");
     }
+    let baseUrl = 'http://localhost:3001'
 
-    const url = `http://localhost:3001/api/search`;
+    if(process.env.NODE_ENV === "production"){
+        baseUrl = 'http://coverstocovers.com';
+    }
+
+    const url = `${baseUrl}/api/search`;
     let { data } = await axios.get(url, {
         params: { query }
     });
@@ -52,8 +57,12 @@ const scrapeBookCover = async (title, author) => {
 }
 
 const checkUnavailable = async(imgUrl) => {
+    let baseUrl = "http://localhost:3001"
     try{
-        const url = `http://localhost:3001/api/unavailable`;
+        if(process.env.NODE_ENV === "production"){
+            baseUrl = 'http://coverstocovers.com';
+        }
+        const url = `${baseUrl}/api/unavailable`;
         const unavailableImg1 = 'https://books.google.com/books/content?id=_zSzAwAAJ&printsec=frontcover&img=1&zoom=6&edge=curl&source=gbs_api';
         const unavailableImg2 = 'https://books.google.com/books/content?id=gRJSEAAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&source=gbs_api';
         let { data } = await axios.get(url, {
@@ -84,6 +93,7 @@ const checkImg = async(imgUrl, title, author) => {
 
         return imgUrl;
     }catch(error){
+        console.log(error)
         if(error){
             return { "Error checking cover ": true };
         }

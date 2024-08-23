@@ -1,0 +1,27 @@
+.not-loggedIn {
+    min-height: calc(100vh - 11vh);
+    max-height: calc(100vh - 11vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 2rem;
+    color: var(--floral-white);
+}  
+
+.not-loggedIn button, .limit-link button{
+    background-color: var(--mint);
+    border: 2px solid var(--mint);
+}
+
+.not-loggedIn button:hover,  .limit-link button:hover{
+    background-color: transparent;
+    color: var(--mint);
+}
+
+@media screen and (max-width: 756px){
+    .not-loggedIn {
+        min-height: 100vh;
+        max-height: 100vh;
+    }  
+}

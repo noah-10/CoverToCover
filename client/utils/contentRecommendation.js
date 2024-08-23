@@ -157,7 +157,11 @@ const openAiQuery = async (genreWeight, viewedBooks, authors) => {
     // While loop for incase it returns an unsuccessful syntax 
     while (attempts < maxRetries && !success){
         try{
-            const url = "http://localhost:3001/api/content"
+            let baseUrl = 'http://localhost:3001';
+            if(process.env.NODE_ENV === "production"){
+                baseUrl = 'http://coverstocovers.com';
+            }
+            const url = `${baseUrl}/api/content`
     
             let { data } = await axios.get(url, {
                 params: { prompt }

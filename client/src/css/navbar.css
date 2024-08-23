@@ -44,6 +44,25 @@ div.navbar-nav{
     column-gap: 1.5em;
 }
 
+@media screen and (max-width: 756px){
+    header{
+        background: transparent;
+        box-shadow: none;
+        position: absolute;
+    }
+
+    button.navbar-toggler{
+        margin: 1.5rem 2rem 0 auto;
+        border: none;
+        transition: 0.3s ease-in-out;
+    }
+
+    span.toggler-icon{
+        color: var(--floral-white);
+        font-size: 2rem;
+    }
+}
+
 /* Mobile L */
 @media screen and (max-width: 426px){
 

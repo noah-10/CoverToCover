@@ -36,9 +36,9 @@ const Footer = () => {
                     <Link to={'/library'} className='footer-link'>
                         <p>Library</p>
                     </Link>
-                    <Link to={'/setting'} className='footer-link'>
+                    {/* <Link to={'/setting'} className='footer-link'>
                         <p>Setting</p>
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
             <div className="app-name">

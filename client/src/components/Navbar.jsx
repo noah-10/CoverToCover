@@ -3,6 +3,8 @@ import { Navbar, Nav, Container } from 'react-bootstrap'
 import Auth from '../../utils/auth';
 import '../css/navbar.css';
 import { useState, useEffect } from 'react';
+import {faBars} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const AppNavbar = () => {
 
@@ -58,15 +60,23 @@ const AppNavbar = () => {
         ): (
             <nav className="navbar w-100">
                 <div className="container-fluid">
-                    <Navbar.Brand as={Link} to='/'>
+                    {/* <Navbar.Brand as={Link} to='/'>
                         Cover To Cover
-                    </Navbar.Brand>
+                    </Navbar.Brand> */}
                     <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
+                        <span className="toggler-icon"><FontAwesomeIcon icon={faBars} /></span>
                     </button>
                     <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-header">
-                            <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Cover To Cover</h5>
+                            <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
+                                <Link 
+                                        className="nav-link active" 
+                                        aria-current="page" 
+                                        to='/'
+                                        onClick={() => handleLinkClick()}
+                                >   Cover To Cover
+                                </Link>
+                                </h5>
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">

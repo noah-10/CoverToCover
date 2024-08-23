@@ -275,7 +275,14 @@
 }
 
 /* Tablet */
-@media screen and (max-width: 769px){
+@media screen and (max-width: 756px){
+    .home-overlay{
+        height: 100vh;
+    }
+
+    .overlay-text{
+        margin-top: 0;
+    }
     .overlay-text h2 {
         font-size: 75px;
     }

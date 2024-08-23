@@ -117,7 +117,7 @@
 @media screen and (max-width: 915px){
     .footer-content{
         flex-direction: column;
-        gap: 4vh;
+        gap: 2vh;
     }
 
     .footer-recommendation{

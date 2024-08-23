@@ -176,6 +176,13 @@ button.submit:hover{
     font-size: calc(0.70rem + 0.66vw);
 }
 
+@media screen and (max-width: 756px){
+    .signup-container {
+        min-height: 100vh;
+        max-height: 100vh;
+    }  
+}
+
 /* Mobile L */
 @media screen and (max-width: 500px){
 
