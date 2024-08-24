@@ -159,7 +159,7 @@ const openAiQuery = async (genreWeight, viewedBooks, authors) => {
         try{
             let baseUrl = 'http://localhost:3001';
             if(process.env.NODE_ENV === "production"){
-                baseUrl = 'http://coverstocovers.com';
+                baseUrl = 'https://coverstocovers.com';
             }
             const url = `${baseUrl}/api/content`
     

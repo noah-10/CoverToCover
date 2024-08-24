@@ -13,7 +13,7 @@ const scrapeBookCover = async (title, author) => {
     let baseUrl = 'http://localhost:3001'
 
     if(process.env.NODE_ENV === "production"){
-        baseUrl = 'http://coverstocovers.com';
+        baseUrl = 'https://coverstocovers.com';
     }
 
     const url = `${baseUrl}/api/search`;
@@ -60,7 +60,7 @@ const checkUnavailable = async(imgUrl) => {
     let baseUrl = "http://localhost:3001"
     try{
         if(process.env.NODE_ENV === "production"){
-            baseUrl = 'http://coverstocovers.com';
+            baseUrl = 'https://coverstocovers.com';
         }
         const url = `${baseUrl}/api/unavailable`;
         const unavailableImg1 = 'https://books.google.com/books/content?id=_zSzAwAAJ&printsec=frontcover&img=1&zoom=6&edge=curl&source=gbs_api';
