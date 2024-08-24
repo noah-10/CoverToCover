@@ -29,6 +29,7 @@ router.get('/', async (req, res) => {
         if(error.message.includes('Navigation timeout') || error.message.includes("TimeoutError")  || error.message.includes("Cannot read properties of null") || error.message.includes('Waiting for selector')){
             res.json({ "timoutExceeded": true })
         }else{
+            console.log("error", error)
             res.status(500).json({ error: 'Failed to fetch data' });
         }
        
