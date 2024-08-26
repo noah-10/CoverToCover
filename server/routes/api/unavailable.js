@@ -3,6 +3,7 @@ const { createCanvas, loadImage } = require('canvas');
 
 router.get('/', async (req, res) => {
     try{
+        console.log("Recieved request, unavailable");
         const { imgUrl } = req.query;
         const { unavailableImgs }= req.query;
         if(!unavailableImgs){

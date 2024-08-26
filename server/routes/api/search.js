@@ -7,6 +7,7 @@ router.get('/', async (req, res) => {
     const url = `https://www.librarything.com/search.php?search=${query}&searchtype=newwork_titles&sortchoice=0`;
 
     try {
+        console.log("recieved request search")
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(url);
