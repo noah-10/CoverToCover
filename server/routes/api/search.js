@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     try {
         console.log("recieved request search")
         const browser = await puppeteer.launch({
-            executablePath: '/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome', // Adjust this path as needed
+            executablePath: puppeteer.executablePath(), // Use Puppeteer's installed Chromium path
             headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
           });
