@@ -7,7 +7,6 @@
     "start": "node server.js",
     "seed": "node seeds/seed.js",
     "watch": "nodemon server.js",
-    "postinstall": "npx puppeteer install "
   },
   "keywords": [],
   "author": "",
