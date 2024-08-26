@@ -7,7 +7,7 @@
     "start": "node server.js",
     "seed": "node seeds/seed.js",
     "watch": "nodemon server.js",
-    "postinstall": "ls /opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/ "
+    "postinstall": "npx puppeteer install "
   },
   "keywords": [],
   "author": "",
