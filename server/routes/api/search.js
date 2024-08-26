@@ -8,7 +8,11 @@ router.get('/', async (req, res) => {
 
     try {
         console.log("recieved request search")
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            executablePath: puppeteer.executablePath(), // or provide the exact path if you know it
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
+          });
         const page = await browser.newPage();
         await page.goto(url);
 
