@@ -2,58 +2,63 @@ import axios from 'axios';
 
 const scrapeBookCover = async (title, author) => {
 
-    let query = "";
+    try{
+        let query = "";
 
-    if(title.length > 12){
-        query = title.split(" ").join("+")
-    }else{
-        const joined = title.concat(' by ', author);
-        query = joined.split(" ").join("+");
-    }
-    let baseUrl = 'http://localhost:3001'
+        if(title.length > 12){
+            query = title.split(" ").join("+")
+        }else{
+            const joined = title.concat(' by ', author);
+            query = joined.split(" ").join("+");
+        }
+        let baseUrl = 'http://localhost:3001'
 
-    if(process.env.NODE_ENV === "production"){
-        baseUrl = 'https://coverstocovers.com';
-    }
+        if(process.env.NODE_ENV === "production"){
+            baseUrl = 'https://coverstocovers.com';
+        }
 
-    const url = `${baseUrl}/api/search`;
-    let { data } = await axios.get(url, {
-        params: { query }
-    });
-
-    let bookCover = null;
-
-    if(data.timoutExceeded === true){
-        query = title.split(" ").join("+");
-        const { data } = await axios.get(url, {
+        const url = `${baseUrl}/api/search`;
+        let { data } = await axios.get(url, {
             params: { query }
         });
 
-        bookCover = data;
+        let bookCover = null;
 
-        if(data.timeoutExceeded === true){
-            return bookCover = { "imageFound" : false };
+        if(data.timoutExceeded === true){
+            query = title.split(" ").join("+");
+            const { data } = await axios.get(url, {
+                params: { query }
+            });
+
+            bookCover = data;
+
+            if(data.timeoutExceeded === true){
+                return bookCover = { "imageFound" : false };
+            }
+        }else{
+            bookCover = { data, "imageFound": true };
         }
-    }else{
-        bookCover = { data, "imageFound": true };
-    }
 
-    if(bookCover.imageFound && bookCover.imageFound === false){
-        return { "imageFound": false }
+        if(bookCover.imageFound && bookCover.imageFound === false){
+            return { "imageFound": false }
+        }
+        
+        bookCover = bookCover.data.allImgs.filter(url => url !== null);
+
+        let newImg = bookCover[0];
+
+        // Resize images to increase quality
+        if(newImg.imageSrc.includes('_SX50_')){
+            newImg = newImg.imageSrc.replace('_SX50_', '_SX400_');
+        }else if(newImg.imageSrc.includes('_SX100_')){
+            newImg = newImg.imageSrc.replace('_SX100_', '_SX400_');
+        }
+        
+        return newImg;
+    }catch(error){
+        console.error(error);
     }
     
-    bookCover = bookCover.data.allImgs.filter(url => url !== null);
-
-    let newImg = bookCover[0];
-
-    // Resize images to increase quality
-    if(newImg.imageSrc.includes('_SX50_')){
-        newImg = newImg.imageSrc.replace('_SX50_', '_SX400_');
-    }else if(newImg.imageSrc.includes('_SX100_')){
-        newImg = newImg.imageSrc.replace('_SX100_', '_SX400_');
-    }
-    
-    return newImg;
 }
 
 const checkUnavailable = async(imgUrl) => {
@@ -71,7 +76,8 @@ const checkUnavailable = async(imgUrl) => {
 
         return data;
 
-    }catch(error){        
+    }catch(error){   
+        console.error(error);     
         return error;
     }
 }

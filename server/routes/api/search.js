@@ -26,6 +26,7 @@ router.get('/', async (req, res) => {
         res.json({allImgs, "timoutExceeded": false});
 
     } catch (error) {
+        console.error(error);
         if(error.message.includes('Navigation timeout') || error.message.includes("TimeoutError")  || error.message.includes("Cannot read properties of null") || error.message.includes('Waiting for selector')){
             res.json({ "timoutExceeded": true })
         }else{
