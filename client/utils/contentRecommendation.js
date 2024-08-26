@@ -60,7 +60,13 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
     // Double check books to not include any that have been seen/read and are in english
     const recommendBooks = await filterViewerPersonalization(bookData.allBookInfo, currentUserBookIds, currentFeed, localStorageBooks);
 
-    let formattedBooks = await Promise.all(recommendBooks.map(formatBook).filter(book => book !== null));
+    let formattedBooks = [];
+    for (const book of recommendBooks) {
+        const formattedBook = await formatBook(book);
+        if (formattedBook !== null) {
+            formattedBooks.push(formattedBook);
+        }
+    }
     formattedBooks = formattedBooks.filter(book => book !== null);
 
     return formattedBooks;
