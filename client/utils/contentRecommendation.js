@@ -25,7 +25,7 @@ export const getContentRecommendations = async (genres, currentUser, feed, local
 
     // Make query to openai (Gives titles)
     let openAiBooks = await openAiQuery(weights, null, currentUserAuthors);
-    if(openAiBooks.ErrorGettingRecommendations === true){
+    if(openAiBooks.ErrorGettingRecommendations && openAiBooks.ErrorGettingRecommendations === true){
         return { "error" : true }
     }
 

@@ -45,7 +45,7 @@ const Footer = () => {
                 <small>Cover To Cover © 2024</small>
             </div>
             <div className="footer-links">
-                <a href="https://github.com/SpencerSurface/judge-a-book">
+                <a href="https://github.com/noah-10/CoverToCover">
                     <FontAwesomeIcon icon={faGithub} />
                 </a>
             </div>
