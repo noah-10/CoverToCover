@@ -3,7 +3,6 @@ const { createCanvas, loadImage } = require('canvas');
 
 router.get('/', async (req, res) => {
     try{
-        console.log("Recieved request, unavailable");
         const { imgUrl } = req.query;
         const { unavailableImgs }= req.query;
         if(!unavailableImgs){
@@ -30,7 +29,6 @@ router.get('/', async (req, res) => {
             ]);
 
             if(img1.height < 700){
-                console.log("too small");
                 return res.json({ "unavailableHeight": true , "differences" : [null, null]});
             }
 

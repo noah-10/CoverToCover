@@ -129,10 +129,9 @@ const Feed = () => {
         const userPreferences = await getPreferences();
         // Get collaborative books
         const collaborativeBooks = await getCollaborativeRecommendation(userPreferences, allUsers, user, feed, localStorageFeed);
-        console.log("collaborative", collaborativeBooks)
+
         // Get content based books
         const contentBooks = await getContentRecommendations(userPreferences, user, feed, localStorageFeed);
-        console.log("content", contentBooks)
 
         if(contentBooks.limitReached === true || contentBooks.error === true){
             return setLimitUsed(true);

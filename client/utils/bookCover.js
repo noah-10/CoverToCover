@@ -53,8 +53,6 @@ const scrapeBookCover = async (title, author) => {
         }else if(newImg.imageSrc.includes('_SX100_')){
             newImg = newImg.imageSrc.replace('_SX100_', '_SX400_');
         }
-
-        console.log(newImg)
         
         return newImg;
     }catch(error){
@@ -76,8 +74,6 @@ const checkUnavailable = async(imgUrl) => {
             params: { imgUrl, "unavailableImgs": [unavailableImg1, unavailableImg2]}
         });
 
-        console.log(data);
-
         return data;
 
     }catch(error){   
@@ -93,7 +89,6 @@ const checkImg = async(imgUrl, title, author) => {
 
         if(checkedBooks.differences[0] === 0 || checkedBooks.differences[1] === 0 || checkedBooks.unavailableHeight === true){
             const newCover = await scrapeBookCover(title, author, imgUrl);
-            console.log(newCover)
             if(newCover.imageFound === false){
                 return imgUrl;
             }

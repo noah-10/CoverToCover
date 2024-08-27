@@ -7,7 +7,6 @@ router.get('/', async (req, res) => {
     const url = `https://www.librarything.com/search.php?search=${query}&searchtype=newwork_titles&sortchoice=0`;
 
     try {
-        console.log("recieved request search")
         const browser = await puppeteer.launch({
             executablePath: puppeteer.executablePath(), // Use Puppeteer's installed Chromium path
             headless: true,
@@ -35,7 +34,6 @@ router.get('/', async (req, res) => {
         if(error.message.includes('Navigation timeout') || error.message.includes("TimeoutError")  || error.message.includes("Cannot read properties of null") || error.message.includes('Waiting for selector')){
             res.json({ "timoutExceeded": true })
         }else{
-            console.log("error", error)
             res.status(500).json({ error: 'Failed to fetch data' });
         }
        
