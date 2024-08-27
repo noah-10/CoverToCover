@@ -276,7 +276,6 @@ const resolvers = {
 
         // For when a user swipes left on a book
         addDislikedBook: async (parent, { input }, context) => {
-            console.log(input)
             try{
                 if(context.user){
 

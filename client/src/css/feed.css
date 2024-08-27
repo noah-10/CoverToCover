@@ -5,6 +5,7 @@
 .feed-container{
     min-height: calc(100vh - 11vh);
     max-height: calc(100vh - 11vh);
+    margin-top: var(--header-height);
     display: flex;
     background: linear-gradient(to bottom, #252B2C, #3A3F40);
     max-width: 100%;
@@ -35,7 +36,7 @@
     flex-direction: row;
     justify-content: end;
     align-items: center;
-    margin: 1.5rem 0.5rem 0.75rem 0;
+    margin: 1.5rem 0.5rem -1vh 0;
     column-gap: 0.5rem;
 }
 
