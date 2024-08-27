@@ -29,6 +29,11 @@ router.get('/', async (req, res) => {
                 fetchImage(unavailableImgs[i]),
             ]);
 
+            if(img1.height < 700){
+                console.log("too small");
+                return res.json({ "unavailableHeight": true , "differences" : [null, null]});
+            }
+
             const width = Math.min(img1.width, img2.width);
             const height = Math.min(img1.height, img2.height);
 

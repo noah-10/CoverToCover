@@ -326,7 +326,7 @@ const SignUp = () => {
             cover = cover.replace("zoom=1", "zoom=4");
 
             cover = await checkImg(cover, book.volumeInfo.title, book.volumeInfo.authors[0]);
-
+            console.log(cover)
             const saveBook = {
                 authors: book.volumeInfo.authors,
                 title: book.volumeInfo.title,

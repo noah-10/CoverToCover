@@ -60,7 +60,7 @@ const Home = () => {
         },
         {
             title: "The Giver",
-            cover: "http://books.google.com/books/content?id=Coi9AwAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&source=gbs_api",
+            cover: theGiver,
             description: 'Living in a "perfect" world without social ills, a boy approaches the time when he will receive a life assignment from the Elders, but his selection leads him to a mysterious man known as the Giver, who reveals the dark secrets behind the utopian facade.',
             authors: "Lous Lowry",
         }

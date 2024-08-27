@@ -53,6 +53,8 @@ const scrapeBookCover = async (title, author) => {
         }else if(newImg.imageSrc.includes('_SX100_')){
             newImg = newImg.imageSrc.replace('_SX100_', '_SX400_');
         }
+
+        console.log(newImg)
         
         return newImg;
     }catch(error){
@@ -74,6 +76,8 @@ const checkUnavailable = async(imgUrl) => {
             params: { imgUrl, "unavailableImgs": [unavailableImg1, unavailableImg2]}
         });
 
+        console.log(data);
+
         return data;
 
     }catch(error){   
@@ -85,13 +89,22 @@ const checkUnavailable = async(imgUrl) => {
 const checkImg = async(imgUrl, title, author) => {
     try{
         // checks if image is unavailable and if so scrapes for new img
-        const { differences } = await checkUnavailable(imgUrl);
+        const checkedBooks = await checkUnavailable(imgUrl);
 
-        if(differences[0] === 0 || differences[1] === 0){
+        if(checkedBooks.differences[0] === 0 || checkedBooks.differences[1] === 0 || checkedBooks.unavailableHeight === true){
             const newCover = await scrapeBookCover(title, author, imgUrl);
-
+            console.log(newCover)
             if(newCover.imageFound === false){
                 return imgUrl;
+            }
+
+            if(newCover.imageSrc){
+                const sources = newCover.imageSrcSet.split(',');
+
+                // Find the source that ends with '3x'
+                const src3x = sources.find(src => src.trim().endsWith('3x'));
+
+                return src3x;
             }
 
             return newCover;
